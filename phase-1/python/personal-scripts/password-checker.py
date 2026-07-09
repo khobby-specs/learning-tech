@@ -3,28 +3,39 @@
 #Ask user for input
 """creates a main function"""
 def main():
-	passwords = input("Enter password: \n")  # user enters "password" and the value is store under password
-	suggest_pass = "DoggY_bIy3@fAm!!!"
-	capital = check_capital(passwords) #my own function that would check if password contains capital
-	number = check_num(passwords) #check if password contains number
-	symbol = check_symbol(passwords) #checks if password contains symbols
-	lower = check_lower(passwords)
-	strength = int(capital+number+symbol+lower) # password strength score
-	if len(passwords) >= 8:
-		if strength == 5:
-			print(f"Your password ({passwords}) is very strong")
-		elif strength == 4:
-			print(f"Your password ({passwords}) is strong")
-		elif strength == 3:
-			print(f"Your password ({passwords}) is okay")
-		elif strength == 2:
-			print(f"Your password ({passwords}) is weak")
-		else:
-			print(f"Your password ({passwords}) is very weak")
-			print(f"Your password could be '{suggest_pass}'.")
-	else:
-		print("Password should be more than 8 characters")
-
+    while True:
+        print("passwords should be more than 8 characters")
+        passwords = input("Enter password: \n")  # user enters "password" and the value is store under password
+        if len(passwords) <= 8:
+            passwords
+        else:
+            suggest_pass = "DoggY_bIy3@fAm!!!"
+            capital = check_capital(passwords) #my own function that would check if password contains capital
+            number = check_num(passwords) #check if password contains number
+            symbol = check_symbol(passwords) #checks if password contains symbols
+            lower = check_lower(passwords)
+            strength = int(capital+number+symbol+lower) # password strength score
+    #while True:
+        #if len(passwords) > 8:
+            if strength == 5:
+                print(f"Your password ({passwords}) is very strong")
+                break
+            elif strength == 4:
+                print(f"Your password ({passwords}) is strong")
+                break
+            elif strength == 3:
+                print(f"Your password ({passwords}) is okay")
+                break
+            elif strength == 2:
+                print(f"Your password ({passwords}) is weak")
+                break
+            else:
+                print(f"Your password ({passwords}) is very weak")
+                print(f"Your password could be '{suggest_pass}'.")
+                break
+        #elif len(passwords) <= 8:
+        #    passwords = input("Enter password: \n")
+            
 def check_capital(passwords):
 	if any(letters.isupper() for letters in passwords):
 		capital = 2
