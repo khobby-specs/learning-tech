@@ -23,8 +23,7 @@ CS50P (Harvard) — Weeks 0–3 complete, Week 4 in progress
 OverTheWire Bandit — Level 6+ in progress
 Networking fundamentals — OSI model, TCP/IP, DNS, HTTP/HTTPS (Prof. Messer Net+)
 
-
----
+```text
 .
 ├── articles/                # Research notes and drafts for published articles
 ├── journal/                 # Honest day-to-day and monthly reflections on the journey
@@ -39,6 +38,8 @@ Networking fundamentals — OSI model, TCP/IP, DNS, HTTP/HTTPS (Prof. Messer Net
 │   └── security/
 └── reference/
     └── knowledge-base.md    # Consolidated reference notes across all topics
+```
+
 
 
 ---
