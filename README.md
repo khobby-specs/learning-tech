@@ -25,21 +25,21 @@ Networking fundamentals — OSI model, TCP/IP, DNS, HTTP/HTTPS (Prof. Messer Net
 
 
 ---
-
-Learning-tech/
+.
+├── articles/                # Research notes and drafts for published articles
+├── journal/                 # Honest day-to-day and monthly reflections on the journey
 ├── phase-1/
-│   ├── python/
-│   │   ├── notes/        — concept notes, written in my own words
-│   │   └── scripts/      — every Python script, with a header explaining what it does
 │   ├── linux/
-│   │   ├── notes/        — Linux Foundation course notes
-│   │   └── bandit/       — OverTheWire Bandit progress
+│   │   ├── bandit/          # OverTheWire Bandit progress
+│   │   └── notes/           # Linux Foundation course notes
 │   ├── networking/
+│   ├── python/
+│   │   ├── notes/           # Concept notes, written in my own words
+│   │   └── scripts/         # Every Python script, with a header explaining what it does
 │   └── security/
-├── articles/              — research notes and drafts for published articles
-├── journal/                — honest day-to-day and monthly reflections on the journey
 └── reference/
-    └── knowledge-base.md  — consolidated reference notes across all topics
+    └── knowledge-base.md    # Consolidated reference notes across all topics
+
 
 ---
 
