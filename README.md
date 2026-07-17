@@ -69,4 +69,3 @@ LinkedIn: www.linkedin.com/in/khobby-specs
 
 ---
 
-*Made with ❤️ using [GitHub Profile Studio](https://github.com/github-profile-studio)*
