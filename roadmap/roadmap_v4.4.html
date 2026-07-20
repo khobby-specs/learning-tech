@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-Year T-Shape Roadmap v4.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+:root{--bg:#0a0a0a;--surface:#111;--border:#1e1e1e;--accent:#00ff87;--accent2:#0096ff;--accent3:#ff6b35;--accent4:#bf5fff;--accent5:#ffdd00;--accent6:#ff3d6b;--text:#e8e8e8;--muted:#666;--muted2:#444;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+a[target="_blank"]::after{content:' ↗';font-size:.7em;opacity:.4}
+#daily-advice{background:linear-gradient(135deg,#0a1a10,#0a0f1a);border-bottom:1px solid var(--border);padding:14px 40px;display:flex;align-items:center;gap:16px;font-family:var(--mono);font-size:11px;position:relative}
+.advice-label{color:var(--accent);letter-spacing:2px;font-size:9px;white-space:nowrap;flex-shrink:0}
+.advice-text{color:var(--muted);line-height:1.6;flex:1}
+.advice-text strong{color:var(--text)}
+.advice-date{color:var(--muted2);font-size:9px;white-space:nowrap}
+.shell{display:flex;min-height:100vh}
+.sidebar{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.main{flex:1;min-width:0;padding:40px 36px 100px}
+.sidebar-logo{padding:24px 18px 18px;border-bottom:1px solid var(--border)}
+.sidebar-logo-tag{font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:2px;margin-bottom:6px}
+.sidebar-logo-title{font-size:18px;font-weight:800;letter-spacing:-1px;line-height:1}
+.sidebar-logo-title span{color:var(--accent)}
+.sidebar-nav{padding:12px 0;flex:1}
+.nav-sec-label{font-family:var(--mono);font-size:7px;color:var(--muted2);letter-spacing:2px;padding:8px 18px 4px}
+.nav-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 18px;font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:none;cursor:pointer;text-align:left;transition:all .15s;border-left:2px solid transparent}
+.nav-btn:hover{color:var(--text);background:#161616}
+.nav-btn.active{color:var(--accent);border-left-color:var(--accent);background:#0a1510}
+.nav-dot{width:5px;height:5px;flex-shrink:0;background:currentColor;opacity:.4}
+.nav-btn.active .nav-dot{opacity:1}
+.sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;color:var(--muted2);line-height:1.7}
+.section{display:none}.section.active{display:block}
+.page-header{margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.page-tag{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:3px;margin-bottom:10px}
+.page-title{font-size:clamp(26px,4vw,48px);font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:10px}
+.page-sub{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8;max-width:520px}
+.t-wrap{margin-bottom:40px;padding:16px;border:1px solid var(--border);background:var(--surface)}
+.t-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;margin-bottom:12px}
+.t-bar-scroll{width:100%}
+.t-bar-h{display:flex;gap:2px;margin-bottom:3px;width:100%}
+.t-cell{height:38px;flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:7px;text-align:center;font-weight:700;padding:2px;line-height:1.3;cursor:pointer;transition:all .2s;border:1px solid transparent;position:relative}
+.t-cell:hover{filter:brightness(1.2)}
+.t-cell.deep{background:var(--accent);color:var(--bg);flex:1.5 1 0}
+.t-cell.wide{background:#1e3a2a;color:var(--accent);border-color:#2a4a3a;opacity:.7}
+.t-cell.wide:hover{opacity:1}
+.t-cell.sa{background:#2a1a3a;color:var(--accent4);border-color:#3a2a4a;opacity:.85}
+.t-cell.sa:hover{opacity:1}
+.t-bar-v{display:flex;justify-content:center;margin-top:3px;width:100%}
+.t-vert{width:calc(100% / 5.5);max-width:130px;min-width:80px;display:flex;flex-direction:column;gap:3px}
+.t-vc{height:26px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:7px;font-weight:700;color:var(--bg);cursor:pointer;transition:all .2s;width:100%}
+.t-vc:hover{filter:brightness(1.15)}
+.t-legend{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+.t-leg{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:8px;color:var(--muted)}
+.t-leg-box{width:9px;height:9px}
+#domain-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:1000;overflow-y:auto}
+#domain-page.open{display:block}
+.dom-back{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 36px;display:flex;align-items:center;gap:14px;z-index:10}
+.dom-back-btn{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:1px solid var(--border);padding:5px 12px;cursor:pointer;letter-spacing:1px;transition:all .2s}
+.dom-back-btn:hover{border-color:var(--muted);color:var(--text)}
+.dom-back-title{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:2px}
+.dom-content{max-width:860px;margin:0 auto;padding:40px 36px}
+.dom-hdr{margin-bottom:40px}
+.dom-tag{font-family:var(--mono);font-size:8px;letter-spacing:3px;margin-bottom:8px}
+.dom-title{font-size:clamp(28px,4vw,56px);font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:12px}
+.dom-desc{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9;max-width:560px}
+.dom-phases{display:flex;flex-direction:column;gap:12px;margin-bottom:40px}
+.dom-phase{background:var(--surface);border:1px solid var(--border);padding:20px;border-left:3px solid}
+.dom-phase-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;margin-bottom:6px}
+.dom-phase-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.dom-phase-body{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8}
+.dom-phase-body a{color:inherit;border-bottom:1px dashed var(--muted2)}
+.dom-phase-body a::after{display:none}
+.dom-res-title{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:14px}
+.dom-res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.dom-res-item{background:var(--surface);border:1px solid var(--border);padding:12px;transition:border-color .2s}
+.dom-res-item:hover{border-color:var(--muted2)}
+.dom-res-item a{font-family:var(--mono);font-size:10px;display:flex;flex-direction:column;gap:2px}
+.dom-res-item a::after{display:none}
+.dom-res-name{font-weight:700}
+.dom-res-desc{font-size:8px;color:var(--muted)}
+.prog-track{margin-bottom:40px;padding:20px;background:var(--surface);border:1px solid var(--border)}
+.prog-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;margin-bottom:12px}
+.prog-years{display:flex;gap:2px;height:5px}
+.prog-year{flex:1}.prog-yf{height:100%}
+.prog-yl{display:flex;gap:2px;margin-top:5px}
+.pyl{flex:1;font-family:var(--mono);font-size:7px;color:var(--muted);text-align:center}
+.phase{margin-bottom:48px}
+.phase-hdr{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.phase-num{font-family:var(--mono);font-size:44px;font-weight:700;line-height:1;min-width:65px;opacity:.12}
+.phase-info{flex:1}
+.phase-tag{font-family:var(--mono);font-size:8px;letter-spacing:3px;margin-bottom:5px}
+.phase-title{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:5px}
+.phase-sub{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.phase-earn{font-family:var(--mono);font-size:9px;padding:7px 12px;border:1px solid;align-self:flex-start;line-height:2;margin-top:4px}
+.p1{--pc:var(--accent)}.p2{--pc:var(--accent2)}.p3{--pc:var(--accent3)}.p4{--pc:var(--accent4)}.p5{--pc:var(--accent5)}
+.phase-tag,.phase-num,.phase-earn{color:var(--pc)}.phase-earn{border-color:var(--pc)}
+.mths{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px}
+.mc{background:var(--surface);border:1px solid var(--border);padding:16px;position:relative;transition:all .2s}
+.mc:hover{transform:translateY(-2px);border-color:var(--muted2)}
+.mc.ms{border-color:var(--pc,var(--accent))}
+.mc.ms::after{content:'★ MILESTONE';position:absolute;top:-1px;right:10px;background:var(--pc,var(--accent));color:var(--bg);font-family:var(--mono);font-size:7px;font-weight:700;padding:2px 6px;letter-spacing:1px}
+.ml{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:7px}
+.mf{font-size:12px;font-weight:700;margin-bottom:7px;line-height:1.3}
+.mt{list-style:none;font-family:var(--mono);font-size:9px;color:var(--muted);line-height:2.1}
+.mt li::before{content:'→ ';color:var(--accent)}
+.mt a{color:var(--muted);border-bottom:1px dashed #333}
+.mt a:hover{color:var(--accent)}.mt a::after{display:none}
+.sa-pill{display:inline-block;font-family:var(--mono);font-size:7px;color:var(--accent4);border:1px solid var(--accent4);padding:1px 5px;margin-bottom:5px;letter-spacing:.5px}
+.mp{margin-top:9px;padding:9px;background:var(--bg);border:1px solid var(--border);font-family:var(--mono);font-size:8px;color:var(--muted2);line-height:1.7}
+.mp strong{color:var(--accent);display:block;margin-bottom:2px;font-size:7px;letter-spacing:1px}
+.yc{background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:10px}
+.yc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.yc-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px}
+.yc-title{font-size:16px;font-weight:700;margin-top:3px}
+.yc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.yc-tag{font-family:var(--mono);font-size:8px;padding:3px 8px;border:1px solid;letter-spacing:.5px}
+.yc-tag.sa{color:var(--accent4)!important;border-color:var(--accent4)!important;background:#1a0f2a}
+.quarters{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.quarter{padding:12px;background:var(--bg);border:1px solid var(--border)}
+.qsa{border-color:#2a1a3a;background:#0a0812}
+.ql{font-family:var(--mono);font-size:7px;color:var(--muted);margin-bottom:5px;letter-spacing:1px}
+.qf{font-size:11px;font-weight:600;line-height:1.3;margin-bottom:5px}
+.qd{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7}
+.qd a{color:inherit;border-bottom:1px dashed var(--muted2)}
+.qd a:hover{color:var(--text)}.qd a::after{display:none}
+.qp{margin-top:7px;padding:7px;background:var(--surface);border:1px solid var(--border);font-family:var(--mono);font-size:8px;color:var(--muted2);line-height:1.6}
+.qp strong{color:var(--accent3);display:block;margin-bottom:2px;font-size:7px;letter-spacing:1px}
+.divider{display:flex;align-items:center;gap:12px;margin:44px 0 24px}
+.div-line{flex:1;height:1px;background:var(--border)}
+.div-text{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:3px;white-space:nowrap}
+.sa-ladder{margin:20px 0;padding:18px;background:#090612;border:1px solid var(--accent4)}
+.sa-lt{font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:2px;margin-bottom:14px}
+.sa-steps{display:flex;flex-direction:column;gap:5px}
+.sa-step{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--bg);border-left:3px solid}
+.sa-sn{font-family:var(--mono);font-size:18px;font-weight:700;opacity:.22;min-width:26px;line-height:1}
+.sa-si{flex:1}
+.sa-st{font-size:12px;font-weight:700;margin-bottom:2px}
+.sa-sp{font-family:var(--mono);font-size:7px;letter-spacing:1px;margin-bottom:4px}
+.sa-sd{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7}
+.sa-sd a{color:var(--accent4);border-bottom:1px dashed var(--accent4)}
+.sa-sd a::after{display:none}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:36px}
+.rc{background:var(--surface);border:1px solid var(--border);padding:18px;transition:border-color .2s}
+.rc:hover{border-color:var(--muted2)}
+.rc.sa-c{border-color:#221533}.rc.sa-c:hover{border-color:var(--accent4)}
+.rc-title{font-family:var(--mono);font-size:8px;letter-spacing:2px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.rl{list-style:none}
+.rl li{margin-bottom:9px}
+.rl a{font-family:var(--mono);font-size:10px;display:flex;flex-direction:column;gap:2px}
+.rn{font-weight:700}.rd{font-size:8px;color:var(--muted)}
+.rl a::after{display:none}.rl a:hover .rn{text-decoration:underline}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.cc{background:var(--surface);border:1px solid var(--border);padding:18px}
+.cp{font-family:var(--mono);font-size:7px;letter-spacing:2px;margin-bottom:7px;opacity:.8}
+.cn{font-size:15px;font-weight:800;margin-bottom:5px}
+.cn a{border-bottom:1px solid transparent}.cn a:hover{border-bottom-color:currentColor}.cn a::after{display:none}
+.cb{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.cl{display:flex;gap:7px;flex-wrap:wrap}
+.clink{font-family:var(--mono);font-size:8px;padding:4px 9px;border:1px solid;letter-spacing:.5px;transition:background .2s;cursor:pointer}
+.clink:hover{background:#1e1e1e}.clink::after{display:none}
+.tr-phase{margin-bottom:24px}
+.tr-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);cursor:pointer;user-select:none;transition:border-color .2s}
+.tr-hdr:hover{border-color:var(--muted2)}
+.tr-hdr.locked{opacity:.4;cursor:not-allowed}
+.tr-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;flex:1}
+.tr-count{font-family:var(--mono);font-size:9px;color:var(--muted)}
+.tr-arrow{font-family:var(--mono);font-size:9px;color:var(--muted);transition:transform .2s}
+.tr-hdr.open .tr-arrow{transform:rotate(90deg)}
+.tr-body{display:none;padding:10px 0 0}
+.tr-hdr.open+.tr-body{display:block}
+.checklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:5px;margin-bottom:10px}
+.ci{display:flex;align-items:flex-start;gap:9px;padding:9px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.ci:hover{border-color:var(--muted2)}
+.ci.done{border-color:var(--accent);background:#0a1510}
+.ci.sac{border-left:3px solid #221533}
+.ci.sac.done{border-color:var(--accent4);background:#0a0812;border-left-color:var(--accent4)}
+.cb2{width:12px;height:12px;border:1px solid var(--muted);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:8px;transition:all .2s}
+.ci.done .cb2{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.ci.sac.done .cb2{background:var(--accent4);border-color:var(--accent4);color:var(--bg)}
+.ct{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.5}
+.ci.done .ct{color:var(--text)}
+.pb{height:3px;background:var(--border);margin-bottom:6px;overflow:hidden}
+.pbf{height:100%;transition:width .4s ease}
+.pl{font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:10px}
+.wg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-bottom:36px}
+.wc{background:var(--surface);border:1px solid var(--border);padding:18px}
+.wc-title{font-family:var(--mono);font-size:8px;letter-spacing:2px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);color:var(--accent3)}
+.wl{list-style:none;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:2.2}
+.wl li::before{content:'→ ';color:var(--accent3)}
+.wl a{color:var(--muted);border-bottom:1px dashed #333}
+.wl a:hover{color:var(--accent3)}.wl a::after{display:none}
+.art-tmpl{background:#0a0f08;border:1px solid #1e3020;padding:18px;margin-bottom:24px}
+.art-tmpl-title{font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:2px;margin-bottom:12px}
+.art-steps{counter-reset:step;list-style:none;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.art-steps li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border)}
+.art-steps li:last-child{border-bottom:none}
+.art-steps li::before{counter-increment:step;content:counter(step,decimal-leading-zero);color:var(--accent);font-weight:700;flex-shrink:0;min-width:22px;font-size:12px}
+.art-steps li span{line-height:1.7}
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-bottom:36px}
+.dc{background:var(--surface);border:1px solid var(--border);padding:18px}
+.dc-title{font-family:var(--mono);font-size:8px;letter-spacing:2px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);color:var(--accent6)}
+.db{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.9}
+.db strong{color:var(--text)}
+.dr{list-style:none;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.dr li{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.dr li:last-child{border-bottom:none}
+.dr li::before{content:'//';color:var(--accent6);flex-shrink:0;font-weight:700}
+.dr li span{line-height:1.7}
+.nb{background:#0a0808;border:1px solid #2a1515;padding:18px;margin-bottom:24px}
+.nb-title{font-family:var(--mono);font-size:8px;color:var(--accent6);letter-spacing:2px;margin-bottom:10px}
+.nb-body{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.9}
+.nb-body strong{color:var(--text)}
+.footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;color:var(--muted2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer span{color:var(--accent)}
+@media(max-width:768px){.shell{flex-direction:column}.sidebar{width:100%;height:auto;position:relative}.main{padding:20px 14px 80px}.quarters{grid-template-columns:1fr 1fr}.mths,.rg,.cg,.wg,.dg{grid-template-columns:1fr}.dom-content{padding:20px 14px}}
+.rg2-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:24px;display:block}
+.rg2-wrap::-webkit-scrollbar{height:5px}.rg2-wrap::-webkit-scrollbar-track{background:var(--bg)}.rg2-wrap::-webkit-scrollbar-thumb{background:var(--muted2)}
+.rg2{display:table;width:100%;border-collapse:collapse;min-width:300px}
+.rg2-row{display:table-row}
+.tlabel{display:table-cell;font-family:var(--mono);font-size:9px;color:var(--muted2);padding:10px 10px;white-space:nowrap;vertical-align:top;border-right:2px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg);width:80px}
+.tblock{display:table-cell;padding:10px 14px;border:1px solid var(--border);border-top:none;min-height:48px;position:relative;transition:all .2s;vertical-align:top;width:100%}
+.tblock:first-child{border-top:1px solid var(--border)}
+.tblock.rm{background:#0a1510;border-color:#1e3a2a}
+.tblock.mu{background:#0a0a1a;border-color:#1e1e3a}
+.tblock.ps{background:#0f0a1a;border-color:#2a1a3a}
+.tblock.re{background:#0a0f08;border-color:#1a2a1a}
+.tblock.rd{background:#0a0a0f;border-color:#1a1a2a}
+.tblock.br{background:#111;border-color:#1e1e1e}
+.tblock.fr{background:#0a0808;border-color:#1e1515}
+.blk-title{font-family:var(--mono);font-size:9px;font-weight:700;margin-bottom:3px}
+.blk-desc{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6}
+.blk-edit{display:none;position:absolute;top:4px;right:6px;font-family:var(--mono);font-size:7px;color:var(--muted2);cursor:pointer;background:none;border:none}
+.tblock:hover .blk-edit{display:block}
+.rleg{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.rleg-i{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+.rleg-box{width:12px;height:12px;border:1px solid}
+.rtabs{display:flex;gap:4px;margin-bottom:24px}
+.rtab{font-family:var(--mono);font-size:9px;padding:6px 14px;border:1px solid var(--border);cursor:pointer;background:transparent;color:var(--muted);letter-spacing:1px;transition:all .2s}
+.rtab:hover{border-color:var(--muted);color:var(--text)}
+.rtab.active{background:var(--accent5);color:var(--bg);border-color:var(--accent5);font-weight:700}
+.rview{display:none}.rview.active{display:block}
+.emodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center}
+.emodal.open{display:flex}
+.ebox{background:var(--surface);border:1px solid var(--border);padding:24px;width:90%;max-width:420px}
+.ebox input,.ebox select,.ebox textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:8px 10px;margin-bottom:10px;outline:none;box-sizing:border-box}
+.ebox label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;display:block;margin-bottom:4px}
+.etitle{font-family:var(--mono);font-size:10px;color:var(--accent5);letter-spacing:2px;margin-bottom:16px}
+.ebtns{display:flex;gap:8px;margin-top:4px}
+.ebtn{font-family:var(--mono);font-size:9px;padding:7px 16px;border:1px solid;cursor:pointer;background:transparent;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div id="daily-advice">
+  <div class="advice-label">// TODAY'S DISCIPLINE</div>
+  <div class="advice-text" id="adv-text">Loading...</div>
+  <div class="advice-date" id="adv-date"></div>
+</div>
+
+<div id="domain-page">
+  <div class="dom-back">
+    <button class="dom-back-btn" onclick="closeDomain()">&#8592; Back</button>
+    <div class="dom-back-title" id="dom-back-title"></div>
+  </div>
+  <div class="dom-content" id="dom-content"></div>
+</div>
+
+<div class="shell">
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-tag">// v4.0 · 2026</div>
+    <div class="sidebar-logo-title">10-YEAR<br><span>ROADMAP</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-sec-label">Core</div>
+    <button class="nav-btn active" onclick="showTab('roadmap',this)"><span class="nav-dot"></span>Roadmap</button>
+    <button class="nav-btn" onclick="showTab('sysarch',this)"><span class="nav-dot"></span>System Architecture</button>
+    <button class="nav-btn" onclick="showTab('tracker',this)"><span class="nav-dot"></span>Progress Tracker</button>
+    <div class="nav-sec-label">Reference</div>
+    <button class="nav-btn" onclick="showTab('certs',this)"><span class="nav-dot"></span>Certifications</button>
+    <button class="nav-btn" onclick="showTab('resources',this)"><span class="nav-dot"></span>Resources &amp; Links</button>
+    <button class="nav-btn" onclick="showTab('writing',this)"><span class="nav-dot"></span>Technical Writing</button>
+    <div class="nav-sec-label">Setup</div>
+    <button class="nav-btn" onclick="showTab('linuxsetup',this)"><span class="nav-dot"></span>Linux Dual Boot Guide</button>
+    <div class="nav-sec-label">Journey</div>
+    <button class="nav-btn" onclick="showTab('journal',this)"><span class="nav-dot"></span>My Journal</button>
+    <button class="nav-btn" onclick="showTab('routine',this)"><span class="nav-dot"></span>Daily Routine</button>
+    <div class="nav-sec-label">Mindset</div>
+    <button class="nav-btn" onclick="showTab('discipline',this)"><span class="nav-dot"></span>Discipline Guide</button>
+  </nav>
+  <div class="sidebar-footer">Ghana &#8594; UK &#8594; Global<br>AI Security &middot; Systems &middot; Research<br><span>Phase 1 Active &mdash; April 2026</span></div>
+</div>
+
+<main class="main">
+
+<!-- ROADMAP TAB -->
+<div id="tab-roadmap" class="section active">
+<div class="page-header">
+  <div class="page-tag">// Strategic Career Architecture</div>
+  <div class="page-title">10-Year <span style="color:var(--accent)">T-Shape</span> Roadmap</div>
+  <div class="page-sub">AI Security x Systems x Architecture. Pre-university Ghana to global elite positioning.<br>Click any cell in the T-shape to open its individual roadmap.</div>
+</div>
+
+<div class="t-wrap">
+  <div class="t-label">// Horizontal = breadth. Vertical = your deep core. Click any cell to explore that domain.</div>
+  <div class="t-bar-scroll">
+  <div class="t-bar-h">
+    <div class="t-cell wide" onclick="openDomain('webdev')">WEB DEV</div>
+    <div class="t-cell wide" onclick="openDomain('networking')">NETWORKING</div>
+    <div class="t-cell sa" onclick="openDomain('sysarch_d')">SYSTEM<br>ARCH</div>
+    <div class="t-cell deep" onclick="openDomain('aisec')">AI SECURITY<br>CORE</div>
+    <div class="t-cell wide" onclick="openDomain('cloud')">CLOUD</div>
+    <div class="t-cell wide" onclick="openDomain('data')">DATA<br>SYSTEMS</div>
+    <div class="t-cell wide" onclick="openDomain('devops')">DEVOPS</div>
+    <div class="t-cell wide" onclick="openDomain('business')">BUSINESS</div>
+  </div>
+  </div>
+  <div class="t-bar-v">
+    <div class="t-vert">
+      <div class="t-vc" style="background:linear-gradient(135deg,var(--accent),#00cc6a)" onclick="openDomain('aisystems')">AI SYSTEMS ENG</div>
+      <div class="t-vc" style="background:linear-gradient(135deg,#00cc6a,#009950);opacity:.8" onclick="openDomain('adversarial')">ADVERSARIAL ML</div>
+      <div class="t-vc" style="background:linear-gradient(135deg,#009950,#006635);opacity:.65" onclick="openDomain('secarch')">SECURITY ARCH</div>
+      <div class="t-vc" style="background:linear-gradient(135deg,#006635,#003d20);opacity:.5" onclick="openDomain('research')">RESEARCH DEPTH</div>
+    </div>
+  </div>
+  <div class="t-legend">
+    <div class="t-leg"><div class="t-leg-box" style="background:var(--accent)"></div>Deep vertical core</div>
+    <div class="t-leg"><div class="t-leg-box" style="background:#1e3a2a;border:1px solid var(--accent)"></div>Horizontal breadth</div>
+    <div class="t-leg"><div class="t-leg-box" style="background:#2a1a3a;border:1px solid var(--accent4)"></div>System architecture</div>
+  </div>
+</div>
+
+<div style="background:#0d0818;border:1px solid var(--accent4);border-left:4px solid var(--accent4);padding:14px 18px;margin-bottom:40px;display:flex;gap:12px;align-items:flex-start">
+  <div style="font-size:16px;flex-shrink:0;margin-top:1px">&#x2B21;</div>
+  <div>
+    <div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:2px;margin-bottom:5px">// SYSTEM ARCHITECTURE &mdash; THE META-SKILL THAT TIES EVERYTHING TOGETHER</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8">Not a separate domain. The connective tissue. Deepens in 5 layers across 10 years. Every purple highlight marks where a new SA layer activates. <button onclick="showTab('sysarch',document.querySelectorAll('.nav-btn')[1])" style="background:none;border:none;color:var(--accent4);font-family:var(--mono);font-size:10px;cursor:pointer;text-decoration:underline">View full SA breakdown &#8594;</button></div>
+  </div>
+</div>
+
+<div class="prog-track">
+  <div class="prog-label">// 10-YEAR PROGRESSION TRACK</div>
+  <div class="prog-years">
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent)"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent);opacity:.8"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent2)"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent2);opacity:.8"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent3)"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent3);opacity:.8"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent4)"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent4);opacity:.8"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent5)"></div></div>
+    <div class="prog-year"><div class="prog-yf" style="background:var(--accent5);opacity:.8"></div></div>
+  </div>
+  <div class="prog-yl">
+    <div class="pyl">2026</div><div class="pyl">2027</div><div class="pyl">2028</div><div class="pyl">2029</div><div class="pyl">2030</div>
+    <div class="pyl">2031</div><div class="pyl">2032</div><div class="pyl">2033</div><div class="pyl">2034</div><div class="pyl">2035</div>
+  </div>
+</div>
+
+<!-- PHASE 1 -->
+<div class="phase p1">
+<div class="phase-hdr">
+  <div class="phase-num">01</div>
+  <div class="phase-info">
+    <div class="phase-tag">// PHASE 1 &mdash; 2026&ndash;2027</div>
+    <div class="phase-title">Foundation &amp; Ignition</div>
+    <div class="phase-sub">Pre-university &middot; Ghana &middot; Zero to functional &middot; Start now</div>
+  </div>
+  <div class="phase-earn">EARNING: $0&ndash;200/mo<br>MODE: Technical writing only<br>PUBLISH: Hashnode + Dev.to</div>
+</div>
+<div class="mths">
+
+<div class="mc p1">
+<div class="ml">Month 01 &mdash; April 2026</div>
+<div class="mf">Linux Environment + CLI Foundations</div>
+<ul class="mt">
+<li><a href="https://linuxmint.com/download.php" target="_blank">Download Linux Mint 21 Cinnamon</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox if dual boot not ready</a></li>
+<li><a href="https://linuxjourney.com" target="_blank">Linux Journey &mdash; free browser course</a></li>
+<li><a href="https://www.edx.org/learn/linux/the-linux-foundation-introduction-to-linux" target="_blank">Linux Foundation Intro &mdash; edX</a></li>
+<li><a href="https://overthewire.org/wargames/bandit/" target="_blank">OverTheWire Bandit &mdash; Level 0 now</a></li>
+<li><a href="https://github.com" target="_blank">GitHub account + first commit today</a></li>
+<li>Termux on Android as backup lab</li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Navigate entire filesystem using only terminal. Create dirs, files, set permissions. Document what each command does in a notes file committed to GitHub.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 02 &mdash; May 2026</div>
+<div class="mf">Python Foundations</div>
+<ul class="mt">
+<li><a href="https://cs50.harvard.edu/python/" target="_blank">CS50P &mdash; Harvard Python course (free + certificate)</a></li>
+<li><a href="https://www.py4e.com" target="_blank">Python for Everybody &mdash; Dr. Chuck (free)</a></li>
+<li><a href="https://automatetheboringstuff.com" target="_blank">Automate the Boring Stuff &mdash; free online book</a></li>
+<li><a href="https://colab.research.google.com" target="_blank">Google Colab &mdash; free cloud Python lab</a></li>
+<li><a href="https://docs.python.org/3/tutorial/" target="_blank">Python official docs &mdash; reference alongside courses</a></li>
+<li>Variables, loops, functions, files &mdash; all mastered</li>
+<li>Write 10 small scripts from scratch</li>
+<li><a href="https://hashnode.com" target="_blank">Publish Article 1 on Hashnode</a></li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Build a CLI script that reads a text file, counts word frequency, outputs top 10 words. No tutorials. Build it yourself. Push to GitHub with README.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 03 &mdash; June 2026</div>
+<div class="mf">Python + Networking Intro</div>
+<ul class="mt">
+<li>File handling in Python &mdash; read, write, parse</li>
+<li><a href="https://www.youtube.com/@professormesser" target="_blank">Prof. Messer Net+ &mdash; OSI model</a></li>
+<li><a href="https://tryhackme.com/room/whatisnetworking" target="_blank">TryHackMe &mdash; What is Networking</a></li>
+<li>TCP/IP, DNS, HTTP, HTTPS &mdash; each understood</li>
+<li>Publish Article 2</li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Python script making HTTP requests to a public API, parses JSON, displays formatted results. Explain what happens at each OSI layer when it runs.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 04 &mdash; July 2026</div>
+<div class="mf">Python APIs + Security Intro</div>
+<ul class="mt">
+<li>HTTP requests library in Python</li>
+<li>Parse and manipulate JSON data</li>
+<li><a href="https://tryhackme.com/path/outline/presecurity" target="_blank">TryHackMe Pre-Security path &mdash; start</a></li>
+<li>CIA Triad &mdash; understand deeply not memorize</li>
+<li>Basic cryptography: hash, encrypt, sign</li>
+<li>Publish Article 3</li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Password strength checker in Python. Evaluates length, character diversity, common patterns. Apply CIA triad &mdash; what does this protect and how?</div>
+</div>
+
+<div class="mc p1 ms">
+<div class="ml">Month 05 &mdash; August 2026</div>
+<div class="mf">First Real Project + SA Layer 1</div>
+<div class="sa-pill">&#x2B21; SYSARCH LAYER 1 BEGINS</div>
+<ul class="mt">
+<li>Build real Python tool &mdash; API + display</li>
+<li>Draw component diagram BEFORE writing code</li>
+<li>Ask: where does data live? How does it move?</li>
+<li><a href="https://www.youtube.com/@3blue1brown" target="_blank">3Blue1Brown &mdash; Essence of Linear Algebra</a></li>
+<li><a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer &mdash; read intro</a></li>
+<li>Pitch first writing client on Contra</li>
+<li>Publish Article 4</li>
+</ul>
+<div class="mp"><strong>// MILESTONE PROJECT</strong>Weather dashboard. Fetch live data, display cleanly, handle errors. Draw the system diagram first. GitHub with README explaining data flow architecture.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 06 &mdash; September 2026</div>
+<div class="mf">Networking Depth + Math Foundations</div>
+<ul class="mt">
+<li>Subnetting &mdash; understand the math behind it</li>
+<li><a href="https://www.wireshark.org/docs/wsug_html/" target="_blank">Wireshark &mdash; install and capture packets</a></li>
+<li><a href="https://www.khanacademy.org/math/statistics-probability" target="_blank">Khan Academy &mdash; Probability &amp; Statistics</a></li>
+<li>Bayes theorem &mdash; understand it deeply</li>
+<li><a href="https://www.payoneer.com" target="_blank">Set up Payoneer account</a></li>
+<li><a href="https://wise.com" target="_blank">Set up Wise account</a></li>
+<li>Publish Articles 5 and 6</li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Capture network traffic with Wireshark. Identify 5 protocols. Write technical note explaining what each protocol is doing and why.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 07 &mdash; October 2026</div>
+<div class="mf">Security Foundations + HTML/CSS Intro</div>
+<ul class="mt">
+<li><a href="https://tryhackme.com/path/outline/jrpenetrationtester" target="_blank">TryHackMe Jr Pentester &mdash; start</a></li>
+<li>SQL injection &mdash; understand mechanism fully</li>
+<li>XSS &mdash; understand mechanism fully</li>
+<li><a href="https://www.w3schools.com/html/" target="_blank">HTML fundamentals &mdash; W3Schools</a></li>
+<li><a href="https://www.w3schools.com/css/" target="_blank">CSS fundamentals &mdash; W3Schools</a></li>
+<li><a href="https://hackerone.com" target="_blank">Register HackerOne</a></li>
+<li><a href="https://bugcrowd.com" target="_blank">Register Bugcrowd</a></li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Build a simple HTML/CSS personal portfolio page. Separately set up a local vulnerable app and demonstrate SQL injection manually. Document both.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 08 &mdash; November 2026</div>
+<div class="mf">Python OOP + JavaScript + Git Depth</div>
+<ul class="mt">
+<li>OOP Python &mdash; classes, inheritance, methods</li>
+<li><a href="https://javascript.info" target="_blank">JavaScript.info &mdash; free comprehensive JS</a></li>
+<li><a href="https://learngitbranching.js.org" target="_blank">Learn Git Branching &mdash; interactive</a></li>
+<li><a href="https://hackerone.com/hacktivity" target="_blank">Read 5 HackerOne disclosed reports</a></li>
+<li>Submit first bug bounty report</li>
+<li>Publish Articles 7 and 8</li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Build a JavaScript interactive page. Refactor a previous Python script into OOP classes. Push both to GitHub with branching demonstrating Git workflow.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 09 &mdash; December 2026</div>
+<div class="mf">Flask Web App + Scholarship Prep</div>
+<ul class="mt">
+<li><a href="https://flask.palletsprojects.com/en/3.0.x/tutorial/" target="_blank">Flask tutorial &mdash; official docs</a></li>
+<li>Build simple web app with Python backend</li>
+<li><a href="https://www.chevening.org/scholarships/" target="_blank">Research Chevening requirements</a></li>
+<li><a href="https://ashesi.edu.gh/admissions/" target="_blank">Research Ashesi University admissions</a></li>
+<li>Draft personal statement &mdash; first version</li>
+<li><a href="https://contra.com" target="_blank">Send first Contra client pitch</a></li>
+</ul>
+<div class="mp"><strong>// MONTH PROJECT</strong>Flask web app: user input, Python processing, result returned. Deploy locally. Document the full architecture. This is your first full-stack project.</div>
+</div>
+
+<div class="mc p1">
+<div class="ml">Month 10 &mdash; January 2027</div>
+<div class="mf">Consolidation + Year Review</div>
+<ul class="mt">
+<li>Clean and audit all GitHub repositories</li>
+<li>Write proper READMEs for every project</li>
+<li>Publish year-end review article</li>
+<li>Cross-post all articles to Dev.to</li>
+<li>Review Phase 1 exit criteria honestly</li>
+<li>Plan 2027 in full written detail</li>
+</ul>
+<div class="mp"><strong>// YEAR-END AUDIT</strong>For every skill learned: write one paragraph on what you know, what you built with it, and where the gap still is. This becomes your Phase 2 starting point.</div>
+</div>
+
+<div class="mc p1 ms">
+<div class="ml">Phase 1 Exit Criteria &mdash; Jan 2027</div>
+<div class="mf">All must be true before Phase 2</div>
+<ul class="mt">
+<li>Linux daily driver or VirtualBox fluent &#10003;</li>
+<li>Python &mdash; build without tutorials &#10003;</li>
+<li>HTML/CSS/JS &mdash; built working pages &#10003;</li>
+<li>Flask &mdash; built and run one web app &#10003;</li>
+<li>8+ published technical articles &#10003;</li>
+<li>2+ GitHub projects with READMEs &#10003;</li>
+<li>THM Pre-Security complete &#10003;</li>
+<li>SA Layer 1 &mdash; diagram before code habit &#10003;</li>
+<li>Payoneer or Wise set up &#10003;</li>
+<li>Hardware upgraded &#10003;</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="divider"><div class="div-line"></div><div class="div-text">PHASE 2 &mdash; UNIVERSITY ENTRY 2027&ndash;2028</div><div class="div-line"></div></div>
+<div class="phase p2">
+<div class="phase-hdr">
+  <div class="phase-num">02</div>
+  <div class="phase-info">
+    <div class="phase-tag">// PHASE 2 &mdash; 2027&ndash;2028</div>
+    <div class="phase-title">Convergence &amp; Depth</div>
+    <div class="phase-sub">University Year 1&ndash;2 &middot; Ghana or UK &middot; Building real competence</div>
+  </div>
+  <div class="phase-earn">EARNING: $300&ndash;800/mo<br>MODE: Writing + Bug Bounties<br>TARGET: First internship</div>
+</div>
+
+<div class="yc">
+<div class="yc-hdr">
+  <div><div class="yc-label">// YEAR 2 &mdash; 2027</div><div class="yc-title">CS Foundations + Web Dev + Security + SA Layer 2</div></div>
+  <div class="yc-tags">
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">CS50 Harvard</div>
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">React</div>
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">Web Security</div>
+    <div class="yc-tag sa">&#x2B21; SA Layer 2: Tradeoff Reasoning</div>
+  </div>
+</div>
+<div class="quarters">
+<div class="quarter">
+  <div class="ql">Q1 JAN&ndash;MAR</div><div class="qf">CS50 + Web Fundamentals</div>
+  <div class="qd"><a href="https://cs50.harvard.edu/x/" target="_blank">CS50x &mdash; free Harvard course</a>. Algorithms, data structures, web programming. Complete all problem sets. <a href="https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/" target="_blank">freeCodeCamp JS algorithms</a> alongside.</div>
+  <div class="qp"><strong>// BUILD</strong>CS50 final project &mdash; something that solves a real problem using course skills.</div>
+</div>
+<div class="quarter">
+  <div class="ql">Q2 APR&ndash;JUN</div><div class="qf">React + Web Security</div>
+  <div class="qd"><a href="https://react.dev/learn" target="_blank">React official docs</a> &mdash; build UI components. <a href="https://owasp.org/www-project-top-ten/" target="_blank">OWASP Top 10</a> &mdash; each vulnerability studied. <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Web Academy</a> &mdash; free labs.</div>
+  <div class="qp"><strong>// BUILD</strong>React frontend connected to Flask backend. Identify 3 security vulnerabilities in it using OWASP.</div>
+</div>
+<div class="quarter qsa">
+  <div class="ql" style="color:var(--accent4)">Q3 SA FOCUS</div><div class="qf">Tradeoff Reasoning</div>
+  <div class="qd" style="color:#9a7abf">SQL vs NoSQL. Monolith vs microservices. REST vs GraphQL. <a href="https://github.com/donnemartin/system-design-primer" target="_blank" style="color:var(--accent4)">System Design Primer chapters 1&ndash;5</a>. Every design decision must be justified with tradeoffs.</div>
+  <div class="qp"><strong>// BUILD</strong>Design a system on paper before coding. Document every tradeoff decision and why you made it.</div>
+</div>
+<div class="quarter">
+  <div class="ql">Q4 OCT&ndash;DEC</div><div class="qf">Cloud Intro + First Deployment</div>
+  <div class="qd"><a href="https://aws.amazon.com/free/" target="_blank">AWS Free Tier</a> &mdash; deploy a real project. <a href="https://www.cloudflare.com/learning/" target="_blank">Cloudflare Learning Center</a>. Active Directory fundamentals.</div>
+  <div class="qp"><strong>// BUILD</strong>Deploy your Flask+React project to AWS. Set up IAM roles. Document each AWS service and why you chose it.</div>
+</div>
+</div>
+</div>
+
+<div class="yc">
+<div class="yc-hdr">
+  <div><div class="yc-label">// YEAR 3 &mdash; 2028</div><div class="yc-title">ML Introduction + Advanced Security + SA Layer 3</div></div>
+  <div class="yc-tags">
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">Scikit-learn</div>
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">Fast.ai</div>
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">Active Directory</div>
+    <div class="yc-tag" style="color:var(--accent2);border-color:var(--accent2)">Internship Target</div>
+    <div class="yc-tag sa">&#x2B21; SA Layer 3: Scale &amp; Failure</div>
+  </div>
+</div>
+<div class="quarters">
+<div class="quarter">
+  <div class="ql">Q1 JAN&ndash;MAR</div><div class="qf">ML Fundamentals</div>
+  <div class="qd"><a href="https://scikit-learn.org/stable/tutorial/" target="_blank">Scikit-learn tutorial</a>. <a href="https://course.fast.ai" target="_blank">Fast.ai lessons 1&ndash;3</a>. <a href="https://www.statlearning.com" target="_blank">Intro to Statistical Learning</a> &mdash; free PDF, essential theory.</div>
+  <div class="qp"><strong>// BUILD</strong>Train a classifier on real data. Evaluate it properly. Write article explaining what it does and where it could fail.</div>
+</div>
+<div class="quarter">
+  <div class="ql">Q2 APR&ndash;JUN</div><div class="qf">Pentesting + Active Directory</div>
+  <div class="qd">AD attacks &mdash; Kerberoasting, Pass-the-Hash. <a href="https://tryhackme.com/module/hacking-active-directory" target="_blank">THM Active Directory module</a>. Begin <a href="https://dataintensive.net" target="_blank">DAIA &mdash; Kleppmann</a>.</div>
+  <div class="qp"><strong>// BUILD</strong>Complete 5 HackTheBox machines with writeups documenting the architectural flaw each exploit targeted.</div>
+</div>
+<div class="quarter qsa">
+  <div class="ql" style="color:var(--accent4)">Q3 SA LAYER 3</div><div class="qf">Scale and Failure Thinking</div>
+  <div class="qd" style="color:#9a7abf">DAIA: replication, partitioning, consistency. <a href="https://netflixtechblog.com" target="_blank" style="color:var(--accent4)">Netflix Tech Blog</a>. Design systems that handle failure as a normal condition not an exception.</div>
+  <div class="qp"><strong>// BUILD</strong>Design a system for 1 million users. Document: what breaks first, how you handle it, the consistency/availability tradeoff made.</div>
+</div>
+<div class="quarter">
+  <div class="ql">Q4 OCT&ndash;DEC</div><div class="qf">PyTorch + Data Pipelines</div>
+  <div class="qd"><a href="https://pytorch.org/tutorials/" target="_blank">PyTorch tutorials</a>. Build end-to-end data pipeline. Apply for security or AI internships &mdash; Ghana tech companies and UK remote roles.</div>
+  <div class="qp"><strong>// BUILD</strong>Complete ML pipeline: ingest &rarr; clean &rarr; train &rarr; evaluate &rarr; API endpoint. Document every architectural decision.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="divider"><div class="div-line"></div><div class="div-text">PHASE 3 &mdash; DEEP TECHNICAL INVESTMENT 2029&ndash;2030</div><div class="div-line"></div></div>
+<div class="phase p3">
+<div class="phase-hdr">
+  <div class="phase-num">03</div>
+  <div class="phase-info">
+    <div class="phase-tag">// PHASE 3 &mdash; 2029&ndash;2030</div>
+    <div class="phase-title">Dangerous Technical Depth</div>
+    <div class="phase-sub">Late University + First Professional Role &middot; Specialist emerging</div>
+  </div>
+  <div class="phase-earn">EARNING: $800&ndash;2,500/mo<br>MODE: Freelance + Internship<br>TARGET: First UK role</div>
+</div>
+<div class="yc">
+<div class="yc-hdr">
+  <div><div class="yc-label">// YEAR 4 &mdash; 2029</div><div class="yc-title">AI Systems + OSCP + Adversarial ML + SA Layer 4</div></div>
+  <div class="yc-tags">
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">Transformers</div>
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">OSCP</div>
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">Adversarial ML</div>
+    <div class="yc-tag sa">&#x2B21; SA Layer 4: Security-Integrated Design</div>
+  </div>
+</div>
+<div class="quarters">
+<div class="quarter"><div class="ql">Q1 JAN&ndash;MAR</div><div class="qf">Transformer Architecture</div><div class="qd"><a href="https://arxiv.org/abs/1706.03762" target="_blank">Read Attention Is All You Need</a>. Implement in PyTorch. <a href="https://www.youtube.com/@AndrejKarpathy" target="_blank">Karpathy makemore series</a>. Model the full data flow.</div><div class="qp"><strong>// BUILD</strong>Implement a simplified transformer. Write article explaining it from understanding not documentation.</div></div>
+<div class="quarter"><div class="ql">Q2 APR&ndash;JUN</div><div class="qf">OSCP Exam</div><div class="qd"><a href="https://www.offsec.com/courses/pen-200/" target="_blank">OffSec PWK course</a>. Complete all labs. 24hr practical exam. Gold standard &mdash; cannot be faked.</div><div class="qp"><strong>// MILESTONE</strong>Pass OSCP. Write post-exam analysis of what nearly stopped you.</div></div>
+<div class="quarter qsa"><div class="ql" style="color:var(--accent4)">Q3 SA LAYER 4</div><div class="qf">Security-Integrated Architecture</div><div class="qd" style="color:#9a7abf">Security structural not bolted on. Zero-trust design. Threat model before building. <a href="https://zerotrust.cyber.gov" target="_blank" style="color:var(--accent4)">CISA Zero Trust</a>. Your vertical + SA converging into your primary moat.</div></div>
+<div class="quarter"><div class="ql">Q4 OCT&ndash;DEC</div><div class="qf">Cloud Security + Kubernetes</div><div class="qd"><a href="https://aws.amazon.com/certification/certified-security-specialty/" target="_blank">AWS Security Specialty prep</a>. IAM deep dive. GuardDuty. <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank">Kubernetes official interactive tutorial</a>. <a href="https://www.youtube.com/watch?v=X48VuDVv0do" target="_blank">TechWorld with Nana &mdash; Kubernetes full course YouTube</a>.</div><div class="qp"><strong>// BUILD</strong>Deploy your containerized AI security tool to a local Kubernetes cluster. Understand pod security, network policies, and secrets management in Kubernetes context.</div></div>
+</div>
+</div>
+<div class="yc">
+<div class="yc-hdr">
+  <div><div class="yc-label">// YEAR 5 &mdash; 2030</div><div class="yc-title">First Professional Role + Research + SA Layer 5</div></div>
+  <div class="yc-tags">
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">UK Employment</div>
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">Open Source</div>
+    <div class="yc-tag" style="color:var(--accent3);border-color:var(--accent3)">Federated Learning</div>
+    <div class="yc-tag sa">&#x2B21; SA Layer 5: Novel System Design</div>
+  </div>
+</div>
+<div class="quarters">
+<div class="quarter"><div class="ql">Q1 JAN&ndash;MAR</div><div class="qf">Land First Role</div><div class="qd">Security or AI engineer in UK. Target &pound;35&ndash;55K. <a href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn Jobs</a>. Portfolio of articles + GitHub + OSCP is the application.</div></div>
+<div class="quarter"><div class="ql">Q2 APR&ndash;JUN</div><div class="qf">Open Source + Research</div><div class="qd">Contribute to <a href="https://github.com/bethgelab/foolbox" target="_blank">Foolbox</a> or <a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank">IBM ART</a>. First research paper draft. <a href="https://paperswithcode.com" target="_blank">Papers With Code</a>.</div></div>
+<div class="quarter qsa"><div class="ql" style="color:var(--accent4)">Q3 SA LAYER 5</div><div class="qf">Novel System Design</div><div class="qd" style="color:#9a7abf">Inventing architectures for undefined problems. Architecture reviews at work. <a href="https://blog.cloudflare.com" target="_blank" style="color:var(--accent4)">Cloudflare Engineering</a>. You are now designing not implementing.</div></div>
+<div class="quarter"><div class="ql">Q4 OCT&ndash;DEC</div><div class="qf">Federated Learning</div><div class="qd"><a href="https://flower.dev/docs/" target="_blank">Flower framework</a>. Privacy-preserving ML for healthcare. Design your startup&apos;s core technical architecture.</div></div>
+</div>
+</div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="divider"><div class="div-line"></div><div class="div-text">PHASE 4 &mdash; SENIOR SPECIALIST 2031&ndash;2033</div><div class="div-line"></div></div>
+<div class="phase p4">
+<div class="phase-hdr">
+  <div class="phase-num">04</div>
+  <div class="phase-info">
+    <div class="phase-tag">// PHASE 4 &mdash; 2031&ndash;2033</div>
+    <div class="phase-title">Recognized Expert</div>
+    <div class="phase-sub">Senior roles &middot; Conference presence &middot; Consulting begins &middot; Name known</div>
+  </div>
+  <div class="phase-earn">EARNING: $90K&ndash;180K/yr<br>MODE: Senior Role + Consulting<br>RATE: &pound;1,000&ndash;1,500/day</div>
+</div>
+<div class="yc">
+<div class="yc-hdr"><div><div class="yc-label">// YEARS 6&ndash;8 &mdash; 2031&ndash;2033</div><div class="yc-title">AI Security Research + Architecture Authority + SA Mastery</div></div>
+<div class="yc-tags"><div class="yc-tag" style="color:var(--accent4);border-color:var(--accent4)">AI Red Teaming</div><div class="yc-tag" style="color:var(--accent4);border-color:var(--accent4)">Conference Talks</div><div class="yc-tag" style="color:var(--accent4);border-color:var(--accent4)">Consulting</div><div class="yc-tag sa">&#x2B21; SA Mastery &mdash; Architecture Authority</div></div></div>
+<div class="quarters">
+<div class="quarter"><div class="ql">2031</div><div class="qf">AI Red Team Specialization</div><div class="qd">Prompt injection. Model poisoning. Build tools others use. <a href="https://arxiv.org/list/cs.CR/recent" target="_blank">ArXiv cs.CR</a> weekly. Submit BSides talk.</div></div>
+<div class="quarter"><div class="ql">2031&ndash;32</div><div class="qf">Conference + Published Research</div><div class="qd"><a href="https://defcon.org" target="_blank">Defcon</a>, <a href="https://www.blackhat.com" target="_blank">Black Hat</a>, BSides. Peer-reviewed paper published. People cite your work.</div></div>
+<div class="quarter qsa"><div class="ql" style="color:var(--accent4)">2032 SA MASTERY</div><div class="qf">Architecture Authority</div><div class="qd" style="color:#9a7abf">Teams consult you before major architectural decisions. Security + AI + distributed systems as unified judgment. Globally rare combination.</div></div>
+<div class="quarter"><div class="ql">2033</div><div class="qf">Consulting Launch</div><div class="qd">First clients. &pound;1,000&ndash;1,500/day. AI security architecture audits. <a href="https://levels.fyi" target="_blank">Levels.fyi</a> benchmarking.</div></div>
+</div>
+</div>
+</div>
+
+<!-- PHASE 5 -->
+<div class="divider"><div class="div-line"></div><div class="div-text">PHASE 5 &mdash; ELITE POSITIONING 2034&ndash;2035+</div><div class="div-line"></div></div>
+<div class="phase p5">
+<div class="phase-hdr">
+  <div class="phase-num">05</div>
+  <div class="phase-info">
+    <div class="phase-tag">// PHASE 5 &mdash; 2034&ndash;2035+</div>
+    <div class="phase-title">Elite &amp; Asymmetric</div>
+    <div class="phase-sub">Top 5% globally &middot; Judgment priced not time &middot; Startup formation</div>
+  </div>
+  <div class="phase-earn">EARNING: $150K&ndash;500K+/yr<br>MODE: Principal + Consulting<br>HORIZON: Startup formation</div>
+</div>
+<div class="yc">
+<div class="yc-hdr"><div><div class="yc-label">// YEARS 9&ndash;10 &mdash; 2034&ndash;2035</div><div class="yc-title">You Are the Standard Others Are Measured Against</div></div>
+<div class="yc-tags"><div class="yc-tag" style="color:var(--accent5);border-color:var(--accent5)">Frontier Lab Roles</div><div class="yc-tag" style="color:var(--accent5);border-color:var(--accent5)">Startup Formation</div><div class="yc-tag" style="color:var(--accent5);border-color:var(--accent5)">Capital Formation</div><div class="yc-tag sa">&#x2B21; SA: Founding Architecture &mdash; Built Right Day One</div></div></div>
+<div class="quarters">
+<div class="quarter"><div class="ql">POSITIONING</div><div class="qf">Known Name in AI Security</div><div class="qd">Published research. Tools people use. Keynote invitations. Inbound opportunities only.</div></div>
+<div class="quarter"><div class="ql">INCOME</div><div class="qf">$150K&ndash;500K+ Total Comp</div><div class="qd">Principal/Staff at frontier lab. Consulting $3&ndash;5K/day. Equity. Investments compounding from years of high income.</div></div>
+<div class="quarter qsa"><div class="ql" style="color:var(--accent4)">SA AT STARTUP</div><div class="qf">Founding Architecture</div><div class="qd" style="color:#9a7abf">9 years SA depth. Design the startup correctly from day one. Scales from 100 to 10 million users without a full rebuild. No costly rewrites.</div></div>
+<div class="quarter"><div class="ql">THE MOAT</div><div class="qf">Irreplaceable</div><div class="qd">Adversarial reasoning + SA depth + cross-domain judgment + decade of pattern recognition. Cannot be automated. Cannot be shortcut.</div></div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+  <div>ROADMAP VERSION <span>4.4</span> &mdash; APRIL 2026</div>
+  <div>T-SHAPE + <span>SYSTEM ARCHITECTURE</span> &middot; AI SECURITY VERTICAL</div>
+  <div>GHANA &rarr; UK &rarr; <span>GLOBAL</span></div>
+</div>
+</div>
+
+<!-- SYSTEM ARCHITECTURE TAB -->
+<div id="tab-sysarch" class="section">
+<div class="page-header">
+  <div class="page-tag">// Cross-Cutting Meta-Skill</div>
+  <div class="page-title" style="color:var(--accent4)">System Architecture</div>
+  <div class="page-sub">Not a domain you finish. A lens that deepens across 10 years. Every domain in your T-shape is stronger because of this layer running underneath it.</div>
+</div>
+<div class="sa-ladder">
+<div class="sa-lt">// THE 5 LAYERS OF SYSTEM ARCHITECTURE DEPTH</div>
+<div class="sa-steps">
+<div class="sa-step" style="border-left-color:var(--accent)">
+<div class="sa-sn">1</div><div class="sa-si">
+<div class="sa-st">Component Thinking</div><div class="sa-sp" style="color:var(--accent)">PHASE 1 &mdash; 2026 &middot; Month 5</div>
+<div class="sa-sd">What do databases, servers, APIs, clients, networks do individually &mdash; and how do they connect? Draw the diagram before writing code. Ask: where does data live? How does it move? This habit, built now, changes how you approach every system for the rest of your career.</div>
+</div></div>
+<div class="sa-step" style="border-left-color:var(--accent2)">
+<div class="sa-sn">2</div><div class="sa-si">
+<div class="sa-st">Tradeoff Reasoning</div><div class="sa-sp" style="color:var(--accent2)">PHASE 2 &mdash; 2027 &middot; Q3</div>
+<div class="sa-sd">Every design decision has costs. SQL vs NoSQL. Monolith vs microservices. REST vs GraphQL. You stop asking &ldquo;what should I use&rdquo; and start asking &ldquo;what are the tradeoffs and which matter here.&rdquo; Resource: <a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer</a>.</div>
+</div></div>
+<div class="sa-step" style="border-left-color:var(--accent3)">
+<div class="sa-sn">3</div><div class="sa-si">
+<div class="sa-st">Scale and Failure Thinking</div><div class="sa-sp" style="color:var(--accent3)">PHASE 2&ndash;3 &mdash; 2028 &middot; Q3</div>
+<div class="sa-sd">Design for failure as a normal condition. Replication, partitioning, consistency models. What happens when a database node goes down? The answers are architectural decisions. Resource: <a href="https://dataintensive.net" target="_blank">Designing Data-Intensive Applications &mdash; Kleppmann</a>. Also: <a href="https://netflixtechblog.com" target="_blank">Netflix Tech Blog</a>, <a href="https://blog.cloudflare.com" target="_blank">Cloudflare Engineering</a>, <a href="https://eng.uber.com" target="_blank">Uber Engineering</a>.</div>
+</div></div>
+<div class="sa-step" style="border-left-color:var(--accent4)">
+<div class="sa-sn">4</div><div class="sa-si">
+<div class="sa-st">Security-Integrated Architecture</div><div class="sa-sp" style="color:var(--accent4)">PHASE 3 &mdash; 2029 &middot; Q3</div>
+<div class="sa-sd">Security is structural &mdash; built into the design &mdash; not bolted on afterward. Zero-trust architecture. Threat modeling before building. AI system architecture with adversarial robustness as a design constraint from day one. Your security vertical + SA depth converging. Resources: <a href="https://zerotrust.cyber.gov" target="_blank">CISA Zero Trust</a>, <a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank">OWASP ASVS</a>, <a href="https://attack.mitre.org" target="_blank">MITRE ATT&CK</a>.</div>
+</div></div>
+<div class="sa-step" style="border-left-color:var(--accent5)">
+<div class="sa-sn">5</div><div class="sa-si">
+<div class="sa-st">Novel System Design</div><div class="sa-sp" style="color:var(--accent5)">PHASE 4&ndash;5 &mdash; 2030+ &middot; Elite</div>
+<div class="sa-sd">Designing systems that do not exist yet for problems not fully defined. You are not implementing a known architecture &mdash; you are inventing one appropriate for a novel set of constraints. Nine years of accumulated pattern recognition is what makes this possible. It cannot be shortcut.</div>
+</div></div>
+</div>
+</div>
+
+<div style="margin:28px 0 14px;font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:2px">// HOW SA CONNECTS TO EVERY DOMAIN IN YOUR T-SHAPE</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:9px;margin-bottom:36px">
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; SECURITY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">How does an attacker move through this system? Where are the trust boundaries? SA makes you model the attack surface before it exists &mdash; not reactively after a breach.</div></div>
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; AI ENGINEERING</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">AI is not just a model. Training pipelines + serving infrastructure + monitoring + feedback loops. SA holds all those pieces together reliably in production at scale.</div></div>
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; CLOUD</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Every AWS service selection is an architectural decision. SA turns cloud from a toolbox into a design discipline. Prevents expensive mistakes made early requiring full rewrites later.</div></div>
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; WEB DEV</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">How does data flow from browser to server to database and back? Why REST vs GraphQL? How do you structure a frontend a backend can serve efficiently? SA answers these.</div></div>
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; STARTUP</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">The founding architecture determines whether you scale or rebuild. Most startups fail at scale because of day-one architectural decisions made without SA depth.</div></div>
+<div style="background:var(--surface);border:1px solid #221533;border-left:3px solid var(--accent4);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:7px">SA &times; AI RESISTANCE</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Narrow execution gets automated. Architectural judgment &mdash; reasoning about systems that do not yet exist &mdash; is irreplaceable human judgment. Your long-term protection.</div></div>
+</div>
+
+<div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:2px;margin-bottom:14px">// SA RESOURCES BY LAYER</div>
+<div class="rg">
+<div class="rc sa-c"><div class="rc-title" style="color:var(--accent4)">LAYERS 1&ndash;2: FOUNDATIONS</div><ul class="rl">
+<li><a href="https://github.com/donnemartin/system-design-primer" target="_blank" style="color:var(--accent4)"><span class="rn">System Design Primer &mdash; GitHub</span><span class="rd">Most starred SA resource. Free. Comprehensive.</span></a></li>
+<li><a href="https://www.youtube.com/@ByteByteGo" target="_blank" style="color:var(--accent4)"><span class="rn">ByteByteGo &mdash; YouTube</span><span class="rd">Visual system design. How real companies are built.</span></a></li>
+<li><a href="https://roadmap.sh/software-architect" target="_blank" style="color:var(--accent4)"><span class="rn">roadmap.sh Software Architect</span><span class="rd">Structured SA learning path. Free.</span></a></li>
+</ul></div>
+<div class="rc sa-c"><div class="rc-title" style="color:var(--accent4)">LAYER 3: SCALE &amp; FAILURE</div><ul class="rl">
+<li><a href="https://dataintensive.net" target="_blank" style="color:var(--accent4)"><span class="rn">Designing Data-Intensive Applications</span><span class="rd">Kleppmann. The single most important architecture book.</span></a></li>
+<li><a href="https://netflixtechblog.com" target="_blank" style="color:var(--accent4)"><span class="rn">Netflix Tech Blog</span><span class="rd">Real architectural decisions at massive scale.</span></a></li>
+<li><a href="https://blog.cloudflare.com" target="_blank" style="color:var(--accent4)"><span class="rn">Cloudflare Engineering Blog</span><span class="rd">Network architecture at planetary scale.</span></a></li>
+<li><a href="https://eng.uber.com" target="_blank" style="color:var(--accent4)"><span class="rn">Uber Engineering Blog</span><span class="rd">Distributed systems in production.</span></a></li>
+</ul></div>
+<div class="rc sa-c"><div class="rc-title" style="color:var(--accent4)">LAYER 4: SECURITY ARCHITECTURE</div><ul class="rl">
+<li><a href="https://www.cl.cam.ac.uk/~rja14/book.html" target="_blank" style="color:var(--accent4)"><span class="rn">Security Engineering &mdash; Ross Anderson</span><span class="rd">Free 3rd edition. Systems-level security design.</span></a></li>
+<li><a href="https://zerotrust.cyber.gov" target="_blank" style="color:var(--accent4)"><span class="rn">Zero Trust Architecture &mdash; CISA</span><span class="rd">Official US government zero trust guidance.</span></a></li>
+<li><a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank" style="color:var(--accent4)"><span class="rn">OWASP ASVS</span><span class="rd">Build security into architecture from the start.</span></a></li>
+<li><a href="https://attack.mitre.org" target="_blank" style="color:var(--accent4)"><span class="rn">MITRE ATT&amp;CK Framework</span><span class="rd">Adversary tactics. Design defenses architecturally.</span></a></li>
+</ul></div>
+</div>
+</div>
+
+<!-- TRACKER TAB -->
+<div id="tab-tracker" class="section">
+<div class="page-header">
+  <div class="page-tag">// Track Every Milestone</div>
+  <div class="page-title">Progress Tracker</div>
+  <div class="page-sub">Click items to mark complete. Each phase unlocks when the previous reaches 80%. Purple = System Architecture milestones.</div>
+</div>
+<div id="tracker-container"></div>
+</div>
+
+<!-- CERTIFICATIONS TAB -->
+<div id="tab-certs" class="section">
+<div class="page-header">
+  <div class="page-tag">// Credentials That Signal Depth</div>
+  <div class="page-title">Certifications</div>
+  <div class="page-sub">Ordered by when to pursue. Build the knowledge first &mdash; cert second. The OSCP is the one exception you cannot fake.</div>
+</div>
+<div class="cg">
+<div class="cc" style="border-color:#1e3a2a"><div class="cp" style="color:var(--accent)">PHASE 1 &mdash; 2026 / FREE / CURRICULUM ONLY</div><div class="cn" style="color:var(--accent)"><a href="https://www.comptia.org/certifications/network" target="_blank" style="color:var(--accent)">CompTIA Network+</a></div><div class="cb">Don&apos;t sit the exam yet. Use the curriculum as structured networking study. Prof. Messer&apos;s free YouTube covers everything. Build the knowledge before paying for the badge.</div><div class="cl"><a href="https://www.youtube.com/@professormesser" target="_blank" class="clink" style="color:var(--accent);border-color:var(--accent)">Free Study &#x2197;</a><a href="https://www.comptia.org/certifications/network" target="_blank" class="clink" style="color:var(--accent);border-color:var(--accent)">Official &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#1e2a3a"><div class="cp" style="color:var(--accent2)">PHASE 2 &mdash; 2027 / FREE CERTIFICATE</div><div class="cn" style="color:var(--accent2)"><a href="https://cs50.harvard.edu/x/" target="_blank" style="color:var(--accent2)">CS50x &mdash; Harvard</a></div><div class="cb">Free Harvard certificate on completion. Most rigorous free CS course in existence. Respected on scholarship applications. Complete every problem set &mdash; do not skip.</div><div class="cl"><a href="https://cs50.harvard.edu/x/" target="_blank" class="clink" style="color:var(--accent2);border-color:var(--accent2)">Enroll Free &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#1e2a3a"><div class="cp" style="color:var(--accent2)">PHASE 2 &mdash; 2027&ndash;28 / PAID</div><div class="cn" style="color:var(--accent2)"><a href="https://www.comptia.org/certifications/security" target="_blank" style="color:var(--accent2)">CompTIA Security+</a></div><div class="cb">Entry-level security cert recognized globally. Often required as baseline by employers. Useful for first job applications. Sit after completing TryHackMe Jr Pentester path.</div><div class="cl"><a href="https://www.comptia.org/certifications/security" target="_blank" class="clink" style="color:var(--accent2);border-color:var(--accent2)">Official &#x2197;</a><a href="https://www.youtube.com/@professormesser" target="_blank" class="clink" style="color:var(--accent2);border-color:var(--accent2)">Free Study &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#2a1e0a"><div class="cp" style="color:var(--accent3)">PHASE 3 &mdash; 2029 / PAID / GOLD STANDARD</div><div class="cn" style="color:var(--accent3)"><a href="https://www.offsec.com/courses/pen-200/" target="_blank" style="color:var(--accent3)">OSCP &mdash; Offensive Security</a></div><div class="cb">24-hour practical exam. Hack real machines under time pressure. No multiple choice. No theory. You genuinely cannot fake this one. Universally respected by every serious security employer.</div><div class="cl"><a href="https://www.offsec.com/courses/pen-200/" target="_blank" class="clink" style="color:var(--accent3);border-color:var(--accent3)">PWK Course &#x2197;</a><a href="https://app.hackthebox.com" target="_blank" class="clink" style="color:var(--accent3);border-color:var(--accent3)">HackTheBox Prep &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#2a1e0a"><div class="cp" style="color:var(--accent3)">PHASE 3 &mdash; 2029&ndash;30 / PAID</div><div class="cn" style="color:var(--accent3)"><a href="https://aws.amazon.com/certification/certified-security-specialty/" target="_blank" style="color:var(--accent3)">AWS Security Specialty</a></div><div class="cb">Advanced cloud security. IAM, data protection, infrastructure security. High salary premium. Directly relevant to security architecture work and AI system deployment.</div><div class="cl"><a href="https://aws.amazon.com/certification/certified-security-specialty/" target="_blank" class="clink" style="color:var(--accent3);border-color:var(--accent3)">Official &#x2197;</a><a href="https://aws.amazon.com/training/learn-about/security/" target="_blank" class="clink" style="color:var(--accent3);border-color:var(--accent3)">AWS Training &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#1e0a2a"><div class="cp" style="color:var(--accent4)">PHASE 4 &mdash; 2031+ / REQUIRES 5YR EXPERIENCE</div><div class="cn" style="color:var(--accent4)"><a href="https://www.isc2.org/certifications/cissp" target="_blank" style="color:var(--accent4)">CISSP &mdash; ISC&sup2;</a></div><div class="cb">Senior security leadership cert. Requires verified 5 years of experience. Opens CISO-track and principal architect roles globally. Study begins in Phase 4, sit when eligible.</div><div class="cl"><a href="https://www.isc2.org/certifications/cissp" target="_blank" class="clink" style="color:var(--accent4);border-color:var(--accent4)">Official &#x2197;</a></div></div>
+
+<div class="cc" style="border-color:#2a2a0a"><div class="cp" style="color:var(--accent5)">PHASE 2&ndash;3 / FREE TO AUDIT</div><div class="cn" style="color:var(--accent5)"><a href="https://www.deeplearning.ai/courses/" target="_blank" style="color:var(--accent5)">DeepLearning.AI Specializations</a></div><div class="cb">Andrew Ng&apos;s ML and DL specializations. Free to audit on Coursera. Start ML Specialization Phase 2, Deep Learning Phase 3. Only pay for certificate if you need it.</div><div class="cl"><a href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank" class="clink" style="color:var(--accent5);border-color:var(--accent5)">ML Spec &#x2197;</a><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" class="clink" style="color:var(--accent5);border-color:var(--accent5)">Deep Learning &#x2197;</a></div></div>
+</div>
+<div style="margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.9"><span style="color:var(--accent)">// CERT PHILOSOPHY:</span> Certifications signal depth &mdash; they do not create it. Build the knowledge first, sit the exam second. A cert without depth collapses in any serious technical interview. OSCP is the one exception &mdash; its practical format means you cannot hold the certificate without genuine ability.</div>
+</div>
+
+<!-- RESOURCES TAB -->
+<div id="tab-resources" class="section">
+<div class="page-header">
+  <div class="page-tag">// Verified and Relevant</div>
+  <div class="page-title">Resources &amp; Links</div>
+  <div class="page-sub">Every link directly relevant to the roadmap. Purple cards = System Architecture. Use these intentionally &mdash; not passively.</div>
+</div>
+<div class="rg">
+<div class="rc"><div class="rc-title" style="color:var(--accent)">LEARNING PLATFORMS</div><ul class="rl">
+<li><a href="https://tryhackme.com" target="_blank" style="color:var(--accent)"><span class="rn">TryHackMe</span><span class="rd">Browser-based security labs. Start here. Free tier generous.</span></a></li>
+<li><a href="https://app.hackthebox.com" target="_blank" style="color:var(--accent)"><span class="rn">HackTheBox</span><span class="rd">Harder challenges. Real pentesting. Phase 2+</span></a></li>
+<li><a href="https://colab.research.google.com" target="_blank" style="color:var(--accent)"><span class="rn">Google Colab</span><span class="rd">Free GPU Python environment. Your ML lab now.</span></a></li>
+<li><a href="https://cs50.harvard.edu/x/" target="_blank" style="color:var(--accent)"><span class="rn">CS50x &mdash; Harvard</span><span class="rd">Best free CS fundamentals course in existence.</span></a></li>
+<li><a href="https://course.fast.ai" target="_blank" style="color:var(--accent)"><span class="rn">Fast.ai</span><span class="rd">Practical deep learning. Top-down. Free.</span></a></li>
+<li><a href="https://portswigger.net/web-security" target="_blank" style="color:var(--accent)"><span class="rn">PortSwigger Web Academy</span><span class="rd">Free web security labs from Burp Suite creators.</span></a></li>
+<li><a href="https://overthewire.org/wargames/bandit/" target="_blank" style="color:var(--accent)"><span class="rn">OverTheWire: Bandit</span><span class="rd">Linux via security wargames. Start this week.</span></a></li>
+<li><a href="https://linuxjourney.com" target="_blank" style="color:var(--accent)"><span class="rn">Linux Journey</span><span class="rd">Free browser-based Linux course. Beginner to advanced.</span></a></li>
+<li><a href="https://javascript.info" target="_blank" style="color:var(--accent)"><span class="rn">JavaScript.info</span><span class="rd">Best free comprehensive JavaScript resource.</span></a></li>
+<li><a href="https://react.dev/learn" target="_blank" style="color:var(--accent)"><span class="rn">React Official Docs</span><span class="rd">Official React learning path. Phase 2.</span></a></li>
+<li><a href="https://flask.palletsprojects.com/en/3.0.x/tutorial/" target="_blank" style="color:var(--accent)"><span class="rn">Flask Official Tutorial</span><span class="rd">Python web framework. First backend.</span></a></li>
+</ul></div>
+
+<div class="rc sa-c"><div class="rc-title" style="color:var(--accent4)">&#x2B21; SYSTEM ARCHITECTURE</div><ul class="rl">
+<li><a href="https://github.com/donnemartin/system-design-primer" target="_blank" style="color:var(--accent4)"><span class="rn">System Design Primer</span><span class="rd">Most starred SA resource on GitHub. Free.</span></a></li>
+<li><a href="https://dataintensive.net" target="_blank" style="color:var(--accent4)"><span class="rn">Designing Data-Intensive Applications</span><span class="rd">Kleppmann. The architecture bible.</span></a></li>
+<li><a href="https://www.youtube.com/@ByteByteGo" target="_blank" style="color:var(--accent4)"><span class="rn">ByteByteGo YouTube</span><span class="rd">Visual system design explanations.</span></a></li>
+<li><a href="https://roadmap.sh/software-architect" target="_blank" style="color:var(--accent4)"><span class="rn">roadmap.sh Software Architect</span><span class="rd">Structured SA learning path.</span></a></li>
+<li><a href="https://netflixtechblog.com" target="_blank" style="color:var(--accent4)"><span class="rn">Netflix Tech Blog</span><span class="rd">Real architectural decisions at scale.</span></a></li>
+<li><a href="https://blog.cloudflare.com" target="_blank" style="color:var(--accent4)"><span class="rn">Cloudflare Engineering Blog</span><span class="rd">Network architecture at planetary scale.</span></a></li>
+<li><a href="https://eng.uber.com" target="_blank" style="color:var(--accent4)"><span class="rn">Uber Engineering Blog</span><span class="rd">Distributed systems in production.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent2)">MATHEMATICS</div><ul class="rl">
+<li><a href="https://www.youtube.com/@3blue1brown" target="_blank" style="color:var(--accent2)"><span class="rn">3Blue1Brown</span><span class="rd">Best visual math. Linear algebra + calculus essential.</span></a></li>
+<li><a href="https://www.youtube.com/@statquest" target="_blank" style="color:var(--accent2)"><span class="rn">StatQuest &mdash; Josh Starmer</span><span class="rd">Statistics and ML explained clearly.</span></a></li>
+<li><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/" target="_blank" style="color:var(--accent2)"><span class="rn">MIT Linear Algebra &mdash; Strang</span><span class="rd">Free MIT OpenCourseWare. Definitive course.</span></a></li>
+<li><a href="https://www.youtube.com/@AndrejKarpathy" target="_blank" style="color:var(--accent2)"><span class="rn">Andrej Karpathy YouTube</span><span class="rd">Neural networks from scratch.</span></a></li>
+<li><a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/" target="_blank" style="color:var(--accent2)"><span class="rn">MIT 6.042J &mdash; Math for CS</span><span class="rd">Logic, proofs, graphs, probability. Essential for CS.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent3)">BOOKS &amp; DOCUMENTATION</div><ul class="rl">
+<li><a href="https://docs.python.org/3/" target="_blank" style="color:var(--accent3)"><span class="rn">Python Official Docs</span><span class="rd">The real reference. Read alongside any course.</span></a></li>
+<li><a href="https://www.deeplearningbook.org" target="_blank" style="color:var(--accent3)"><span class="rn">Deep Learning &mdash; Goodfellow</span><span class="rd">Free online. Canonical deep learning textbook.</span></a></li>
+<li><a href="https://www.cl.cam.ac.uk/~rja14/book.html" target="_blank" style="color:var(--accent3)"><span class="rn">Security Engineering &mdash; Anderson</span><span class="rd">Free 3rd edition. Security systems thinking.</span></a></li>
+<li><a href="https://d2l.ai" target="_blank" style="color:var(--accent3)"><span class="rn">Dive Into Deep Learning</span><span class="rd">Free interactive textbook. Code-first.</span></a></li>
+<li><a href="https://nostarch.com/hacking2.htm" target="_blank" style="color:var(--accent3)"><span class="rn">Hacking: The Art of Exploitation</span><span class="rd">Low-level exploit development. C and assembly.</span></a></li>
+<li><a href="https://www.statlearning.com" target="_blank" style="color:var(--accent3)"><span class="rn">Intro to Statistical Learning</span><span class="rd">Free PDF. Essential ML theory foundation.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent4)">STAY CURRENT</div><ul class="rl">
+<li><a href="https://news.ycombinator.com" target="_blank" style="color:var(--accent4)"><span class="rn">Hacker News</span><span class="rd">Daily signal on what matters in tech. Read daily.</span></a></li>
+<li><a href="https://googleprojectzero.blogspot.com" target="_blank" style="color:var(--accent4)"><span class="rn">Google Project Zero Blog</span><span class="rd">Elite security research. Sets the standard.</span></a></li>
+<li><a href="https://arxiv.org/list/cs.CR/recent" target="_blank" style="color:var(--accent4)"><span class="rn">ArXiv cs.CR &mdash; Security Papers</span><span class="rd">Latest security research. Skim titles weekly.</span></a></li>
+<li><a href="https://arxiv.org/list/cs.LG/recent" target="_blank" style="color:var(--accent4)"><span class="rn">ArXiv cs.LG &mdash; ML Papers</span><span class="rd">Latest ML research. Skim titles weekly.</span></a></li>
+<li><a href="https://www.anthropic.com/research" target="_blank" style="color:var(--accent4)"><span class="rn">Anthropic Research Blog</span><span class="rd">AI safety and capability from frontier lab.</span></a></li>
+<li><a href="https://krebsonsecurity.com" target="_blank" style="color:var(--accent4)"><span class="rn">Krebs on Security</span><span class="rd">Investigative security journalism.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent)">EARNING WHILE LEARNING</div><ul class="rl">
+<li><a href="https://hackerone.com" target="_blank" style="color:var(--accent)"><span class="rn">HackerOne</span><span class="rd">Bug bounty. Register now. Study disclosures first.</span></a></li>
+<li><a href="https://bugcrowd.com" target="_blank" style="color:var(--accent)"><span class="rn">Bugcrowd</span><span class="rd">Second major bug bounty platform.</span></a></li>
+<li><a href="https://contra.com" target="_blank" style="color:var(--accent)"><span class="rn">Contra</span><span class="rd">Freelance. Zero commission. Technical writing clients.</span></a></li>
+<li><a href="https://cobalt.io" target="_blank" style="color:var(--accent)"><span class="rn">Cobalt Pentest Platform</span><span class="rd">Paid pentesting work. Phase 3+</span></a></li>
+<li><a href="https://www.payoneer.com" target="_blank" style="color:var(--accent)"><span class="rn">Payoneer</span><span class="rd">Receive USD/GBP in Ghana.</span></a></li>
+<li><a href="https://wise.com" target="_blank" style="color:var(--accent)"><span class="rn">Wise</span><span class="rd">International payments. Low fees.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent2)">CLOUD &amp; DEVOPS COURSES</div><ul class="rl">
+<li><a href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials" target="_blank" style="color:var(--accent2)"><span class="rn">AWS Cloud Practitioner Essentials</span><span class="rd">Free on AWS Skill Builder. Best starting point for cloud.</span></a></li>
+<li><a href="https://www.youtube.com/watch?v=3c-iBn73dDE" target="_blank" style="color:var(--accent2)"><span class="rn">TechWorld with Nana &mdash; Docker Full Course</span><span class="rd">Best free Docker course on YouTube. 3 hours.</span></a></li>
+<li><a href="https://www.youtube.com/watch?v=X48VuDVv0do" target="_blank" style="color:var(--accent2)"><span class="rn">TechWorld with Nana &mdash; Kubernetes Full Course</span><span class="rd">Best free Kubernetes course on YouTube. 4 hours.</span></a></li>
+<li><a href="https://docs.docker.com/get-started/" target="_blank" style="color:var(--accent2)"><span class="rn">Docker Official Tutorial</span><span class="rd">Official getting started guide. Comprehensive.</span></a></li>
+<li><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" style="color:var(--accent2)"><span class="rn">Kubernetes Official Interactive Tutorial</span><span class="rd">Run K8s in browser. No setup needed.</span></a></li>
+<li><a href="https://www.freecodecamp.org/news/pass-the-aws-certified-cloud-practitioner-exam/" target="_blank" style="color:var(--accent2)"><span class="rn">freeCodeCamp &mdash; AWS Certification Guide</span><span class="rd">Free study guide for AWS Cloud Practitioner exam.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent)">PYTHON COURSES</div><ul class="rl">
+<li><a href="https://cs50.harvard.edu/python/" target="_blank" style="color:var(--accent)"><span class="rn">CS50P &mdash; Harvard Python Course</span><span class="rd">Free. Certificate on completion. Rigorous and comprehensive.</span></a></li>
+<li><a href="https://www.py4e.com" target="_blank" style="color:var(--accent)"><span class="rn">Python for Everybody &mdash; Dr. Chuck</span><span class="rd">Free at py4e.com. Also on Coursera free to audit.</span></a></li>
+<li><a href="https://automatetheboringstuff.com" target="_blank" style="color:var(--accent)"><span class="rn">Automate the Boring Stuff with Python</span><span class="rd">Free online book. Practical projects from day one.</span></a></li>
+<li><a href="https://www.learnpython.org" target="_blank" style="color:var(--accent)"><span class="rn">LearnPython.org</span><span class="rd">Interactive browser-based Python exercises. Free.</span></a></li>
+<li><a href="https://docs.python.org/3/tutorial/" target="_blank" style="color:var(--accent)"><span class="rn">Python Official Tutorial</span><span class="rd">Official documentation tutorial. Use as reference alongside courses.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent4)">SCHOLARSHIPS &amp; UNIVERSITIES</div><ul class="rl">
+<li><a href="https://www.chevening.org/scholarships/" target="_blank" style="color:var(--accent4)"><span class="rn">Chevening Scholarship</span><span class="rd">UK government. Full funding. Ghana eligible. October deadline.</span></a></li>
+<li><a href="https://cscuk.fcdo.gov.uk/scholarships/commonwealth-masters-scholarships/" target="_blank" style="color:var(--accent4)"><span class="rn">Commonwealth Scholarships</span><span class="rd">For postgrad. Build toward after undergrad.</span></a></li>
+<li><a href="https://ashesi.edu.gh/admissions/" target="_blank" style="color:var(--accent4)"><span class="rn">Ashesi University &mdash; Ghana</span><span class="rd">Best CS program in Ghana. Holistic admissions. Apply.</span></a></li>
+<li><a href="https://ashesi.edu.gh/admissions/financial-aid/" target="_blank" style="color:var(--accent4)"><span class="rn">Ashesi Financial Aid</span><span class="rd">40% of students receive aid. Apply simultaneously.</span></a></li>
+<li><a href="https://www.royalholloway.ac.uk/studying-here/fees-and-funding/undergraduate/scholarships-and-bursaries/" target="_blank" style="color:var(--accent4)"><span class="rn">Royal Holloway &mdash; Info Security</span><span class="rd">Top UK security program.</span></a></li>
+<li><a href="https://www.ed.ac.uk/student-funding/undergraduate" target="_blank" style="color:var(--accent4)"><span class="rn">University of Edinburgh</span><span class="rd">World-class School of Informatics.</span></a></li>
+</ul></div>
+
+<div class="rc"><div class="rc-title" style="color:var(--accent2)">COMMUNITIES</div><ul class="rl">
+<li><a href="https://discord.gg/tryhackme" target="_blank" style="color:var(--accent2)"><span class="rn">TryHackMe Discord</span><span class="rd">Active security learner community.</span></a></li>
+<li><a href="https://www.reddit.com/r/netsec/" target="_blank" style="color:var(--accent2)"><span class="rn">r/netsec</span><span class="rd">Security news and research. High signal.</span></a></li>
+<li><a href="https://www.reddit.com/r/netsecstudents/" target="_blank" style="color:var(--accent2)"><span class="rn">r/netsecstudents</span><span class="rd">For learners. Ask questions freely.</span></a></li>
+<li><a href="https://www.reddit.com/r/MachineLearning/" target="_blank" style="color:var(--accent2)"><span class="rn">r/MachineLearning</span><span class="rd">Research-focused ML discussions.</span></a></li>
+<li><a href="https://defcon.org/html/links/dc-forums.html" target="_blank" style="color:var(--accent2)"><span class="rn">Defcon Forums</span><span class="rd">Elite security community. Lurk first.</span></a></li>
+</ul></div>
+
+<div class="rc sa-c"><div class="rc-title" style="color:var(--accent4)">&#x2B21; AI &amp; ADVERSARIAL ML</div><ul class="rl">
+<li><a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank" style="color:var(--accent4)"><span class="rn">IBM ART &mdash; Adversarial Robustness</span><span class="rd">Primary adversarial ML toolkit. Phase 3+</span></a></li>
+<li><a href="https://github.com/bethgelab/foolbox" target="_blank" style="color:var(--accent4)"><span class="rn">Foolbox</span><span class="rd">Adversarial attack library. Phase 3+</span></a></li>
+<li><a href="https://flower.dev/docs/" target="_blank" style="color:var(--accent4)"><span class="rn">Flower &mdash; Federated Learning</span><span class="rd">Privacy-preserving ML framework.</span></a></li>
+<li><a href="https://paperswithcode.com" target="_blank" style="color:var(--accent4)"><span class="rn">Papers With Code</span><span class="rd">ML research with implementations.</span></a></li>
+<li><a href="https://huggingface.co" target="_blank" style="color:var(--accent4)"><span class="rn">Hugging Face</span><span class="rd">Pre-trained models and datasets.</span></a></li>
+</ul></div>
+</div>
+</div>
+
+<!-- TECHNICAL WRITING TAB -->
+<div id="tab-writing" class="section">
+<div class="page-header">
+  <div class="page-tag">// Your Primary Portfolio Builder</div>
+  <div class="page-title">Technical Writing</div>
+  <div class="page-sub">Writing is how you build credibility, demonstrate depth, and earn before you have a job. Every article is a permanent asset. Do it properly.</div>
+</div>
+
+<div class="art-tmpl">
+<div class="art-tmpl-title">// THE ARTICLE LIFECYCLE &mdash; FROM IDEA TO PUBLISHED (3&ndash;4 WEEKS PER ARTICLE)</div>
+<ol class="art-steps">
+<li><span><strong>Week 1 &mdash; Research and Comprehension.</strong> Read widely. Follow threads. Ask questions. By end of week you must be able to explain the core concept verbally without notes. If you cannot, the research is not done. Do not move to writing yet.</span></li>
+<li><span><strong>Week 2 &mdash; Skeleton and First Draft.</strong> Write the skeleton first &mdash; a sequence of questions the article answers in order. Then write the first draft all the way through without stopping to edit. Finish it ugly. Do not polish while writing.</span></li>
+<li><span><strong>Week 3 &mdash; Deep Editing and Verification.</strong> Fact-check every specific claim. Verify every number independently. Read the whole article aloud &mdash; where you stumble is where the explanation breaks. Apply the ownership test: close the article and explain the core argument verbally. Where you cannot is where it needs more work.</span></li>
+<li><span><strong>Week 4 &mdash; Polish and Publish.</strong> Format for Hashnode. Write meta description (1&ndash;2 sentences for search). Prepare LinkedIn summary and TikTok hook. Publish Monday or Tuesday morning. Respond to every comment within 48 hours.</span></li>
+</ol>
+</div>
+
+<div style="font-family:var(--mono);font-size:8px;color:var(--accent3);letter-spacing:2px;margin-bottom:12px">// THE QUALITY TEST &mdash; APPLY BEFORE EVERY PUBLISH</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:18px;margin-bottom:28px">
+<ul class="dr">
+<li><span>Can you explain the core argument verbally without looking at the article?</span></li>
+<li><span>Can you define every technical term you used without a dictionary?</span></li>
+<li><span>Is every specific number, CVE reference, and technical claim independently verified?</span></li>
+<li><span>Does every paragraph connect back to the thesis &mdash; or is it filler?</span></li>
+<li><span>Would a technically sophisticated reader learn something they did not already know?</span></li>
+<li><span>Does the opening make your target reader feel this was written specifically for them?</span></li>
+</ul>
+</div>
+
+<div class="wg">
+<div class="wc"><div class="wc-title">RESEARCH TOOLS</div><ul class="wl">
+<li><a href="https://scholar.google.com" target="_blank">Google Scholar &mdash; academic papers free</a></li>
+<li><a href="https://arxiv.org" target="_blank">ArXiv &mdash; preprint research papers</a></li>
+<li><a href="https://semanticscholar.org" target="_blank">Semantic Scholar &mdash; AI-powered paper search</a></li>
+<li><a href="https://nvd.nist.gov" target="_blank">NIST NVD &mdash; official CVE database</a></li>
+<li><a href="https://www.exploit-db.com" target="_blank">Exploit-DB &mdash; public exploit archive</a></li>
+<li><a href="https://paperswithcode.com" target="_blank">Papers With Code &mdash; ML research + code</a></li>
+<li><a href="https://ieeexplore.ieee.org" target="_blank">IEEE Xplore &mdash; technical standards &amp; papers</a></li>
+<li><a href="https://dl.acm.org" target="_blank">ACM Digital Library &mdash; CS research</a></li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">PUBLISHING PLATFORMS</div><ul class="wl">
+<li><a href="https://hashnode.com" target="_blank">Hashnode &mdash; primary blog (developer audience)</a></li>
+<li><a href="https://dev.to" target="_blank">Dev.to &mdash; cross-post all articles</a></li>
+<li><a href="https://medium.com" target="_blank">Medium &mdash; cross-post for wider reach</a></li>
+<li><a href="https://www.linkedin.com" target="_blank">LinkedIn &mdash; share 2&ndash;3 sentence insights + link</a></li>
+<li><a href="https://github.com" target="_blank">GitHub &mdash; every project and code example</a></li>
+<li><a href="https://substack.com" target="_blank">Substack &mdash; newsletter when audience builds</a></li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">WRITING QUALITY TOOLS</div><ul class="wl">
+<li><a href="https://hemingwayapp.com" target="_blank">Hemingway App &mdash; clarity and readability check</a></li>
+<li><a href="https://www.grammarly.com" target="_blank">Grammarly &mdash; grammar and style</a></li>
+<li><a href="https://languagetool.org" target="_blank">LanguageTool &mdash; free grammar checker</a></li>
+<li><a href="https://readable.com" target="_blank">Readable &mdash; readability scoring</a></li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">ARTICLE STRUCTURE GUIDE</div><ul class="wl">
+<li>Opening: the problem the reader recognizes</li>
+<li>Section 1: foundational concept they need first</li>
+<li>Section 2: the main argument or insight</li>
+<li>Section 3: evidence, examples, real data and CVEs</li>
+<li>Section 4: real-world implications today</li>
+<li>Section 5: what the reader does with this knowledge</li>
+<li>Closing: the &ldquo;so what&rdquo; &mdash; not a summary</li>
+<li>Write the introduction LAST &mdash; always</li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">ARTICLE PIPELINE &mdash; 2026</div><ul class="wl">
+<li>Article 1: From 4GB Ceilings to Modern Exploits</li>
+<li>Article 2: The Bootstrapping Problem and Security</li>
+<li>Article 3: Translation Layers &mdash; Code to Hardware</li>
+<li>Article 4: Boot Sequence and Bootkit Attacks</li>
+<li>Article 5+: Topics from current learning</li>
+<li>Cadence: one article every 3&ndash;4 weeks</li>
+<li>Standard: own every word before publishing</li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">TECHNICAL STYLE RULES</div><ul class="wl">
+<li>Define every technical term on first use</li>
+<li>Active voice &mdash; not passive voice ever</li>
+<li>Concrete before abstract &mdash; example first</li>
+<li>Specific numbers beat vague adjectives</li>
+<li>Short sentences for complex ideas</li>
+<li>Transitions carry logical meaning not just connection</li>
+<li>One idea per paragraph. Never more.</li>
+<li>Verify every claim from an independent source</li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">VIDEO CONTENT STRATEGY</div><ul class="wl">
+<li>TikTok/Reels: 60&ndash;90s hooks &mdash; trigger curiosity only</li>
+<li>YouTube: 15&ndash;20min explainer documentary style</li>
+<li>Use your real voice always &mdash; even over AI avatar</li>
+<li><a href="https://www.heygen.com" target="_blank">HeyGen &mdash; realistic AI avatar tool</a></li>
+<li>Short form = discovery engine pointing to YouTube</li>
+<li>Start YouTube Month 7+ using existing articles</li>
+<li>Real face on TikTok from the beginning</li>
+<li>One article &rarr; four content pieces across platforms</li>
+</ul></div>
+
+<div class="wc"><div class="wc-title">VOCABULARY BUILDING</div><ul class="wl">
+<li>Read Google Project Zero posts actively</li>
+<li>Read security research papers even partially</li>
+<li>Keep a vocabulary doc: word + definition + example in context</li>
+<li>Use new words in next article intentionally</li>
+<li>Read well-regarded technical blogs weekly</li>
+<li>Precision words: specific not vague</li>
+<li>Hedging vocab: &ldquo;suggests&rdquo; not &ldquo;proves&rdquo; for uncertain claims</li>
+<li>Transition words that carry logical relationships</li>
+</ul></div>
+</div>
+</div>
+
+<!-- DISCIPLINE TAB -->
+<div id="tab-discipline" class="section">
+<div class="page-header">
+  <div class="page-tag">// Structure Over Motivation</div>
+  <div class="page-title" style="color:var(--accent6)">Discipline Guide</div>
+  <div class="page-sub">Motivation is temporary and unreliable. Discipline is structural. This section is not here to make you feel good. It is here to keep you grounded when nothing else does.</div>
+</div>
+
+<div class="nb">
+<div class="nb-title">// ON FILTERING NOISE &mdash; READ THIS WHEN YOU OPEN X OR TIKTOK</div>
+<div class="nb-body">
+Every week there is a story about someone making life-changing money from an AI tool, a crypto play, or a viral video. <strong>The story is always incomplete.</strong> What X does not show you is the existing skills that made it possible, the failed attempts before the one that worked, or the ten people who tried the same thing and made nothing.<br><br>
+The filter to apply before reacting: <strong>does this person have skills I do not yet have that made this possible?</strong> If yes &mdash; the lesson is not &ldquo;chase this opportunity.&rdquo; The lesson is &ldquo;build those skills.&rdquo; That reframe turns FOMO into directional motivation.<br><br>
+<strong>You are allowed 15 minutes of intentional news reading per day.</strong> Hacker News. ArXiv titles. One security blog. Then close it. Passive scrolling is not staying current &mdash; it is training your brain to want shortcuts.
+</div>
+</div>
+
+<div class="dg">
+<div class="dc"><div class="dc-title">DAILY STRUCTURE</div><ul class="dr">
+<li><span><strong>Morning block (2 hrs):</strong> Deep technical work. The hardest thing first. No phone, no social media. This is when your brain is sharpest. Protect it fiercely.</span></li>
+<li><span><strong>Afternoon block (1.5 hrs):</strong> Lighter work &mdash; reading, research, article writing, course videos. Active engagement with notes. Not passive consumption.</span></li>
+<li><span><strong>Evening block (1 hr):</strong> Review the day. What do you understand now that you did not this morning? Write it down. Plan tomorrow specifically &mdash; not vaguely.</span></li>
+<li><span><strong>Sunday review (30 min):</strong> Update the progress tracker. What was the gap between planned and actual work? Close that gap next week specifically.</span></li>
+</ul></div>
+
+<div class="dc"><div class="dc-title">THE ACCOUNTABILITY RULES</div><ul class="dr">
+<li><span>Every week without a GitHub commit is a week wasted. Commit something &mdash; even notes, even a README update. The streak is the public record.</span></li>
+<li><span>Every month without a published article is a month of credibility not built. Publish on schedule regardless of how the article feels.</span></li>
+<li><span>If you miss a day, do not try to catch up. Resume normally the next day. Catch-up pressure creates unsustainable cycles.</span></li>
+<li><span>Comparing your progress to others at different stages is irrational. Compare only to yourself one month ago. The gap should be closing.</span></li>
+</ul></div>
+
+<div class="dc"><div class="dc-title">WHEN YOU FEEL LIKE QUITTING</div><ul class="dr">
+<li><span>You are not behind. The 10-year horizon accommodates real life &mdash; power cuts, broken laptops, health, family. These are not setbacks. They are the normal texture of a decade.</span></li>
+<li><span>The feeling that you are not making progress is almost always false. Read your notes from 4 weeks ago. You understand things now that confused you then. That is progress.</span></li>
+<li><span>Do the smallest possible thing instead of nothing. 20 minutes of Bandit. One paragraph of research. One git commit. Starting always beats not starting.</span></li>
+<li><span>The people who succeed in this field are not the most talented. They are the ones who kept going when it was inconvenient and unglamorous &mdash; which is most of the time.</span></li>
+</ul></div>
+
+<div class="dc"><div class="dc-title">ON MONEY AND PATIENCE</div><ul class="dr">
+<li><span>The roadmap does not get you rich quickly. It gets you to a position where significant wealth becomes structurally possible. These are completely different things.</span></li>
+<li><span>The first article earns nothing. The first ten build an audience. The first twenty build credibility. The first fifty build a reputation. Reputation earns money. Start the count now.</span></li>
+<li><span>You are 20. Every person you admire who built something significant started earlier than the public story suggests and worked longer than the headline implies.</span></li>
+<li><span>The boy who made $33,000 from an AI bot will not make $33,000 from that same bot in two years. The engineer who built deep expertise in 2026 earns more every subsequent year.</span></li>
+</ul></div>
+
+<div class="dc"><div class="dc-title">WHAT GENUINE PROGRESS LOOKS LIKE</div><ul class="dr">
+<li><span>You can explain things you learned last month to someone else without referencing notes.</span></li>
+<li><span>Problems that confused you before now have obvious first steps even if the full solution is not clear yet.</span></li>
+<li><span>You encounter new technical terms and can roughly place them in context from existing knowledge.</span></li>
+<li><span>You notice when something you are reading is shallow or inaccurate &mdash; that recognition is itself a skill.</span></li>
+<li><span>Your GitHub shows consistent activity. Not perfect activity. Consistent.</span></li>
+</ul></div>
+
+<div class="dc"><div class="dc-title">THE STANDARD TO HOLD</div><ul class="dr">
+<li><span><strong>On articles:</strong> Publish nothing you cannot defend in a conversation. Own every word before it goes live.</span></li>
+<li><span><strong>On learning:</strong> Move on only when you can explain it without looking. Shallow coverage of many things is worth less than deep understanding of fewer things.</span></li>
+<li><span><strong>On AI tools:</strong> Use them to understand and verify. Never use them to replace the thinking. The thinking is the skill being built.</span></li>
+<li><span><strong>On time:</strong> Three focused hours beat eight distracted ones. Every time. Guard your deep work blocks.</span></li>
+<li><span><strong>On setbacks:</strong> A broken laptop, a failed install, a week of illness &mdash; acknowledge and continue. Not excuses. Context.</span></li>
+</ul></div>
+</div>
+</div>
+
+
+<!-- LINUX DUAL BOOT GUIDE TAB -->
+<div id="tab-linuxsetup" class="section">
+<div class="page-header">
+  <div class="page-tag">// Hard Won Knowledge</div>
+  <div class="page-title" style="color:var(--accent2)">Linux Dual Boot Guide</div>
+  <div class="page-sub">Everything learned from the installation process documented here so you never repeat the same mistakes. Read this fully before touching a partition.</div>
+</div>
+
+<div style="background:#0a0f1a;border:1px solid var(--accent2);border-left:4px solid var(--accent2);padding:16px 20px;margin-bottom:36px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9">
+  <div style="color:var(--accent2);font-size:9px;letter-spacing:2px;margin-bottom:8px">// READ THIS FIRST &mdash; BEFORE ANYTHING ELSE</div>
+  The dual boot process is not difficult when done in the right order. Every problem encountered during this roadmap&apos;s Linux installation came from doing steps out of order, not understanding what each partition does, or interrupting processes midway. This guide fixes all of that.
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// PRE-INSTALLATION CHECKLIST &mdash; ALL MUST BE TRUE BEFORE STARTING</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:32px">
+<ul class="dr">
+<li><span><strong>Back up all important data first.</strong> Copy documents, Git repos, downloads to an external drive or cloud storage. Non-negotiable. If anything goes wrong your data is safe.</span></li>
+<li><span><strong>Confirm BIOS is set to UEFI mode.</strong> Press F2 on startup, go to Boot settings, confirm Boot List Option shows UEFI not Legacy.</span></li>
+<li><span><strong>Confirm Secure Boot is OFF.</strong> In BIOS under Secure Boot settings. Must be disabled for Linux to boot.</span></li>
+<li><span><strong>Have at least 40GB free space on your Windows drive.</strong> Check in File Explorer &rarr; right click C drive &rarr; Properties. 50-60GB is better.</span></li>
+<li><span><strong>Have an 8GB+ USB drive available.</strong> Everything on it will be wiped. Back up anything on it first.</span></li>
+<li><span><strong>Have a stable power source.</strong> Never do partition work or OS installation on battery alone. Plug in throughout.</span></li>
+<li><span><strong>Download Linux Mint ISO</strong> from <a href="https://linuxmint.com/download.php" target="_blank">linuxmint.com</a> &mdash; choose Cinnamon edition, 64-bit.</span></li>
+<li><span><strong>Download Rufus</strong> from <a href="https://rufus.ie" target="_blank">rufus.ie</a> &mdash; about 1MB, no installation needed.</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// STEP 1 &mdash; SHRINK WINDOWS PARTITION</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+<div style="font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9;margin-bottom:14px">Before shrinking, free up as much space as possible so Windows allows a larger shrink amount. Open Command Prompt as Administrator and run:</div>
+<ul class="dr">
+<li><span>Disable hibernation to free several GB: <strong>powercfg /h off</strong></span></li>
+<li><span>Run Disk Cleanup as Administrator &mdash; search Disk Cleanup, click Clean up system files, check everything including Windows Update Cleanup</span></li>
+<li><span>Disable System Restore temporarily &mdash; search Create a restore point &rarr; Configure &rarr; Disable system protection on C drive</span></li>
+<li><span>Then open Disk Management: right click Start &rarr; Disk Management</span></li>
+<li><span>Right click your C drive &rarr; Shrink Volume &rarr; enter 51200 for 50GB or 61440 for 60GB</span></li>
+<li><span>If Windows only allows a small shrink amount it means unmovable files are blocking it. Run defragmentation and try again.</span></li>
+<li><span>The shrunk space appears as Unallocated &mdash; leave it unallocated. Do not create a new partition. The Linux installer does that.</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// STEP 2 &mdash; CREATE BOOTABLE USB CORRECTLY</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+<div style="font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9;margin-bottom:14px">This step is critical. Do not copy the ISO file to the USB drive directly &mdash; that never works. Use Rufus with these exact settings:</div>
+<ul class="dr">
+<li><span>Open Rufus, plug in USB drive, select it in the Device dropdown</span></li>
+<li><span>Click SELECT and choose your Linux Mint ISO file</span></li>
+<li><span><strong>Partition scheme: GPT</strong> &mdash; your drive is GPT after UEFI setup</span></li>
+<li><span><strong>Target system: UEFI (non CSM)</strong> &mdash; matches your BIOS mode</span></li>
+<li><span>File system: FAT32 &mdash; Rufus sets this automatically</span></li>
+<li><span>Click START, confirm the warning, let it complete fully</span></li>
+<li><span>When Rufus says READY the USB is correctly bootable</span></li>
+</ul>
+<div style="margin-top:12px;padding:10px;background:#0a0f1a;border:1px solid #1e2a3a;font-family:var(--mono);font-size:10px;color:var(--accent6)">
+&#9888; If you get a Rufus warning about Secure Boot &mdash; click OK and continue. Since Secure Boot is already off this warning is irrelevant.
+</div>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// STEP 3 &mdash; BOOT FROM USB</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+<ul class="dr">
+<li><span>Plug USB into laptop and restart</span></li>
+<li><span>Immediately press F12 repeatedly as soon as the Dell logo appears &mdash; this opens the one-time boot menu</span></li>
+<li><span>Select the USB entry that shows <strong>UEFI:</strong> prefix before the USB drive name. Not the entry without UEFI prefix.</span></li>
+<li><span>If lines appear on screen after selecting &mdash; wait. Do not restart. The display initialises after 30-60 seconds and the Linux Mint menu appears.</span></li>
+<li><span>Select <strong>Start Linux Mint</strong> from the menu</span></li>
+<li><span>Linux Mint will boot into a live session &mdash; a full working desktop running from the USB</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// STEP 4 &mdash; INSTALLATION</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+<ul class="dr">
+<li><span>Double click <strong>Install Linux Mint</strong> on the desktop</span></li>
+<li><span>Select language and keyboard layout, click Continue</span></li>
+<li><span>On Installation type screen select <strong>Something else</strong> for manual partitioning &mdash; gives you full control</span></li>
+<li><span>You will see your partitions listed. Find the Unallocated space you created in Step 1.</span></li>
+<li><span>Click the unallocated space, click the + button to create a new partition</span></li>
+<li><span>Create root partition: use all the unallocated space, type Ext4, mount point <strong>/</strong> (forward slash)</span></li>
+<li><span>For swap: if you have 4GB RAM create a 4GB swap partition before the root partition. Type: swap area.</span></li>
+<li><span><strong>Boot loader location: select your main drive</strong> &mdash; usually /dev/sda. Not a specific partition. The drive itself.</span></li>
+<li><span>Click Install Now and confirm. Let it run completely &mdash; 15 to 30 minutes. Do not interrupt it.</span></li>
+<li><span>When asked to restart &mdash; remove USB when prompted and press Enter</span></li>
+</ul>
+<div style="margin-top:12px;padding:10px;background:#0a0f1a;border:1px solid #2a1515;font-family:var(--mono);font-size:10px;color:var(--accent6)">
+&#9888; CRITICAL: Never interrupt the installation once it starts copying files. If power cuts or you force restart during installation the partition will be corrupted and require a full reinstall. Stay plugged in throughout.
+</div>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// STEP 5 &mdash; AFTER INSTALLATION</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+<ul class="dr">
+<li><span>On restart you will see <strong>GRUB bootloader</strong> &mdash; a menu asking which OS to boot. This is normal and correct.</span></li>
+<li><span>Select Linux Mint to boot into Linux. Select Windows Boot Manager to boot into Windows.</span></li>
+<li><span>If Windows does not appear in GRUB menu: boot into Linux Mint, open Terminal and type <strong>sudo update-grub</strong>. This scans for all operating systems and updates the menu.</span></li>
+<li><span>In Linux Mint open Terminal and run: <strong>sudo apt update &amp;&amp; sudo apt upgrade</strong> to update all packages.</span></li>
+<li><span>Install essential tools: <strong>sudo apt install git python3 python3-pip nano curl wget</strong></span></li>
+<li><span>Re-enable hibernation in Windows if you disabled it: open Windows Command Prompt as admin and type <strong>powercfg /h on</strong></span></li>
+<li><span>Re-enable System Restore in Windows if you disabled it</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent6);letter-spacing:2px;margin-bottom:16px">// CRITICAL LESSONS &mdash; WHAT NOT TO DO</div>
+<div style="background:#0a0808;border:1px solid #2a1515;padding:20px;margin-bottom:32px">
+<ul class="dr">
+<li><span><strong>Never delete all EFI partitions.</strong> The EFI partition (usually 100MB FAT32) is what allows UEFI to boot any operating system. Deleting it locks you out of booting from any source including USB drives.</span></li>
+<li><span><strong>Never interrupt an installation once file copying begins.</strong> A partial installation is worse than no installation. The partition ends up in a broken half-state that requires complete reinstallation to fix.</span></li>
+<li><span><strong>Never convert MBR to GPT without understanding the implications.</strong> Once converted Legacy boot mode is locked out in BIOS on Dell machines. All subsequent USB drives must be created in GPT/UEFI mode.</span></li>
+<li><span><strong>Never modify partition table entries without knowing exactly what each partition does.</strong> Before deleting any partition: identify its type, size, and role. System partitions, EFI partitions, and recovery partitions all serve specific functions.</span></li>
+<li><span><strong>Always have a backup before touching partitions.</strong> Partition operations are irreversible. Data loss from partition mistakes is permanent.</span></li>
+<li><span><strong>If something unexpected happens during installation &mdash; stop and research before proceeding.</strong> An interrupted decision is recoverable. A wrong completed action often is not.</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// UNDERSTANDING YOUR PARTITION TABLE</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:32px">
+<div style="font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9;margin-bottom:12px">A standard Windows 10/11 GPT installation creates these partitions automatically. Know what each one is before touching anything:</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px">
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">EFI SYSTEM PARTITION</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">100MB FAT32. Contains bootloader files. UEFI firmware looks here first on every boot. Never delete this.</div></div>
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">MSR PARTITION</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">16MB Reserved. Required by Windows on GPT disks. No filesystem visible. Do not touch.</div></div>
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">WINDOWS PARTITION</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">Large NTFS partition. Your C drive. Windows system files and personal data live here.</div></div>
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">RECOVERY PARTITION</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">500MB+ NTFS. Windows Recovery Environment. Used for repair and reset options. Safe to keep.</div></div>
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">LINUX ROOT /</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">ext4 partition you create. Minimum 40GB. The entire Linux operating system and your files live here.</div></div>
+<div style="padding:12px;background:var(--bg);border:1px solid var(--border)"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);margin-bottom:4px">SWAP PARTITION</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.6">Optional. Equal to RAM size (4GB for your machine). Used as overflow when RAM is full. Helps with 4GB RAM systems.</div></div>
+</div>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// TROUBLESHOOTING COMMON PROBLEMS</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:32px">
+<ul class="dr">
+<li><span><strong>USB not booting:</strong> Confirm BIOS Boot List is UEFI. Press F12 for one-time boot menu. Select the UEFI: USB entry not the plain USB entry. Check Secure Boot is off.</span></li>
+<li><span><strong>Rufus BIOS/Legacy boot error on screen:</strong> You booted the USB in Legacy mode. Go to BIOS, confirm UEFI mode, press F12 and select the correct UEFI USB entry.</span></li>
+<li><span><strong>Windows disappears from GRUB after Linux install:</strong> Boot Linux, open Terminal, type sudo update-grub. Windows will reappear in the boot menu.</span></li>
+<li><span><strong>Cannot shrink Windows partition enough:</strong> Run powercfg /h off, Disk Cleanup with system files, disable System Restore temporarily. Then try shrinking again.</span></li>
+<li><span><strong>Installation fails with partition error:</strong> Do not force retry immediately. Boot into live Linux session, open GParted (comes with Linux Mint), check the partition layout carefully before proceeding.</span></li>
+<li><span><strong>Black screen after selecting Linux in GRUB:</strong> Wait up to 60 seconds. If still black, restart and at GRUB menu press E to edit, find the line with quiet splash and change to nomodeset, press F10 to boot. This is a graphics driver issue that resolves after installing proper drivers.</span></li>
+</ul>
+</div>
+
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:2px;margin-bottom:16px">// RESOURCES</div>
+<div class="rg">
+<div class="rc"><div class="rc-title" style="color:var(--accent2)">LINUX MINT OFFICIAL</div><ul class="rl">
+<li><a href="https://linuxmint.com/download.php" target="_blank" style="color:var(--accent2)"><span class="rn">Linux Mint Download</span><span class="rd">Download Cinnamon 64-bit edition</span></a></li>
+<li><a href="https://linuxmint.com/documentation.php" target="_blank" style="color:var(--accent2)"><span class="rn">Linux Mint Installation Guide</span><span class="rd">Official installation documentation</span></a></li>
+<li><a href="https://forums.linuxmint.com" target="_blank" style="color:var(--accent2)"><span class="rn">Linux Mint Forums</span><span class="rd">Community support for installation issues</span></a></li>
+</ul></div>
+<div class="rc"><div class="rc-title" style="color:var(--accent2)">TOOLS</div><ul class="rl">
+<li><a href="https://rufus.ie" target="_blank" style="color:var(--accent2)"><span class="rn">Rufus</span><span class="rd">Create bootable USB drives correctly. Free. 1MB download.</span></a></li>
+<li><a href="https://gparted.org" target="_blank" style="color:var(--accent2)"><span class="rn">GParted</span><span class="rd">Partition editor. Comes with Linux Mint live session.</span></a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" style="color:var(--accent2)"><span class="rn">VirtualBox</span><span class="rd">Run Linux inside Windows. Alternative to dual boot on low RAM machines.</span></a></li>
+</ul></div>
+</div>
+</div>
+
+
+<!-- JOURNAL TAB -->
+<div id="tab-journal" class="section">
+<div class="page-header">
+  <div class="page-tag">// Document the Journey</div>
+  <div class="page-title" style="color:var(--accent5)">My Journey Journal</div>
+  <div class="page-sub">Your public record of growth. Write honestly. Date everything. This becomes your portfolio when hosted on GitHub Pages. The story of how you got there is as valuable as where you end up.</div>
+</div>
+
+<div style="background:#0a0f08;border:1px solid #1e3020;border-left:4px solid var(--accent5);padding:16px 20px;margin-bottom:36px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9">
+  <div style="color:var(--accent5);font-size:9px;letter-spacing:2px;margin-bottom:8px">// HOW TO USE THIS JOURNAL</div>
+  Update this file monthly. Be honest &mdash; struggles are as valuable as wins. When you host this publicly on GitHub Pages, readers will trust you more because you documented the real journey not a highlight reel. Every entry you write now is evidence of consistency that no certificate can replicate.
+</div>
+
+<!-- MONTHLY ENTRIES -->
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:20px">// MONTHLY ENTRIES &mdash; WRITE ONE AT THE END OF EACH MONTH</div>
+
+<!-- APRIL 2026 -->
+<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent5);padding:24px;margin-bottom:16px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:4px">MONTH 01</div>
+      <div style="font-size:18px;font-weight:700">April 2026</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">Phase 1 begins &mdash; Linux, CLI, Python foundations</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right">
+      <div style="color:var(--accent5)">Phase 1</div>
+      <div>Month 1 of 10</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:1px;margin-bottom:8px">// WHAT I LEARNED</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true" style="outline:none">Write here: key concepts, commands, and ideas that clicked this month...</div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--accent3);letter-spacing:1px;margin-bottom:8px">// WHAT I BUILT</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true" style="outline:none">Write here: projects completed, scripts written, things pushed to GitHub...</div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--accent6);letter-spacing:1px;margin-bottom:8px">// WHAT WAS HARD</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true" style="outline:none">Write here: struggles, confusing concepts, problems hit and how you solved them...</div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:8px">// NEXT MONTH FOCUS</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true" style="outline:none">Write here: what you plan to tackle next month specifically...</div>
+    </div>
+  </div>
+  <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+    <div style="font-family:var(--mono);font-size:8px;color:var(--accent2);letter-spacing:1px;margin-bottom:8px">// HONEST SELF ASSESSMENT &mdash; Rate 1 to 5 where 1 = just started, 5 = can teach it</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:10px;color:var(--muted)">
+      <div>Linux CLI: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+      <div>Python: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+      <div>Git: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+      <div>Networking: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+      <div>Security Concepts: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+      <div>System Architecture: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Template months May through January - collapsed -->
+<div id="future-months" style="display:flex;flex-direction:column;gap:12px">
+</div>
+
+<div style="text-align:center;margin:24px 0">
+  <button onclick="addMonth()" style="font-family:var(--mono);font-size:10px;color:var(--accent5);background:transparent;border:1px solid var(--accent5);padding:10px 24px;cursor:pointer;letter-spacing:1px;transition:all .2s" onmouseover="this.style.background='#1a1500'" onmouseout="this.style.background='transparent'">+ ADD NEXT MONTH ENTRY</button>
+</div>
+
+<!-- ARTICLE LOG -->
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin:36px 0 16px">// ARTICLE LOG &mdash; ADD EVERY ARTICLE YOU PUBLISH</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+  <div style="display:grid;grid-template-columns:120px 1fr 180px 100px;gap:12px;font-family:var(--mono);font-size:9px;color:var(--muted2);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:12px">
+    <div>DATE</div><div>TITLE</div><div>PLATFORM + LINK</div><div>VIEWS</div>
+  </div>
+  <div id="article-log">
+    <div style="display:grid;grid-template-columns:120px 1fr 180px 100px;gap:12px;font-family:var(--mono);font-size:10px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border)">
+      <div contenteditable="true" style="outline:none">Apr 2026</div>
+      <div contenteditable="true" style="outline:none">From 4GB Ceilings to Modern Exploits...</div>
+      <div contenteditable="true" style="outline:none">Hashnode &mdash; link here</div>
+      <div contenteditable="true" style="outline:none">0</div>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <button onclick="addArticle()" style="font-family:var(--mono);font-size:9px;color:var(--accent);background:transparent;border:1px solid var(--border);padding:6px 14px;cursor:pointer;letter-spacing:1px">+ ADD ARTICLE</button>
+  </div>
+</div>
+
+<!-- PROJECT LOG -->
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:16px">// PROJECT LOG &mdash; ADD EVERY GITHUB PROJECT</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+  <div id="project-log">
+    <div style="background:var(--bg);border:1px solid var(--border);padding:14px;margin-bottom:8px">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin-bottom:6px">PROJECT 01</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted)">
+        <div>Name: <span contenteditable="true" style="outline:none;color:var(--text)">Project name here</span></div>
+        <div>GitHub: <span contenteditable="true" style="outline:none;color:var(--accent)">github.com/username/repo</span></div>
+        <div style="grid-column:1/-1">What it does: <span contenteditable="true" style="outline:none">Describe the project...</span></div>
+        <div style="grid-column:1/-1">What it taught me: <span contenteditable="true" style="outline:none">Key learning from building this...</span></div>
+        <div style="grid-column:1/-1">What I would do differently: <span contenteditable="true" style="outline:none">Honest retrospective...</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <button onclick="addProject()" style="font-family:var(--mono);font-size:9px;color:var(--accent);background:transparent;border:1px solid var(--border);padding:6px 14px;cursor:pointer;letter-spacing:1px">+ ADD PROJECT</button>
+  </div>
+</div>
+
+<!-- OBSTACLES LOG -->
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:16px">// OBSTACLES LOG &mdash; PROBLEMS HIT AND HOW YOU SOLVED THEM</div>
+<div style="background:var(--surface);border:1px solid var(--border);padding:20px;margin-bottom:24px">
+  <div style="font-family:var(--mono);font-size:10px;color:var(--muted2);margin-bottom:12px">The Linux dual boot installation is already worth documenting here. It demonstrates real systems knowledge.</div>
+  <div id="obstacles-log">
+    <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent6);padding:14px;margin-bottom:8px">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--accent6);letter-spacing:1px;margin-bottom:6px">OBSTACLE 01 &mdash; March/April 2026</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8">
+        <div><strong style="color:var(--text)">Problem:</strong> <span contenteditable="true" style="outline:none">Linux dual boot installation &mdash; corrupted bootloader, multiple EFI partitions, interrupted installation cycles</span></div>
+        <div style="margin-top:6px"><strong style="color:var(--text)">What I learned:</strong> <span contenteditable="true" style="outline:none">EFI partition purpose, GPT vs MBR, bootloader configuration, BCD structure, partition table management, chkdsk, diskpart, bootrec, bcdboot commands</span></div>
+        <div style="margin-top:6px"><strong style="color:var(--text)">How it was resolved:</strong> <span contenteditable="true" style="outline:none">Fresh Windows installation after connecting drive to external computer, then successful Linux dual boot installation</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <button onclick="addObstacle()" style="font-family:var(--mono);font-size:9px;color:var(--accent6);background:transparent;border:1px solid var(--border);padding:6px 14px;cursor:pointer;letter-spacing:1px">+ ADD OBSTACLE</button>
+  </div>
+</div>
+
+<!-- GITHUB PAGES GUIDE -->
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:16px">// HOSTING THIS AS YOUR PORTFOLIO &mdash; GITHUB PAGES</div>
+<div style="background:#0a0f08;border:1px solid #1e3020;padding:20px;margin-bottom:32px">
+<ul class="dr">
+<li><span>When you are ready to go public: create a GitHub repository named <strong>yourusername.github.io</strong></span></li>
+<li><span>Save this HTML file as index.html and push it to that repository</span></li>
+<li><span>Go to repository Settings &rarr; Pages &rarr; select main branch as source</span></li>
+<li><span>Your portfolio is live at <strong>yourusername.github.io</strong> &mdash; free, permanent, professional</span></li>
+<li><span>Every time you update the file and push to GitHub the live site updates automatically</span></li>
+<li><span>This domain is respected in the technical community &mdash; better than Google Sites for your audience</span></li>
+<li><span>Add the URL to your LinkedIn, Hashnode bio, HackerOne profile, and every application you submit</span></li>
+</ul>
+</div>
+
+</div>
+
+<script>
+// Journal JavaScript additions
+var monthCount = 1;
+var monthNames = ['May','June','July','August','September','October','November','December','January','February','March'];
+var monthPhases = ['Month 2 of 10','Month 3 of 10','Month 4 of 10','Month 5 of 10','Month 6 of 10','Month 7 of 10','Month 8 of 10','Month 9 of 10','Month 10 of 10 &mdash; Phase 1 Complete','Phase 2 begins','Phase 2 Month 2'];
+var monthYear = ['2026','2026','2026','2026','2026','2026','2026','2026','2027','2027','2027'];
+
+function addMonth() {
+  if (monthCount >= monthNames.length) return;
+  var container = document.getElementById('future-months');
+  var month = monthNames[monthCount];
+  var year = monthYear[monthCount];
+  var phase = monthPhases[monthCount];
+  var html = '<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent5);padding:24px">' +
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px">' +
+    '<div><div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:4px">MONTH ' + String(monthCount+1).padStart(2,'0') + '</div>' +
+    '<div style="font-size:18px;font-weight:700">' + month + ' ' + year + '</div>' +
+    '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">' + phase + '</div></div></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">' +
+    '<div style="background:var(--bg);border:1px solid var(--border);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:1px;margin-bottom:8px">// WHAT I LEARNED</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true">Write here...</div></div>' +
+    '<div style="background:var(--bg);border:1px solid var(--border);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent3);letter-spacing:1px;margin-bottom:8px">// WHAT I BUILT</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true">Write here...</div></div>' +
+    '<div style="background:var(--bg);border:1px solid var(--border);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent6);letter-spacing:1px;margin-bottom:8px">// WHAT WAS HARD</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true">Write here...</div></div>' +
+    '<div style="background:var(--bg);border:1px solid var(--border);padding:14px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:8px">// NEXT MONTH FOCUS</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8" contenteditable="true">Write here...</div></div>' +
+    '</div>' +
+    '<div style="background:var(--bg);border:1px solid var(--border);padding:14px">' +
+    '<div style="font-family:var(--mono);font-size:8px;color:var(--accent2);letter-spacing:1px;margin-bottom:8px">// SELF ASSESSMENT &mdash; Rate 1 to 5</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:10px;color:var(--muted)">' +
+    '<div>Linux CLI: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '<div>Python: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '<div>Git: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '<div>Security: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '<div>Web Dev: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '<div>SA Thinking: <span style="color:var(--accent5)" contenteditable="true">_/5</span></div>' +
+    '</div></div></div>';
+  container.insertAdjacentHTML('beforeend', html);
+  monthCount++;
+}
+
+var articleCount = 2;
+function addArticle() {
+  var log = document.getElementById('article-log');
+  var html = '<div style="display:grid;grid-template-columns:120px 1fr 180px 100px;gap:12px;font-family:var(--mono);font-size:10px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border)">' +
+    '<div contenteditable="true" style="outline:none">Month Year</div>' +
+    '<div contenteditable="true" style="outline:none">Article title here</div>' +
+    '<div contenteditable="true" style="outline:none">Platform &mdash; link</div>' +
+    '<div contenteditable="true" style="outline:none">0</div>' +
+    '</div>';
+  log.insertAdjacentHTML('beforeend', html);
+  articleCount++;
+}
+
+var projectCount = 2;
+function addProject() {
+  var log = document.getElementById('project-log');
+  var html = '<div style="background:var(--bg);border:1px solid var(--border);padding:14px;margin-bottom:8px">' +
+    '<div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin-bottom:6px">PROJECT ' + String(projectCount).padStart(2,'0') + '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted)">' +
+    '<div>Name: <span contenteditable="true" style="outline:none;color:var(--text)">Project name</span></div>' +
+    '<div>GitHub: <span contenteditable="true" style="outline:none;color:var(--accent)">github.com/username/repo</span></div>' +
+    '<div style="grid-column:1/-1">What it does: <span contenteditable="true" style="outline:none">Description...</span></div>' +
+    '<div style="grid-column:1/-1">What it taught me: <span contenteditable="true" style="outline:none">Key learning...</span></div>' +
+    '<div style="grid-column:1/-1">Would do differently: <span contenteditable="true" style="outline:none">Retrospective...</span></div>' +
+    '</div></div>';
+  log.insertAdjacentHTML('beforeend', html);
+  projectCount++;
+}
+
+var obstacleCount = 2;
+function addObstacle() {
+  var log = document.getElementById('obstacles-log');
+  var html = '<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent6);padding:14px;margin-bottom:8px">' +
+    '<div style="font-family:var(--mono);font-size:9px;color:var(--accent6);letter-spacing:1px;margin-bottom:6px">OBSTACLE ' + String(obstacleCount).padStart(2,'0') + '</div>' +
+    '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8">' +
+    '<div><strong style="color:var(--text)">Problem:</strong> <span contenteditable="true" style="outline:none">Describe the obstacle...</span></div>' +
+    '<div style="margin-top:6px"><strong style="color:var(--text)">What I learned:</strong> <span contenteditable="true" style="outline:none">What this taught you...</span></div>' +
+    '<div style="margin-top:6px"><strong style="color:var(--text)">How resolved:</strong> <span contenteditable="true" style="outline:none">How you got past it...</span></div>' +
+    '</div></div>';
+  log.insertAdjacentHTML('beforeend', html);
+  obstacleCount++;
+}
+</script>
+
+<div id="tab-routine" class="section">
+<div class="page-header">
+<div class="page-tag">// Show Up Every Day</div>
+<div class="page-title" style="color:var(--accent5)">Daily Routine</div>
+<div class="page-sub">Two versions: Intense for when locked in, Flexible for when life is harder. Both run 9AM to 6PM. Click any block to edit it. The routine that works is the one you actually follow.</div>
+</div>
+<div style="background:#0a0f08;border:1px solid #1e3020;border-left:4px solid var(--accent5);padding:16px 20px;margin-bottom:28px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9">
+<div style="color:var(--accent5);font-size:9px;letter-spacing:2px;margin-bottom:8px">// THE TRUTH ABOUT DISCIPLINE</div>
+Discipline is not a personality trait you either have or do not have. It is a system you build so that the right action is easier than the wrong one. The routine is the discipline. Follow the structure even when you do not feel like it. Especially when you do not feel like it.
+</div>
+<div class="rleg">
+<div class="rleg-i"><div class="rleg-box" style="background:#0a1510;border-color:#1e3a2a"></div>Roadmap Study</div>
+<div class="rleg-i"><div class="rleg-box" style="background:#0a0a1a;border-color:#1e1e3a"></div>Music Practice</div>
+<div class="rleg-i"><div class="rleg-box" style="background:#0f0a1a;border-color:#2a1a3a"></div>Personal Study</div>
+<div class="rleg-i"><div class="rleg-box" style="background:#0a0f08;border-color:#1a2a1a"></div>Research / Writing</div>
+<div class="rleg-i"><div class="rleg-box" style="background:#0a0a0f;border-color:#1a1a2a"></div>Reading</div>
+<div class="rleg-i"><div class="rleg-box" style="background:#111;border-color:#1e1e1e"></div>Break</div>
+</div>
+<div class="rtabs">
+<button class="rtab active" onclick="showRV('intense',this)">Intense Mode</button>
+<button class="rtab" onclick="showRV('flexible',this)">Flexible Mode</button>
+<button class="rtab" onclick="showRV('wednesday',this)">Wednesday (Short)</button>
+</div>
+
+<div id="rv-intense" class="rview active">
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:14px">// INTENSE MODE &mdash; MON, TUE, THU, FRI, SAT &mdash; USE WHEN LOCKED IN</div>
+<div class="rg2-wrap"><div class="rg2" id="ig"></div></div>
+</div>
+<div id="rv-flexible" class="rview">
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:14px">// FLEXIBLE MODE &mdash; USE WHEN CONSISTENCY IS THE GOAL NOT INTENSITY</div>
+<div class="rg2-wrap"><div class="rg2" id="fg"></div></div>
+</div>
+<div id="rv-wednesday" class="rview">
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:14px">// WEDNESDAY &mdash; SHORT DAY. KEEP THE STREAK ALIVE.</div>
+<div class="rg2-wrap"><div class="rg2" id="wg2"></div></div>
+</div>
+<div style="margin-top:36px">
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent5);letter-spacing:2px;margin-bottom:16px">// WEEKLY OVERVIEW</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:28px">
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:1px;margin-bottom:6px">MONDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Fresh start. Hardest task first. Set the week tone. No social media before noon.</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent2);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent2);letter-spacing:1px;margin-bottom:6px">TUESDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Deep work. Ride Monday momentum. Article research or writing. Music session.</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent6);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent6);letter-spacing:1px;margin-bottom:6px">WEDNESDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Short day. Away most of the day. Minimum viable study. Keep streak alive.</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent3);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent3);letter-spacing:1px;margin-bottom:6px">THURSDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Recovery from Wednesday. Full routine. Music practice focus. Push a GitHub commit.</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent4);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent4);letter-spacing:1px;margin-bottom:6px">FRIDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Article writing focus. Week review in the evening. What did you complete this week?</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent5);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--accent5);letter-spacing:1px;margin-bottom:6px">SATURDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Full routine. Music focus day. TryHackMe or OverTheWire practice. Strong finish.</div></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--muted2);padding:12px"><div style="font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:6px">SUNDAY</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7">Rest. Update journal and tracker. Plan next week specifically not vaguely.</div></div>
+</div>
+</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--accent6);letter-spacing:2px;margin-bottom:16px">// DISCIPLINE RULES FOR YOUR SPECIFIC SITUATION</div>
+<div style="background:#0a0808;border:1px solid #2a1515;padding:20px;margin-bottom:32px">
+<ul class="dr">
+<li><span><strong>Phone goes face down at 9AM.</strong> Not silent. Face down, across the room. Remove the temptation physically. Not willpower &mdash; environment design.</span></li>
+<li><span><strong>Start before you feel ready.</strong> You will never feel like starting. The feeling of readiness comes after you start, not before. Open the terminal at 9AM regardless of how you feel.</span></li>
+<li><span><strong>The streak matters more than any single session.</strong> A bad 45-minute session still counts. A skipped day breaks the streak. Protect the streak above quality of individual sessions.</span></li>
+<li><span><strong>Do not negotiate with yourself after 8:45AM.</strong> Decisions about whether to follow the routine are made the night before. The routine is non-negotiable from 9AM.</span></li>
+<li><span><strong>When you break the routine &mdash; resume the next day, not next Monday.</strong> Starting over on Monday is a fantasy that lets you waste a week. Break Thursday, resume Friday.</span></li>
+<li><span><strong>Social media scrolling is borrowing enjoyment from future you.</strong> Every hour lost is an hour future you does not have the skill or the article that would have come from it.</span></li>
+<li><span><strong>Music practice is not a reward for finishing study.</strong> It is a scheduled block with equal status. Show up for it the same way. Consistency in music builds the same discipline muscle.</span></li>
+<li><span><strong>End every day by writing one sentence in the journal.</strong> One sentence. Creates closure, prevents the day feeling wasted, builds the documentation habit simultaneously.</span></li>
+</ul>
+</div>
+<div class="emodal" id="emodal">
+<div class="ebox">
+<div class="etitle">// EDIT TIME BLOCK</div>
+<label>TIME SLOT</label>
+<input type="text" id="etime" readonly>
+<label>ACTIVITY LABEL</label>
+<input type="text" id="elabel" placeholder="e.g. Roadmap Study - Python">
+<label>DETAIL / WHAT TO DO</label>
+<textarea id="edetail" rows="3" placeholder="e.g. CS50P lessons, write scripts, push to GitHub"></textarea>
+<label>BLOCK TYPE (affects colour)</label>
+<select id="etype">
+<option value="rm">Roadmap Study</option>
+<option value="mu">Music Practice</option>
+<option value="ps">Personal Study</option>
+<option value="re">Research / Writing</option>
+<option value="rd">Reading</option>
+<option value="br">Break</option>
+<option value="fr">Free / Flexible</option>
+</select>
+<div class="ebtns">
+<button class="ebtn" style="color:var(--accent5);border-color:var(--accent5)" onclick="saveBlk()">SAVE</button>
+<button class="ebtn" style="color:var(--muted);border-color:var(--border)" onclick="closeE()">CANCEL</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+// NAV
+function showTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('tab-' + name);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// DAILY ADVICE
+const advices = [
+  "<strong>Draw the diagram first.</strong> Before writing any code today, sketch what components you need and how data flows between them. SA Layer 1 is built by this single habit.",
+  "<strong>Publish or it didn't happen.</strong> If you have a draft sitting unpublished, your job today is to finish and publish it. An unpublished article earns nothing.",
+  "<strong>Read one HackerOne disclosure today.</strong> Not to copy it &mdash; to understand how the researcher thought. What did they notice that others missed?",
+  "<strong>Your GitHub commit streak is your public record</strong> before you have a title or a degree. Commit something today &mdash; even notes, even a README update.",
+  "<strong>When you hit an error, spend 10 minutes on it before asking for help.</strong> The frustration is the learning. The researchers who find critical vulnerabilities developed their pattern recognition by sitting with confusion.",
+  "<strong>The article you are researching &mdash; can you explain the core argument verbally right now without notes?</strong> If not, you are not ready to write it. Keep researching.",
+  "<strong>One deep work session beats three distracted ones.</strong> Close X, close WhatsApp, close everything that is not the task. Set a timer for 90 minutes and protect it completely.",
+  "<strong>Comparison is irrational.</strong> Someone else's Phase 3 progress is irrelevant to your Phase 1 work. The only comparison that makes sense is you four weeks ago versus you today.",
+  "<strong>Read the official documentation today &mdash; not a tutorial.</strong> Python docs, Linux man pages, whatever you are working with. Tutorials abstract away the parts that matter most.",
+  "<strong>Write down what you learned today before sleeping.</strong> One paragraph. Not what you did &mdash; what you now understand that you did not this morning. This habit compounds.",
+  "<strong>The roadmap is not the slow path.</strong> It is the path that avoids wasting years on things that do not compound. Every hour on it compounds. Every hour on distractions does not.",
+  "<strong>Security is a mindset before it is a skill.</strong> Ask of every system you encounter today: how could this be attacked? Where are the trust boundaries? What assumptions is it making?",
+  "<strong>Publish the article even if it is not perfect.</strong> A published imperfect article gets feedback and builds credibility. A perfect draft in your notes builds nothing.",
+  "<strong>Open your roadmap tracker today.</strong> What is the most overdue milestone? Do something toward it in the next 30 minutes before the day gets away from you.",
+  "<strong>System architecture question for today:</strong> Think of any system you used &mdash; WhatsApp, a website, your bank app. Where does the data live? How does it move? Who can access it?",
+  "<strong>Before asking AI to help with something, spend 10 minutes trying yourself.</strong> The attempt &mdash; even the failed one &mdash; builds the pattern recognition that makes you valuable.",
+  "<strong>Your technical writing is a permanent asset.</strong> Code becomes outdated. Articles explaining fundamental concepts remain useful for years. Write things that last.",
+  "<strong>Discipline is not about motivation.</strong> Motivation is how you feel. Discipline is what you do regardless of how you feel. Open the terminal. Run the command. Write the paragraph.",
+  "<strong>The gap between where you are and where you want to be is filled by repeated daily actions</strong> &mdash; not breakthroughs. Today's small action is the breakthrough in slow motion.",
+  "<strong>Read something today that is harder than your current level.</strong> One ArXiv paper abstract. One chapter of DAIA. One Project Zero post. Productive struggle expands your ceiling.",
+  "<strong>Your LinkedIn is a passive portfolio.</strong> Every article, every project, every certification &mdash; share it. Not for vanity, for visibility. Visibility compounds into opportunity.",
+  "<strong>The best security researchers think like attackers before defenders.</strong> For any system today, ask: if I wanted to break this, where would I start?",
+  "<strong>Ashesi University application window approaches.</strong> If you have not researched their requirements, do it today. 15 minutes of research prevents missing a deadline that matters.",
+  "<strong>Every week you do not write is a week your writing does not improve.</strong> Writing is built by repetition. The first article is worse than the fifth. The fifth worse than the twentieth. Start.",
+  "<strong>Back up your work today.</strong> GitHub your code. Google Drive your documents. Data that is not backed up is data you are willing to lose.",
+  "<strong>Review your month goal right now.</strong> It is written in the roadmap. Are you on track? If not &mdash; what specifically needs to happen this week to close the gap?",
+  "<strong>Termux is on your phone.</strong> Waiting anywhere &mdash; five minutes of Bandit wargames is better than five minutes of scrolling. The terminal is always there.",
+  "<strong>You are building something that takes 10 years.</strong> The people who chase the quick win today are not your competition in 2035. Stay on the path."
+];
+
+function getDailyAdvice() {
+  const start = new Date(2026, 2, 1);
+  const now = new Date();
+  const daysSinceStart = Math.floor((now - start) / 86400000);
+  return advices[Math.abs(daysSinceStart) % advices.length];
+}
+
+document.getElementById('adv-text').innerHTML = getDailyAdvice();
+const now = new Date();
+document.getElementById('adv-date').textContent = now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+// DOMAIN DATA
+const domains = {
+  webdev: { color: 'var(--accent)', tag: '// HORIZONTAL BREADTH', title: 'Web Development',
+    desc: 'Web development is your interface with the world. Every security vulnerability you study lives in a web context. Every tool you build needs a frontend or API. You are not becoming a web developer &mdash; you are becoming someone who understands web systems deeply enough to secure and architect them.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1 &mdash; 2026', t:'HTML, CSS, JavaScript, Flask', b:'Build your first web pages. Understand HTTP at a fundamental level. Build a Flask backend. Connect it to a frontend. Understand what a request-response cycle actually is. <a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML/CSS</a>, <a href="https://javascript.info" target="_blank">JavaScript.info</a>, <a href="https://flask.palletsprojects.com/en/3.0.x/tutorial/" target="_blank">Flask Official Tutorial</a>.' },
+      { c:'var(--accent2)', l:'PHASE 2 &mdash; 2027', t:'React, REST APIs, Web Security', b:'Build full-stack applications. Connect React frontends to Flask backends. Study OWASP Top 10 as someone who has built web apps &mdash; you now understand why these vulnerabilities exist. <a href="https://react.dev/learn" target="_blank">React Official Docs</a>, <a href="https://owasp.org/www-project-top-ten/" target="_blank">OWASP Top 10</a>, <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Web Academy</a>.' },
+      { c:'var(--accent3)', l:'PHASE 3+', t:'Web Architecture at Scale', b:'How do web systems handle millions of users? CDNs, load balancers, caching, microservices. Where web development intersects with system architecture. The security implications of each architectural choice are obvious to you because you understand both domains.' }
+    ],
+    res: [{ n:'W3Schools HTML/CSS', d:'Free reference and tutorials', u:'https://www.w3schools.com/html/' },{ n:'JavaScript.info', d:'Best comprehensive free JS resource', u:'https://javascript.info' },{ n:'React Official Docs', d:'Official React learning path', u:'https://react.dev/learn' },{ n:'Flask Tutorial', d:'Official Python web framework', u:'https://flask.palletsprojects.com/en/3.0.x/tutorial/' },{ n:'freeCodeCamp', d:'Free web dev curriculum', u:'https://www.freecodecamp.org' },{ n:'PortSwigger Web Academy', d:'Web security labs', u:'https://portswigger.net/web-security' }]
+  },
+  networking: { color: 'var(--accent2)', tag: '// HORIZONTAL BREADTH', title: 'Networking',
+    desc: 'Every attack travels through a network. Every system you build runs on a network. Networking is not optional background knowledge &mdash; it is the foundation that makes security coherent. You cannot understand what Wireshark is showing you without understanding networking.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1 &mdash; 2026', t:'OSI Model, TCP/IP, DNS, HTTP', b:'Master the OSI model as a mental model for troubleshooting. Understand what happens at each layer when you load a webpage. Use Wireshark to see actual packets. <a href="https://www.youtube.com/@professormesser" target="_blank">Prof. Messer Net+ YouTube</a>, <a href="https://www.wireshark.org/docs/wsug_html/" target="_blank">Wireshark Docs</a>.' },
+      { c:'var(--accent2)', l:'PHASE 2 &mdash; 2027', t:'Subnetting, VPNs, Firewalls, AD', b:'Subnetting until automatic. Firewalls at packet filter level. VPN protocols and security implications. Active Directory and how authentication works across networks. <a href="https://tryhackme.com/module/network-fundamentals" target="_blank">TryHackMe Network Fundamentals</a>.' },
+      { c:'var(--accent3)', l:'PHASE 3+', t:'Network Security Architecture', b:'Designing networks with security as a structural property. Zero-trust network architecture. How nation-state actors move laterally. Network forensics. Networking becomes indistinguishable from security architecture.' }
+    ],
+    res: [{ n:'Professor Messer Net+', d:'Free networking course on YouTube', u:'https://www.youtube.com/@professormesser' },{ n:'Wireshark Docs', d:'Learn to read network traffic', u:'https://www.wireshark.org/docs/wsug_html/' },{ n:'TryHackMe Networking', d:'Hands-on networking labs', u:'https://tryhackme.com/module/network-fundamentals' },{ n:'Cloudflare Learning Center', d:'Free explanations of networking', u:'https://www.cloudflare.com/learning/' }]
+  },
+  sysarch_d: { color: 'var(--accent4)', tag: '// CROSS-CUTTING META-SKILL', title: 'System Architecture',
+    desc: 'System architecture is not a domain you add to a list. It deepens in 5 layers across your 10 years. It is the lens through which every other domain becomes coherent. See the full System Architecture tab for the complete breakdown.',
+    phases: [
+      { c:'var(--accent)', l:'LAYER 1 &mdash; 2026', t:'Component Thinking', b:'Draw the diagram before writing code. Ask where data lives and how it moves. <a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer</a>.' },
+      { c:'var(--accent2)', l:'LAYER 2 &mdash; 2027', t:'Tradeoff Reasoning', b:'Every design decision has costs. Stop asking "what should I use" &mdash; start asking "what are the tradeoffs."' },
+      { c:'var(--accent3)', l:'LAYER 3 &mdash; 2028', t:'Scale and Failure Thinking', b:'Design for failure as a normal condition. <a href="https://dataintensive.net" target="_blank">DAIA by Kleppmann</a>.' },
+      { c:'var(--accent4)', l:'LAYER 4 &mdash; 2029', t:'Security-Integrated Architecture', b:'Security is structural not bolted on. Threat model before building. This is your moat.' },
+      { c:'var(--accent5)', l:'LAYER 5 &mdash; 2030+', t:'Novel System Design', b:'Inventing architectures for problems without defined solutions. Where the startup founder operates.' }
+    ],
+    res: [{ n:'System Design Primer', d:'Most starred SA resource. Free.', u:'https://github.com/donnemartin/system-design-primer' },{ n:'Designing Data-Intensive Applications', d:'Kleppmann. The architecture bible.', u:'https://dataintensive.net' },{ n:'ByteByteGo YouTube', d:'Visual system design', u:'https://www.youtube.com/@ByteByteGo' },{ n:'Netflix Tech Blog', d:'Real decisions at massive scale', u:'https://netflixtechblog.com' }]
+  },
+  aisec: { color: 'var(--accent)', tag: '// DEEP VERTICAL CORE', title: 'AI Security Core',
+    desc: 'Your primary specialization. AI security sits at the intersection of ML, offensive security, and system architecture. The number of people who genuinely understand all three is very small. You are building toward that intersection.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1 &mdash; 2026', t:'Security Foundations', b:'CIA triad, OWASP Top 10, web vulnerabilities. <a href="https://tryhackme.com/path/outline/presecurity" target="_blank">TryHackMe Pre-Security</a> then <a href="https://tryhackme.com/path/outline/jrpenetrationtester" target="_blank">Jr Pentester path</a>. Register HackerOne and Bugcrowd.' },
+      { c:'var(--accent2)', l:'PHASE 2 &mdash; 2027&ndash;28', t:'Web Security + AD + ML Intro', b:'PortSwigger Web Academy. Kerberoasting. Pass-the-Hash. ML classification fundamentals. Security and ML beginning to intersect in your thinking.' },
+      { c:'var(--accent3)', l:'PHASE 3 &mdash; 2029', t:'OSCP + Adversarial ML', b:'OSCP proves real ability. Adversarial examples, model poisoning, model extraction. <a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank">IBM ART toolkit</a>.' },
+      { c:'var(--accent4)', l:'PHASE 4+', t:'AI Red Teaming + Research', b:'Prompt injection at scale. Model poisoning in production. Published research. Conference talks. You become the person others cite when discussing AI security.' }
+    ],
+    res: [{ n:'TryHackMe', d:'Security labs. Start here.', u:'https://tryhackme.com' },{ n:'PortSwigger Web Academy', d:'Free web security labs', u:'https://portswigger.net/web-security' },{ n:'HackerOne Hacktivity', d:'Real disclosed vulnerability reports', u:'https://hackerone.com/hacktivity' },{ n:'OSCP &mdash; OffSec PWK', d:'Gold standard pentesting cert', u:'https://www.offsec.com/courses/pen-200/' },{ n:'IBM ART', d:'Adversarial ML toolkit', u:'https://github.com/Trusted-AI/adversarial-robustness-toolbox' }]
+  },
+  cloud: { color: 'var(--accent2)', tag: '// HORIZONTAL BREADTH', title: 'Cloud Computing',
+    desc: 'Every AI system you build, every security tool you deploy runs on cloud infrastructure. Cloud is not optional. Understanding it architecturally &mdash; not just as a toolbox &mdash; separates practitioners who click through consoles from engineers who design systems.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1 &mdash; 2026', t:'Cloud Concepts', b:'What cloud actually is. IaaS, PaaS, SaaS in practice. Why companies use cloud. <a href="https://aws.amazon.com/free/" target="_blank">AWS Free Tier</a> &mdash; create an account and explore.' },
+      { c:'var(--accent2)', l:'PHASE 2 &mdash; 2027', t:'AWS Fundamentals + First Deployment', b:'EC2, S3, RDS, IAM &mdash; understand each architecturally. Deploy a real project. Every service selection is an architectural decision. <a href="https://aws.amazon.com/training/learn-about/" target="_blank">AWS Training free tier</a>.' },
+      { c:'var(--accent3)', l:'PHASE 3 &mdash; 2029', t:'Cloud Security Architecture', b:'IAM at depth. GuardDuty. Security Hub. CloudTrail. VPC design. How to build cloud infrastructure secure by architecture not configuration. AWS Security Specialty certification.' }
+    ],
+    res: [{ n:'AWS Free Tier', d:'Free cloud computing to learn', u:'https://aws.amazon.com/free/' },{ n:'AWS Training', d:'Official AWS learning resources', u:'https://aws.amazon.com/training/learn-about/' },{ n:'Cloudflare Learning Center', d:'Free cloud and networking explanations', u:'https://www.cloudflare.com/learning/' },{ n:'AWS Security Specialty', d:'Advanced cloud security cert', u:'https://aws.amazon.com/certification/certified-security-specialty/' }]
+  },
+  data: { color: 'var(--accent3)', tag: '// HORIZONTAL BREADTH', title: 'Data Systems',
+    desc: 'Every AI system is fundamentally a data system. Every security breach involves data. Understanding how data is stored, moved, transformed, and protected at scale is not optional for your path.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1&ndash;2', t:'SQL and Database Fundamentals', b:'SQL deeply &mdash; not just the syntax. Why databases exist. ACID properties. Indexes. SQL injection attacks are fully understandable once you understand SQL properly. <a href="https://sqlzoo.net" target="_blank">SQLZoo</a>, <a href="https://www.postgresql.org/docs/current/tutorial.html" target="_blank">PostgreSQL Tutorial</a>.' },
+      { c:'var(--accent2)', l:'PHASE 2&ndash;3', t:'Distributed Data Systems', b:'Replication. Partitioning. Consistency vs availability. <a href="https://dataintensive.net" target="_blank">DAIA by Kleppmann</a> &mdash; read it as the data systems bible it is.' },
+      { c:'var(--accent3)', l:'PHASE 3+', t:'ML Data Infrastructure', b:'Feature stores. Training pipelines. Data versioning. The architecture of a production ML system is mostly a data engineering problem.' }
+    ],
+    res: [{ n:'SQLZoo', d:'Interactive SQL learning. Free.', u:'https://sqlzoo.net' },{ n:'PostgreSQL Tutorial', d:'Official documentation tutorial', u:'https://www.postgresql.org/docs/current/tutorial.html' },{ n:'Designing Data-Intensive Applications', d:'Kleppmann. Essential reading Phase 2+', u:'https://dataintensive.net' },{ n:'Papers With Code &mdash; Datasets', d:'ML datasets for practice', u:'https://paperswithcode.com/datasets' }]
+  },
+  devops: { color: 'var(--accent5)', tag: '// HORIZONTAL BREADTH', title: 'DevOps',
+    desc: 'DevOps is how software gets from code to production reliably. Insecure deployment pipelines are a common attack vector. You need to be able to ship tools and systems you build without depending on others.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1&ndash;2', t:'Git, CI/CD Basics, Linux Admin', b:'Git mastery is Phase 1 foundational. <a href="https://learngitbranching.js.org" target="_blank">Learn Git Branching</a> interactively. GitHub Actions for automated testing. Linux administration from your daily terminal work.' },
+      { c:'var(--accent2)', l:'PHASE 2&ndash;3', t:'Docker, Containers, Deployment', b:'Docker &mdash; containerize your applications. What a container is architecturally versus a VM. Deploy containerized applications. Security implications of containers.' },
+      { c:'var(--accent3)', l:'PHASE 3+', t:'Security in the Pipeline', b:'DevSecOps &mdash; security integrated into the deployment pipeline not bolted on at the end. Automated security scanning. Supply chain security. Connects directly to your security specialization.' }
+    ],
+    res: [{ n:'Learn Git Branching', d:'Interactive Git learning. Free.', u:'https://learngitbranching.js.org' },{ n:'GitHub Actions Docs', d:'Free CI/CD built into GitHub', u:'https://docs.github.com/en/actions' },{ n:'Docker Official Tutorial', d:'Container fundamentals', u:'https://docs.docker.com/get-started/' },{ n:'TechWorld with Nana &mdash; Docker', d:'Best free Docker video course on YouTube', u:'https://www.youtube.com/watch?v=3c-iBn73dDE' },{ n:'Kubernetes Official Tutorial', d:'Interactive K8s basics', u:'https://kubernetes.io/docs/tutorials/kubernetes-basics/' },{ n:'TechWorld with Nana &mdash; Kubernetes', d:'Best free Kubernetes video course on YouTube', u:'https://www.youtube.com/watch?v=X48VuDVv0do' },{ n:'Linux Journey', d:'Linux administration foundations', u:'https://linuxjourney.com' }]
+  },
+  business: { color: 'var(--accent5)', tag: '// HORIZONTAL BREADTH', title: 'Business & Entrepreneurship',
+    desc: 'The startup you want to build requires you to understand business as fluently as technology. Technical founders who cannot think commercially build products nobody buys. You are building both simultaneously.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 1&ndash;2', t:'Earning and Positioning', b:'Technical writing as revenue. Bug bounties as practice plus income. How to pitch your skills on Contra and LinkedIn. How successful technical companies were actually built &mdash; not the mythology, the real decisions.' },
+      { c:'var(--accent2)', l:'PHASE 3&ndash;4', t:'Consulting and Pricing', b:'How to price your expertise. How to position an AI security consulting practice. What enterprise clients actually need versus what they say they need. Building a services business alongside a technical career.' },
+      { c:'var(--accent3)', l:'PHASE 5+', t:'Startup Formation', b:'Product-market fit. Fundraising fundamentals. Hiring technical teams. Regulatory navigation for AI and healthcare. You are building toward a company that solves a real problem at scale &mdash; the technical depth is the moat.' }
+    ],
+    res: [{ n:'Contra', d:'Zero-commission freelance. Start earning.', u:'https://contra.com' },{ n:'Paul Graham Essays', d:'Best thinking on startups. Free.', u:'https://paulgraham.com/articles.html' },{ n:'Levels.fyi', d:'Compensation benchmarking for tech', u:'https://levels.fyi' },{ n:'YC Startup Library', d:'Free startup knowledge', u:'https://www.ycombinator.com/library' }]
+  },
+  aisystems: { color: 'var(--accent)', tag: '// DEEP VERTICAL &mdash; LAYER 1', title: 'AI Systems Engineering',
+    desc: 'Building AI systems that work reliably in production &mdash; not just models that perform on benchmarks. Training pipelines, serving infrastructure, monitoring, feedback loops. The systems engineering that makes AI real.',
+    phases: [
+      { c:'var(--accent)', l:'PHASE 2 &mdash; 2027&ndash;28', t:'ML Fundamentals + PyTorch', b:'<a href="https://scikit-learn.org/stable/tutorial/" target="_blank">Scikit-learn</a> for classical ML. <a href="https://course.fast.ai" target="_blank">Fast.ai</a> practical deep learning. <a href="https://pytorch.org/tutorials/" target="_blank">PyTorch</a> for building from scratch. Build complete pipelines not just models.' },
+      { c:'var(--accent2)', l:'PHASE 3 &mdash; 2029', t:'Transformers + Production ML', b:'Read <a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a>. Implement a transformer. Build an ML system serving predictions via API. Understand latency, throughput, reliability requirements for AI in production.' },
+      { c:'var(--accent3)', l:'PHASE 4+', t:'Large-Scale AI Infrastructure', b:'Training at scale. Distributed training. Model serving at thousands of requests per second. AI infrastructure as a security target &mdash; how do you protect a training pipeline from poisoning attacks?' }
+    ],
+    res: [{ n:'Fast.ai', d:'Practical deep learning. Top-down.', u:'https://course.fast.ai' },{ n:'PyTorch Tutorials', d:'Official framework tutorials', u:'https://pytorch.org/tutorials/' },{ n:'Andrej Karpathy YouTube', d:'Neural networks from scratch', u:'https://www.youtube.com/@AndrejKarpathy' },{ n:'Hugging Face', d:'Pre-trained models and datasets', u:'https://huggingface.co' },{ n:'Papers With Code', d:'Research with implementations', u:'https://paperswithcode.com' }]
+  },
+  adversarial: { color: 'var(--accent)', tag: '// DEEP VERTICAL &mdash; LAYER 2', title: 'Adversarial ML',
+    desc: 'How machine learning models are attacked &mdash; and how to build systems robust to those attacks. The intersection of your security expertise and your ML knowledge. Very few people in the world understand both sides of this intersection at depth.',
+    phases: [
+      { c:'var(--accent2)', l:'PHASE 3 &mdash; 2029', t:'Adversarial Examples + Model Attacks', b:'Adversarial examples. Model poisoning. Model extraction. Read the Goodfellow adversarial examples paper. Use <a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox" target="_blank">IBM ART</a> and <a href="https://github.com/bethgelab/foolbox" target="_blank">Foolbox</a>.' },
+      { c:'var(--accent3)', l:'PHASE 3&ndash;4', t:'Defenses and Robustness', b:'Adversarial training. Certified defenses. How do you build a model robust to adversarial attack in production? Requires ML depth and security thinking simultaneously.' },
+      { c:'var(--accent4)', l:'PHASE 4+', t:'AI Red Teaming + Research', b:'Red teaming production AI. Prompt injection in LLMs. Model theft at scale. Publishing research. Speaking at Defcon and Black Hat. This is elite positioning.' }
+    ],
+    res: [{ n:'IBM ART', d:'Primary adversarial ML toolkit', u:'https://github.com/Trusted-AI/adversarial-robustness-toolbox' },{ n:'Foolbox', d:'Adversarial attack library', u:'https://github.com/bethgelab/foolbox' },{ n:'ArXiv cs.LG', d:'Latest ML and adversarial ML research', u:'https://arxiv.org/list/cs.LG/recent' },{ n:'Deep Learning &mdash; Goodfellow', d:'Adversarial examples chapter essential', u:'https://www.deeplearningbook.org' }]
+  },
+  secarch: { color: 'var(--accent)', tag: '// DEEP VERTICAL &mdash; LAYER 3', title: 'Security Architecture',
+    desc: 'Designing systems where security is structural &mdash; not added afterward. The convergence of your offensive security knowledge, system architecture depth, and AI systems expertise. The rarest combination in the field.',
+    phases: [
+      { c:'var(--accent2)', l:'PHASE 2&ndash;3', t:'Security by Design', b:'Threat modeling before building. Zero-trust principles. Defense in depth. <a href="https://zerotrust.cyber.gov" target="_blank">CISA Zero Trust</a>, <a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank">OWASP ASVS</a>.' },
+      { c:'var(--accent3)', l:'PHASE 3&ndash;4', t:'AI Security Architecture', b:'How do you build an AI system secure by design? Adversarial robustness as an architectural constraint. Privacy-preserving ML. <a href="https://flower.dev/docs/" target="_blank">Flower framework</a>.' },
+      { c:'var(--accent4)', l:'PHASE 4+', t:'Enterprise Security Architecture', b:'CISSP-level thinking. Security governance. Risk management frameworks. How do you design security for an entire organization? This is the consulting work that generates premium fees.' }
+    ],
+    res: [{ n:'Security Engineering &mdash; Anderson', d:'Free 3rd edition. Systems security design.', u:'https://www.cl.cam.ac.uk/~rja14/book.html' },{ n:'CISA Zero Trust Architecture', d:'Official zero trust guidance', u:'https://zerotrust.cyber.gov' },{ n:'OWASP ASVS', d:'Build security in from the start', u:'https://owasp.org/www-project-application-security-verification-standard/' },{ n:'MITRE ATT&CK', d:'Adversary tactics and techniques', u:'https://attack.mitre.org' }]
+  },
+  research: { color: 'var(--accent)', tag: '// DEEP VERTICAL &mdash; LAYER 4', title: 'Research Depth',
+    desc: 'Published research is the credential that opens doors no other credential can. It proves you can contribute new knowledge &mdash; not just apply existing knowledge. This is the Phase 4 and 5 work that positions you for frontier lab roles and keynote invitations.',
+    phases: [
+      { c:'var(--accent2)', l:'PHASE 3 &mdash; 2029&ndash;30', t:'Reading and Replicating Research', b:'Read ArXiv cs.CR and cs.LG weekly. Replicate key results from papers. Contribute to open source tools like ART and Foolbox. Build the habit of engaging with primary research.' },
+      { c:'var(--accent3)', l:'PHASE 4 &mdash; 2031&ndash;32', t:'Writing and Publishing', b:'Submit to BSides first, then Defcon and Black Hat. Submit to academic venues. Peer review sharpens your thinking as much as publication builds your reputation.' },
+      { c:'var(--accent4)', l:'PHASE 5 &mdash; 2033+', t:'Known Name in the Field', b:'People cite your work. Journalists ask your opinion. Conference program committees invite you to speak. The compounding effect of consistent published output over years. Cannot be rushed.' }
+    ],
+    res: [{ n:'ArXiv cs.CR &mdash; Security', d:'Latest security research papers', u:'https://arxiv.org/list/cs.CR/recent' },{ n:'ArXiv cs.LG &mdash; ML', d:'Latest ML research papers', u:'https://arxiv.org/list/cs.LG/recent' },{ n:'Google Scholar', d:'Academic paper search', u:'https://scholar.google.com' },{ n:'Papers With Code', d:'ML papers with implementations', u:'https://paperswithcode.com' },{ n:'Defcon', d:'Premier security conference &mdash; target for talks', u:'https://defcon.org' }]
+  }
+};
+
+function openDomain(key) {
+  const d = domains[key];
+  if (!d) return;
+  document.getElementById('dom-back-title').textContent = d.title.toUpperCase();
+  let html = '<div class="dom-hdr"><div class="dom-tag" style="color:' + d.color + ';font-family:var(--mono);font-size:8px;letter-spacing:3px">' + d.tag + '</div><div class="dom-title" style="color:' + d.color + '">' + d.title + '</div><div class="dom-desc">' + d.desc + '</div></div><div class="dom-phases">';
+  d.phases.forEach(p => {
+    html += '<div class="dom-phase" style="border-left-color:' + p.c + '"><div class="dom-phase-label" style="color:' + p.c + ';font-family:var(--mono);font-size:8px;letter-spacing:2px">' + p.l + '</div><div class="dom-phase-title">' + p.t + '</div><div class="dom-phase-body">' + p.b + '</div></div>';
+  });
+  html += '</div><div class="dom-res-title">// KEY RESOURCES</div><div class="dom-res-grid">';
+  d.res.forEach(r => {
+    html += '<div class="dom-res-item"><a href="' + r.u + '" target="_blank" style="color:' + d.color + '"><span class="dom-res-name">' + r.n + '</span><span class="dom-res-desc">' + r.d + '</span></a></div>';
+  });
+  html += '</div>';
+  document.getElementById('dom-content').innerHTML = html;
+  document.getElementById('domain-page').classList.add('open');
+  window.scrollTo(0, 0);
+}
+
+function closeDomain() {
+  document.getElementById('domain-page').classList.remove('open');
+}
+
+// TRACKER DATA
+const trackerData = [
+  { phase: 1, label: 'PHASE 1 &mdash; 2026', color: 'var(--accent)', items: [
+    { t: 'Linux Mint installed or VirtualBox running Linux Mint', sa: false },
+    { t: 'GitHub account created with first commit pushed', sa: false },
+    { t: 'Python tutorial completed &mdash; can write without tutorials', sa: false },
+    { t: 'Google Colab set up and first Python notebook running', sa: false },
+    { t: 'OverTheWire Bandit &mdash; Level 10 reached', sa: false },
+    { t: 'TryHackMe Pre-Security path &mdash; completed fully', sa: false },
+    { t: 'HTML/CSS &mdash; built at least one working web page', sa: false },
+    { t: 'JavaScript &mdash; can write basic interactive scripts', sa: false },
+    { t: 'Flask &mdash; built and run one working web app', sa: false },
+    { t: 'First technical article published on Hashnode', sa: false },
+    { t: 'Article 1 cross-posted to Dev.to', sa: false },
+    { t: '5 technical articles published total', sa: false },
+    { t: '8+ technical articles published total', sa: false },
+    { t: 'OSI model &mdash; can explain all 7 layers without notes', sa: false },
+    { t: 'Python API project &mdash; fetches live data and displays it', sa: false },
+    { t: '&#x2B21; SA Layer 1: Drew component diagram before writing a project', sa: true },
+    { t: '&#x2B21; SA Layer 1: Can explain what happens when you type a URL &mdash; full technical journey', sa: true },
+    { t: '&#x2B21; SA: System Design Primer &mdash; intro sections read', sa: true },
+    { t: '3Blue1Brown linear algebra series &mdash; watched fully', sa: false },
+    { t: 'HackerOne account registered and active', sa: false },
+    { t: 'Read 5 HackerOne public disclosure reports in full', sa: false },
+    { t: 'First bug bounty report submitted', sa: false },
+    { t: 'Payoneer or Wise account set up and verified', sa: false },
+    { t: 'LinkedIn profile created with photo and summary', sa: false },
+    { t: 'THM Jr Pentester path &mdash; started', sa: false },
+    { t: 'Chevening scholarship criteria researched and noted', sa: false },
+    { t: 'Ashesi University admissions researched', sa: false },
+    { t: '2+ GitHub projects with proper READMEs', sa: false },
+    { t: 'New hardware acquired &mdash; 16GB RAM laptop', sa: false },
+    { t: 'First writing client or first bounty payout received', sa: false }
+  ]},
+  { phase: 2, label: 'PHASE 2 &mdash; 2027&ndash;2028', color: 'var(--accent2)', items: [
+    { t: 'CS50x Harvard &mdash; completed, final project submitted', sa: false },
+    { t: 'React &mdash; built a working frontend application', sa: false },
+    { t: 'Full-stack project: React + Flask deployed to AWS', sa: false },
+    { t: 'OWASP Top 10 &mdash; can explain each from memory', sa: false },
+    { t: 'PortSwigger Web Academy &mdash; first 5 labs completed', sa: false },
+    { t: 'AWS Free Tier &mdash; first project deployed', sa: false },
+    { t: 'Active Directory &mdash; Kerberoasting understood', sa: false },
+    { t: 'Scikit-learn &mdash; trained and evaluated a real classifier', sa: false },
+    { t: 'Fast.ai Lessons 1&ndash;3 completed', sa: false },
+    { t: '&#x2B21; SA Layer 2: Can justify every design decision with tradeoff reasoning', sa: true },
+    { t: '&#x2B21; SA Layer 3: Read DAIA chapters on replication and consistency', sa: true },
+    { t: 'PyTorch &mdash; first model trained from scratch', sa: false },
+    { t: 'End-to-end ML pipeline built and documented', sa: false },
+    { t: 'First internship application submitted', sa: false },
+    { t: '5 HackTheBox machines completed with writeups', sa: false },
+    { t: 'CompTIA Security+ &mdash; studying or passed', sa: false },
+    { t: 'GitHub portfolio: 3+ projects with full documentation', sa: false }
+  ]},
+  { phase: 3, label: 'PHASE 3 &mdash; 2029&ndash;2030', color: 'var(--accent3)', items: [
+    { t: 'OSCP &mdash; passed', sa: false },
+    { t: 'Transformer architecture &mdash; implemented in PyTorch from scratch', sa: false },
+    { t: '"Attention Is All You Need" &mdash; read and can explain fully', sa: false },
+    { t: 'Adversarial ML &mdash; implemented attack using IBM ART or Foolbox', sa: false },
+    { t: 'AWS Security Specialty &mdash; passed', sa: false },
+    { t: '&#x2B21; SA Layer 4: Threat modeled a system before building it', sa: true },
+    { t: '&#x2B21; SA Layer 5: Designed a system for a problem without a defined solution', sa: true },
+    { t: 'First professional role in UK &mdash; landed', sa: false },
+    { t: 'Open source contribution to ART or Foolbox merged', sa: false },
+    { t: 'Federated learning project built with Flower framework', sa: false },
+    { t: 'First research paper draft completed', sa: false },
+    { t: 'Published technical writeup referenced by others', sa: false }
+  ]},
+  { phase: 4, label: 'PHASE 4 &mdash; 2031&ndash;2033', color: 'var(--accent4)', items: [
+    { t: 'Senior security or AI engineer role achieved', sa: false },
+    { t: 'First conference talk submitted &mdash; BSides or equivalent', sa: false },
+    { t: 'First conference talk accepted and delivered', sa: false },
+    { t: 'Peer-reviewed paper published', sa: false },
+    { t: '&#x2B21; SA Mastery: Consulted by teams before major architectural decisions', sa: true },
+    { t: 'First consulting client &mdash; paid engagement', sa: false },
+    { t: 'CISSP &mdash; passed or studying', sa: false },
+    { t: 'AI red team engagement conducted professionally', sa: false },
+    { t: 'Defcon or Black Hat talk submitted', sa: false },
+    { t: 'Consulting rate: &pound;1,000+/day achieved', sa: false }
+  ]},
+  { phase: 5, label: 'PHASE 5 &mdash; 2034&ndash;2035+', color: 'var(--accent5)', items: [
+    { t: 'Known name in AI security &mdash; cited in others work', sa: false },
+    { t: 'Principal or Staff engineer role achieved', sa: false },
+    { t: 'Keynote invitation received', sa: false },
+    { t: 'Startup incorporated or meaningful equity stake held', sa: false },
+    { t: '&#x2B21; SA: Startup founding architecture designed and documented', sa: true },
+    { t: 'Consulting rate: $3,000+/day achieved', sa: false },
+    { t: 'Annual total compensation $150K+ achieved', sa: false },
+    { t: 'Investment or equity compounding meaningfully', sa: false }
+  ]}
+];
+
+const SKEY = 'roadmap_v4_checks';
+function loadC() { try { return JSON.parse(localStorage.getItem(SKEY)) || {}; } catch(e) { return {}; } }
+function saveC(c) { try { localStorage.setItem(SKEY, JSON.stringify(c)); } catch(e) {} }
+
+function getPhasePct(pi) {
+  const c = loadC();
+  const items = trackerData[pi].items;
+  const done = items.filter((_, i) => c[pi + '-' + i]).length;
+  return items.length > 0 ? (done / items.length * 100) : 0;
+}
+
+function isUnlocked(pi) {
+  if (pi === 0) return true;
+  return getPhasePct(pi - 1) >= 80;
+}
+
+function renderTracker() {
+  const c = loadC();
+  const container = document.getElementById('tracker-container');
+  let html = '';
+  trackerData.forEach((phase, pi) => {
+    const unlocked = isUnlocked(pi);
+    const pct = getPhasePct(pi);
+    const done = phase.items.filter((_, i) => c[pi + '-' + i]).length;
+    html += '<div class="tr-phase"><div class="tr-hdr ' + (unlocked ? '' : 'locked') + (pi === 0 ? ' open' : '') + '" onclick="' + (unlocked ? 'togglePhase(this)' : '') + '">';
+    html += '<div class="tr-label" style="color:' + phase.color + '">' + phase.label + '</div>';
+    html += '<div class="tr-count" style="color:' + phase.color + '">' + done + '/' + phase.items.length + '</div>';
+    html += unlocked ? '<div class="tr-arrow" style="color:' + phase.color + '">&#x25B6;</div>' : '<div style="font-family:var(--mono);font-size:8px;color:var(--muted2)">&#x1F512; Complete previous phase 80%</div>';
+    html += '</div><div class="tr-body"><div class="pb"><div class="pbf" style="width:' + pct + '%;background:' + phase.color + '"></div></div>';
+    html += '<div class="pl" style="color:' + phase.color + '">' + Math.round(pct) + '% complete' + (pct >= 80 ? ' &mdash; next phase unlocked &#10003;' : '') + '</div>';
+    html += '<div class="checklist">';
+    phase.items.forEach((item, ii) => {
+      const isDone = c[pi + '-' + ii];
+      html += '<div class="ci ' + (isDone ? 'done' : '') + (item.sa ? ' sac' : '') + '" onclick="toggleCheck(' + pi + ',' + ii + ',this)"><div class="cb2">' + (isDone ? '&#10003;' : '') + '</div><div class="ct">' + item.t + '</div></div>';
+    });
+    html += '</div></div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function toggleCheck(pi, ii, el) {
+  const c = loadC();
+  const key = pi + '-' + ii;
+  c[key] = !c[key];
+  saveC(c);
+  renderTracker();
+}
+
+function togglePhase(hdr) {
+  hdr.classList.toggle('open');
+}
+
+renderTracker();
+
+// ===== ROUTINE SYSTEM =====
+var RD = {
+  intense:[
+    {t:"9:00 AM",c:"rm",l:"Roadmap Study - Deep Work Block 1",d:"Hardest technical task first. Current month roadmap focus. No interruptions. Phone face down across the room."},
+    {t:"10:00 AM",c:"rm",l:"Roadmap Study - Deep Work Block 2",d:"Continue the technical work. Practice commands, write code, follow course. Build something concrete."},
+    {t:"11:00 AM",c:"rm",l:"Roadmap Study - Deep Work Block 3",d:"Final morning block. Complete today specific milestone task. Push to GitHub before the break."},
+    {t:"12:00 PM",c:"br",l:"Lunch Break",d:"Eat. Rest eyes. No screen if possible. 45 minutes. Come back sharp."},
+    {t:"12:45 PM",c:"re",l:"Article Research or Writing",d:"Current article in the pipeline. Research, note-taking, or actual writing. 3 to 4 week article cadence."},
+    {t:"1:45 PM",c:"mu",l:"Drumming Practice Session",d:"Structured practice. Isolate one weak area. Slow it down. Repetition. Record yourself once a week to hear progress."},
+    {t:"2:45 PM",c:"br",l:"Short Break",d:"15 minutes. Walk, stretch, drink water. No social media during this break."},
+    {t:"3:00 PM",c:"ps",l:"Personal Study - Self Chosen Topic",d:"Anything you are curious about: bass guitar theory, music history, a book, something outside the roadmap. Your choice."},
+    {t:"4:00 PM",c:"rd",l:"Reading Block",d:"Technical reading: security blog, ArXiv paper abstract, engineering blog, or a chapter from a book on the roadmap resources list."},
+    {t:"5:00 PM",c:"mu",l:"Bass Guitar or Music Theory",d:"Bass guitar practice or music theory study. Scales, rhythm patterns, learning a song by ear. No pressure on skill level."},
+    {t:"5:45 PM",c:"rm",l:"Daily Review and Journal Entry",d:"What did you learn today? One sentence in the journal. Update GitHub if not done. Plan tomorrow specifically."},
+    {t:"6:00 PM",c:"br",l:"End of Day",d:"Close everything. You showed up today. That is enough."}
+  ],
+  flexible:[
+    {t:"9:00 AM",c:"rm",l:"Roadmap Study - Morning Block",d:"One focused task from the roadmap. Not a long list. One thing done properly. 90 minutes minimum effort."},
+    {t:"10:30 AM",c:"br",l:"Break",d:"30 minutes. Breakfast if not eaten. Stretch. Breathe. Prepare for the rest of the day."},
+    {t:"11:00 AM",c:"mu",l:"Music Practice",d:"Drumming or bass. No pressure today. Play what feels good but stay for the full hour. Showing up is the goal."},
+    {t:"12:00 PM",c:"br",l:"Lunch",d:"1 hour. Real break. Eat properly. Rest."},
+    {t:"1:00 PM",c:"re",l:"Research or Reading",d:"Article research, reading a blog post, watching a technical video. Passive learning counts on flexible days."},
+    {t:"2:00 PM",c:"ps",l:"Personal Study or Free Exploration",d:"Anything you are curious about. Follow the interest. This block is entirely yours."},
+    {t:"3:00 PM",c:"rm",l:"Roadmap - Light Practice",d:"OverTheWire Bandit level, TryHackMe room, or review notes from this week. Lighter than the morning block."},
+    {t:"4:00 PM",c:"br",l:"Break",d:"30 minutes. Walk outside if possible. Real rest not phone scrolling."},
+    {t:"4:30 PM",c:"rd",l:"Reading Block",d:"Read something from the resource list. 30 to 45 minutes. No pressure on what you pick."},
+    {t:"5:15 PM",c:"mu",l:"Music - Free Play",d:"No structure. Play what you feel. Experiment. This is the part that keeps music enjoyable long term."},
+    {t:"5:45 PM",c:"rm",l:"End of Day Check-in",d:"One sentence journal entry. Did you show up today? Yes. That is all that matters on a flexible day."},
+    {t:"6:00 PM",c:"br",l:"End of Day",d:"Done. You showed up even when it was hard. That is the discipline muscle being built."}
+  ],
+  wednesday:[
+    {t:"9:00 AM",c:"br",l:"Away - Not Available",d:"You are away from approximately 9AM until early afternoon. This block is unavailable. Do not stress."},
+    {t:"10:00 AM",c:"br",l:"Away - Not Available",d:"Still away. Wednesday is factored into the weekly plan. The other days carry the load."},
+    {t:"11:00 AM",c:"br",l:"Away - Not Available",d:"Still away."},
+    {t:"12:00 PM",c:"br",l:"Away - Not Available",d:"Still away."},
+    {t:"1:00 PM",c:"br",l:"Returning and Transition",d:"Travel back home. Rest if needed. Eat. You have been on for 13 or more hours. Give yourself 30 to 60 minutes to decompress."},
+    {t:"2:00 PM",c:"mu",l:"Music - Light Session",d:"30 to 45 minutes. Low pressure. Keep the habit alive. Drumming or bass. No technical goals today."},
+    {t:"3:00 PM",c:"rm",l:"Roadmap - Minimum Viable Study",d:"1 hour. One thing only. Read one article, complete one Bandit level, watch one lesson. Keep the streak alive."},
+    {t:"4:00 PM",c:"rd",l:"Reading or Rest",d:"If energy allows: read something from the resource list. If exhausted: genuine rest. Wednesday is a recovery day."},
+    {t:"5:00 PM",c:"ps",l:"Free Time",d:"Your choice completely. Music, reading, rest, personal interest. No expectations or pressure today."},
+    {t:"5:45 PM",c:"rm",l:"Journal Entry",d:"One sentence. You showed up on your hardest day. Write that down. It counts."},
+    {t:"6:00 PM",c:"br",l:"End of Day",d:"Rest properly tonight. Tomorrow is a full day and you need to recover."}
+  ]
+};
+
+var colorMap = {rm:"var(--accent)",mu:"var(--accent2)",ps:"var(--accent4)",re:"var(--accent3)",rd:"var(--accent5)",br:"var(--muted)",fr:"var(--accent6)"};
+var curGrid = null;
+var curIdx = null;
+var curKey = null;
+
+function buildGrid(gridId, key){
+  var el = document.getElementById(gridId);
+  if(!el) return;
+  el.innerHTML = "";
+  RD[key].forEach(function(b,i){
+    var row = document.createElement("div");
+    row.className = "rg2-row";
+    var tl = document.createElement("div");
+    tl.className = "tlabel";
+    tl.textContent = b.t;
+    var bl = document.createElement("div");
+    bl.className = "tblock " + b.c;
+    var col = colorMap[b.c] || "var(--muted)";
+    bl.innerHTML = '<button class="blk-edit" onclick="openE(\'' + gridId + '\',' + i + ',\'' + key + '\')">&#9998; edit</button>' +
+      '<div class="blk-title" style="color:' + col + '">' + b.l + '</div>' +
+      '<div class="blk-desc">' + b.d + '</div>';
+    row.appendChild(tl);
+    row.appendChild(bl);
+    el.appendChild(row);
+  });
+}
+
+function showRV(name, btn){
+  document.querySelectorAll(".rview").forEach(function(v){v.classList.remove("active")});
+  document.querySelectorAll(".rtab").forEach(function(b){b.classList.remove("active")});
+  document.getElementById("rv-" + name).classList.add("active");
+  if(btn) btn.classList.add("active");
+}
+
+function openE(gridId, idx, key){
+  curGrid = gridId; curIdx = idx; curKey = key;
+  var b = RD[key][idx];
+  document.getElementById("etime").value = b.t;
+  document.getElementById("elabel").value = b.l;
+  document.getElementById("edetail").value = b.d;
+  document.getElementById("etype").value = b.c;
+  document.getElementById("emodal").classList.add("open");
+}
+
+function closeE(){
+  document.getElementById("emodal").classList.remove("open");
+}
+
+function saveBlk(){
+  if(curGrid === null) return;
+  RD[curKey][curIdx].l = document.getElementById("elabel").value;
+  RD[curKey][curIdx].d = document.getElementById("edetail").value;
+  RD[curKey][curIdx].c = document.getElementById("etype").value;
+  var gmap = {intense:"ig",flexible:"fg",wednesday:"wg2"};
+  buildGrid(gmap[curKey], curKey);
+  closeE();
+}
+
+buildGrid("ig","intense");
+buildGrid("fg","flexible");
+buildGrid("wg2","wednesday");
+// ===== END ROUTINE SYSTEM =====
+
+
+
+</script>
+</body>
+</html>
