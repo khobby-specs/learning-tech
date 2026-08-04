@@ -24,3 +24,11 @@ As the World Wide Web grew, this vulnerability was exploited by many, and so the
 **What Is HTTPS?**
 
 Hypertext Transfer Protocol Secure(HTTPS) is simply HTTP over a security layer. This security layer is called the **Transport Layer Security(TLS)**: a security or cryptographic protocol that encrypts data sent over the internet to keep it private and safe. During data transfer over HTTPS, there's a key share which grants data privacy by encrypting it. This help improve Confidentiality and Intergrity over the internet. In other words, HTTPS is HTTP over TLS. 
+
+To throw more light on this, I conducted a lab using testfire.net as a case study.
+
+URL: https://testfire.net
+
+![Wireshark test](HTTPS_test.png)
+
+> From the capture,
