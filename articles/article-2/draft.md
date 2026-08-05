@@ -25,10 +25,14 @@ As the World Wide Web grew, this vulnerability was exploited by many, and so the
 
 Hypertext Transfer Protocol Secure(HTTPS) is simply HTTP over a security layer. This security layer is called the **Transport Layer Security(TLS)**: a security or cryptographic protocol that encrypts data sent over the internet to keep it private and safe. During data transfer over HTTPS, there's a key share which grants data privacy by encrypting it. This help improve Confidentiality and Intergrity over the internet. In other words, HTTPS is HTTP over TLS. 
 
-To throw more light on this, I conducted a lab using testfire.net as a case study.
+To understand this better, a lab was conducted over HTTPS using testfire.net as a case study and the same login credentials.
 
 URL: https://testfire.net
 
 ![Wireshark test](HTTPS_test.png)
 
-> From the capture,
+> The capture above shows the same login activity performed over HTTPS. Unlike the previous HTTP capture, Wireshark is unable to reveal the contents of the communication. Instead of displaying HTTP requests such as GET and POST, the packets appear as TLS Application Data, indicating that the application-layer data has been encrypted before transmission. The packet payload consists only of encrypted bytes, making the username, password, and other sensitive information unreadable to anyone intercepting the traffic. Although an attacker can still observe metadata such as the communicating IP addresses, the use of TLS prevents them from viewing or modifying the data exchanged between the client and the server.
+
+The difference between HTTP and HTTPS is now visible. In the HTTP capture, the login credentials were exposed becaused data is transferred in plaintext. In the HTTPS capture, the same type of communication appears only as encrypted TLS application data, preventing anyone intercepting the traffic from reading the contents.
+
+The current the version of the Transport Layer Security(TLS) running the web is version 1.3(v1.3). Initially, the Secure Socket Layer(SSL) was the protocol powering web security. Created in 1990 by Netscape, SSL 1.0  was never released to the public due to the severe security and design flaws revealed by internal testing. SSL 2.0 was released to the public in 1995 and succeeded by SSL 3.0 in 1996. 
