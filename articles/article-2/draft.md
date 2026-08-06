@@ -23,7 +23,7 @@ As the World Wide Web grew, this vulnerability was exploited by many, and so the
 
 **What Is HTTPS?**
 
-Hypertext Transfer Protocol Secure(HTTPS) is simply HTTP over a security layer. This security layer is called the **Transport Layer Security(TLS)**: a security or cryptographic protocol that encrypts data sent over the internet to keep it private and safe. During data transfer over HTTPS, there's a key share which grants data privacy by encrypting it. This help improve Confidentiality and Intergrity over the internet. In other words, HTTPS is HTTP over TLS. 
+Hypertext Transfer Protocol Secure(HTTPS) is simply HTTP over a security layer. This security layer is called the **Transport Layer Security(TLS)**: a security or cryptographic protocol that encrypts data sent over the internet to keep it private and safe. During data transfer over HTTPS, there's a key share which grants data privacy by encrypting it. This helps improve Confidentiality and integrity over the internet. In other words, HTTPS is HTTP over TLS. 
 
 To understand this better, a lab was conducted over HTTPS using testfire.net as a case study and the same login credentials.
 
@@ -33,6 +33,33 @@ URL: https://testfire.net
 
 > The capture above shows the same login activity performed over HTTPS. Unlike the previous HTTP capture, Wireshark is unable to reveal the contents of the communication. Instead of displaying HTTP requests such as GET and POST, the packets appear as TLS Application Data, indicating that the application-layer data has been encrypted before transmission. The packet payload consists only of encrypted bytes, making the username, password, and other sensitive information unreadable to anyone intercepting the traffic. Although an attacker can still observe metadata such as the communicating IP addresses, the use of TLS prevents them from viewing or modifying the data exchanged between the client and the server.
 
-The difference between HTTP and HTTPS is now visible. In the HTTP capture, the login credentials were exposed becaused data is transferred in plaintext. In the HTTPS capture, the same type of communication appears only as encrypted TLS application data, preventing anyone intercepting the traffic from reading the contents.
+The difference between HTTP and HTTPS is now visible. In the HTTP capture, the login credentials were exposed because data is transferred in plaintext. In the HTTPS capture, the same type of communication appears only as encrypted TLS application data, preventing anyone intercepting the traffic from reading the contents.
 
-The current the version of the Transport Layer Security(TLS) running the web is version 1.3(v1.3). Initially, the Secure Socket Layer(SSL) was the protocol powering web security. Created in 1994 by Netscape, SSL 1.0  was never released to the public due to the severe security and design flaws revealed by internal testing. SSL 2.0 was released to the public in 1995 and succeeded by SSL 3.0 in 1996. SSL used weak Message Authentication Codes(MAC) and Algorithms like MD5, which could be exploited easily. Also, as the web grew, the industry needed an open vendor protocol to enhance web security rather than a sole proprietary Netscape product; hence, the Internet Engineering Task Force(IETF), an international open standard organization introduced TLS to standardize internet encryption and fix critical cryptographic vulnerabilities inherent to Netscape's proprietary code
+The current version of the Transport Layer Security(TLS) running the web is version 1.3(v1.3). Initially, the Secure Socket Layer(SSL) was the protocol powering web security. Created in 1994 by Netscape, SSL 1.0  was never released to the public due to the severe security and design flaws revealed by internal testing. SSL 2.0 was released to the public in 1995 and was succeeded by SSL 3.0 in 1996. SSL used weak Message Authentication Codes(MAC) and Algorithms like MD5, which could be exploited easily. Also, as the web grew, the industry needed an open vendor protocol to enhance web security rather than a sole proprietary Netscape product; hence, the Internet Engineering Task Force(IETF), an international open standard organization, introduced TLS to standardize internet encryption and fix critical cryptographic vulnerabilities inherent to Netscape's proprietary code.
+
+For TLS to work effectively, thus protecting data in transit, the client and server go through a process to establish trust and secure communication methods before encrypted data is transferred. This process is known as **TLS Handshake**
+
+TLS handshake is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier versions of TLS, TLS 1.3 uses 1 Round Trip Time(1RTT) to establish a secure connection between the client and server. 
+
+### How the TLS handshake occurs
+During a TLS handshake, the client sends a **ClientHello**, which is a single message containing:
+- Supported versions: confirms it wants to use TLS 1.3
+- Cipher suites: a list of all the encryption algorithms
+- Key shares: The client guesses the algorithm the server uses and proactively sends half of the cryptographic key material.
+
+The server, after processing the client's request, responds with a **ServerHello**: a single message which contains:
+- Protocol version: Confirms TLS 1.3 protocol usage
+- Cipher suite: the specific encryption algorithm selected by the server from the list the client provided
+- Server key share
+
+
+
+### What HTTPS does not promise
+
+
+
+### Where HTTPs breaks
+
+
+
+
