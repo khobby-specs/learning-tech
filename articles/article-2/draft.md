@@ -43,14 +43,26 @@ TLS handshake is a communication process that initiates a secure connection betw
 
 ### How the TLS handshake occurs
 During a TLS handshake, the client sends a **ClientHello**, which is a single message containing:
-- Supported versions: confirms it wants to use TLS 1.3
+- Supported versions: the client sends its supported protocol version
 - Cipher suites: a list of all the encryption algorithms
-- Key shares: The client guesses the algorithm the server uses and proactively sends half of the cryptographic key material.
+- Key shares: the client shares its secret key using an Elliptic Curve Diffie-Hellman(ECDHE): a modern protocol that lets two people make a secret code over a public network. The secret code is never sent out on the network, but both the client and the sever ends up with the same secret. This protocol works together with the [Authenticated Encryption with Associated Data(AEAD) symmetric encryption](https://en.wikipedia.org/wiki/Authenticated_encryption#Authenticated_encryption_with_associated_data) like AES-GCM to generate keys. With the help of the discrete logarithm problem, the secret can never be accessed via an attacker sniffing packets.
 
 The server, after processing the client's request, responds with a **ServerHello**: a single message which contains:
 - Protocol version: Confirms TLS 1.3 protocol usage
 - Cipher suite: the specific encryption algorithm selected by the server from the list the client provided
-- Server key share
+- Server key share: Sends its own half of the cryptographic key material.
+
+After sending the server hello, the server sends a server-to-client message that proves identity in one flight. The message contains:
+- Certificate: Sends the server's digital certificate to prove its identity. A digital certificate is an electronic file that proves the identity of a user, computer, or website. It is issued by a Certificate Authority(CA): a trusted group that signs the file to ensure its legitimacy
+- CertificateVerify: A digital signature proving the server owns the private key linked to that certificate.
+- Finished: A cryptographic check verifying that a third party did not alter the handshake messages.
+
+The client then responds with a client-to-server message, which is a final confirmation saying:
+- The client verifies the server’s certificate and signature.
+- The client generates the same shared secret key using the two key shares.
+- The client sends its own Finished message, encrypted with the new keys.
+
+After all these take place, it sets up the safety for data in transit but not the destination.
 
 
 
@@ -58,7 +70,7 @@ The server, after processing the client's request, responds with a **ServerHello
 
 
 
-### Where HTTPs breaks
+### Where HTTPS breaks
 
 
 
