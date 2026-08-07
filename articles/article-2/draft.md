@@ -62,12 +62,11 @@ The client then responds with a client-to-server message, which is a final confi
 - The client generates the same shared secret key using the two key shares.
 - The client sends its own Finished message, encrypted with the new keys.
 
-After all these take place, it sets up the safety for data in transit but not the destination.
+After a successful TLS handshake, that is when the client displays the padlock. This is where all problems begin, because we instinctively assign safety with the padlock. The displayed padlock tells you that the server has been verified and also that your data in transit is protected, and nothing about the site, what it does, and others. All it screams is safety about the journey, not the destination. This is what I term as: ***The Tunnel is Safe, but The Destination Isn't***
 
-
-
-### What HTTPS does not promise
-
+### What HTTPS does not protect.
+Although established that HTTPS grants protection, it does not promise full security. 
+- HTTPS does not protect us from phishing and scams. A malicious site like the one with the intent of phishing can gain a valid certificate from automated Certificate Authorities(CAs) like Let's Encrypt and ZeroSSL that require proof that you control the domain name and not whether the business or site is legit. Attackers exploit these free automated CAs and perform malicious act. During events like this, the padlock was never missing. It was present, but it only screamed about the safety of the tunnel and not the destination. This is why, regardless of the education on web safety, phishing and online scams are on the rise. We instinctively trusted the padlock without knowing what it says
 
 
 ### Where HTTPS breaks
