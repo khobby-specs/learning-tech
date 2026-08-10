@@ -1,6 +1,8 @@
 
 **Skeleton**
 
+![cover picture](cover1.png)
+
 Connection is secure. A padlock. The **'S'** in HTTPS. For decades, these have been the signals we trust when browsing the web. 
 I trusted them too, but I never stopped to ask what was actually happening beneath that padlock. 
 One afternoon, staring at a padlock icon on my browser, a question hit me: IS HTTPS REALLY SAFE? 
