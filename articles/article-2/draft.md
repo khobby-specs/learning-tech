@@ -95,21 +95,26 @@ During SSL stripping, an attacker uses MITM techniques, such as a fake Wi-Fi hot
 ### The Step-by-Step Breakdown
 1. **The Normal Flow (No Attacker)**
    - You type bank.com into your browser.
-   - Your browser sends a plain request: http://bank.com.
-   - The bank's server receives it and replies: "Hey, use our secure site instead!" It sends a 301 Redirect to https://bank.com.Your browser establishes a secure, encrypted HTTPS connection.
+   - Your browser sends a plain request: `http://bank.com`.
+   - The bank's server receives it and replies: "Hey, use our secure site instead!" It sends a 301 Redirect to `https://bank.com`.Your browser establishes a secure, encrypted HTTPS connection.
 2. **The SSL Stripping Flow (With Attacker)**
-   - You type bank.com. Your browser sends the initial plain request: http://bank.com.
+   - You type bank.com. Your browser sends the initial plain request: `http://bank.com`.
    - The attacker intercepts this initial request and forwards it to the bank's server.
-   - The bank's server replies to the attacker with the secure 301 Redirect (https://bank.com).
-   - The Strip: The attacker establishes a secure HTTPS connection with the bank on your behalf, but strips the "S" out of the response they send back to you.The attacker sends you plain http://bank.com.
-   - Your browser thinks the website just doesn't support HTTPS, so it loads the page without encryption.
+   - The bank's server replies to the attacker with the secure 301 Redirect (`https://bank.com`).
+   - The Strip: The attacker establishes a secure HTTPS connection with the bank on your behalf, but strips the "S" out of the response they send back to you.
+   - The attacker sends you plain `http://bank.com`. Your browser thinks the website just doesn't support HTTPS, so it loads the page without encryption.
 
 This is exactly what Moxie Marlinspike, a security researcher, introduced in his February 2009 demonstration titled **New Tricks for Defeating SSL in Practice**  at the Black Hat DC conference. He introduced SSL stripping, a man-in-the-middle technique and released his tool sslstrip, showing how web traffic could be silently downgraded from HTTPS to HTTP.
+This was feasible because, during the time of its introduction, browsers could not differentiate between a website that lacked HTTPS entirely and a malicious man-in-the-middle actively stripping an encrypted link away. To solve this critical vulnerability exposed by Marlinspike's attack where browsers blindly trusted initial unencrypted connections, the security community developed **HTTP Strict Transport Security (HSTS)**
+
+**HTTP Strict Transport Security(HSTS)** is a security policy that forces web browsers to load and communicate with websites strictly over HTTPS and block insecure HTTP. HSTS stops SSL stripping by instructing a web browser to automatically change any insecure `http://` link into a secure `https://` request before sending data or making network contact. 
+
+ On the modern web, over 95% of web traffic is encrypted by default, and browsers feature built-in **HTTPS-First** modes alongside the **HSTS Preload List**. However, the attack still succeeds in narrow, niche scenarios where operational gaps persist. Examples of where SSL will still succeed are:
+ - **Misconfigured or Incomplete HSTS**: Smaller websites, corporate internal web apps, or IoT admin panels that redirect to HTTPS via a loose script but lack a strict max-age HSTS header—can still leak an initial plaintext request.
+ - **Local Network Compromise**: On unsecured public or corporate Wi-Fi spots, an attacker running ARP poisoning or rogue access points can still trick legacy clients, unpatched software, or poorly configured mobile apps into crossing an unencrypted bridge
+ - **Typosquatted & Secondary Domains**: Attackers can target peripheral or support subdomains that organizations forgot to secure or add to an HSTS policy, silently harvesting credentials submitted to those weak points.
 
 
-
-
-### Where HTTPS breaks
 
 
 
