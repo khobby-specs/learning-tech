@@ -14,7 +14,7 @@ I went down the rabbit hole. What I found shocked me. The padlock is not a promi
 
 ## The Open Road: Traveling in Broad Daylight with HTTP
 
-**Hypertext Transfer Protocol (HTTP)** is a foundational rule system that governs how information is exchanged between client and server on the internet. It defines how data is formatted and transmitted, and how web browsers and servers respond to various commands.
+**Hypertext Transfer Protocol (HTTP)** is a foundational rule system that governs how information is exchanged between a client and a server on the internet. It defines how data is formatted and transmitted, and how web browsers and servers respond to various commands.
 HTTP is the core language of the World Wide Web. With HTTP, a client, typically a web browser, requests a resource from a server, and the server responds with a status code and the requested resource. This is what we call the request-response system.
 Although HTTP forms the foundation of the World Wide Web, transferring data in plaintext poses a significant security risk. With the right tool and technical know-how, anyone on the same network could intercept data in transit. This is called a Man-In-The-Middle(MITM) attack. 
 Think of it like delivering an unsealed letter through a delivery agency to a friend. The delivery man can see the contents of the letter and also tamper with it before it gets to your friend. 
@@ -116,8 +116,9 @@ This was feasible because, during the time of its introduction, browsers could n
 The history of HTTPS is not just a story of encryption working; it is also a story of researchers, attackers, and even compromised authorities finding ways around it. SSL stripping, together with HSTS, is one of those stories. It brings to light the measures security researchers and engineers take to create a safe tunnel when attackers try to downgrade or prevent the tunnel from being established. But what happens when the tunnel is safely built, yet your web browser is tricked into trusting the wrong server?
 
 ### When Trust Breaks: The DigiNotar Incident
-
+DigiNotar 
 In 2011, this wasn't merely a theoretical possibility. A Certificate Authority trusted by major browsers was compromised, and fraudulent certificates were issued for major websites, including Google. The incident became known as the **DigiNotar breach**.
+#### what is DigiNotar
 
 
 
