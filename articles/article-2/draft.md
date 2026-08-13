@@ -145,3 +145,4 @@ Most often, in the name of security, we connect to networks and install software
 When this happens, encrypted messages from the browser are decrypted by the middlebox, inspected, and then encrypted again before being sent to the destination. **The padlock is not necessarily missing, but the connection is no longer end-to-end** between the browser and the destination. The middlebox can see the plaintext because the browser has been configured to trust a certificate authority controlled by the organization or software performing the interception. The browser therefore sees the middlebox's certificate as trusted rather than treating it as an untrusted attacker.
 
 In a research paper titled [The Security Impact of HTTPS Interceptions](https://jhalderm.com/pub/papers/interception-ndss17.pdf), researchers found that HTTPS interception can significantly reduce the security of TLS connections.
+### Cracks in the Architecture (Tunnel): When the Cryptography Breaks Itself
