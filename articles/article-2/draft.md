@@ -1,7 +1,7 @@
 
 **Skeleton**
 
-# The Tunnel Is Safe Not The Destination: HTTPS Demystified 
+# The Tunnel Is Safe, Not The Destination: HTTPS Demystified 
 
 ![cover picture](cover1.png)
 
@@ -136,4 +136,12 @@ DigiNotar showed that the padlock is only as trustworthy as the CA that issued t
 
 SSL stripping tries to prevent the tunnel from forming. DigiNotar showed that even a perfectly formed tunnel can lead to the wrong destination if the authority that vouched for it cannot be trusted. The tunnel was safe. The certificate authority was not.
 
+### The Transparent Tunnel: Middleboxes and the Mirage of Privacy
 
+From the beginning, we've established that HTTPS builds a secure connection to protect data in transit. But what happens when this tunnel is intruded by third parties we have given our full consent to, sometimes without fully understanding what they can see? Well, this is what corporate networks, firewalls, antivirus software, and other middleboxes can do.
+
+Most often, in the name of security, we connect to networks and install software that can inspect our HTTPS traffic, and this is only the beginning of the problem. These third-party systems can act as an MITM between the client and the server. Instead of establishing one end-to-end secure connection between the web browser and the destination server, the middlebox terminates the TLS connection from the browser and establishes a separate TLS connection with the server. In other words, it builds one tunnel from the browser to itself and another from itself to the server.
+
+When this happens, encrypted messages from the browser are decrypted by the middlebox, inspected, and then encrypted again before being sent to the destination. **The padlock is not necessarily missing, but the connection is no longer end-to-end** between the browser and the destination. The middlebox can see the plaintext because the browser has been configured to trust a certificate authority controlled by the organization or software performing the interception. The browser therefore sees the middlebox's certificate as trusted rather than treating it as an untrusted attacker.
+
+In a research paper titled [The Security Impact of HTTPS Interceptions](https://jhalderm.com/pub/papers/interception-ndss17.pdf), researchers found that HTTPS interception can significantly reduce the security of TLS connections.
