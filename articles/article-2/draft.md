@@ -117,7 +117,23 @@ The history of HTTPS is not just a story of encryption working; it is also a sto
 
 ### When Trust Breaks: The DigiNotar Incident
 In 2011, this wasn't merely a theoretical possibility. A Certificate Authority trusted by major browsers was compromised, and fraudulent certificates were issued for major websites, including Google. The incident became known as the **DigiNotar breach**.
-#### what is DigiNotar
+#### What is DigiNotar
+DigiNotar was a Dutch Certificate Authority, one of the trusted organizations responsible for issuing the digital certificates that browsers use to verify a server's identity. When a browser encounters a certificate, it checks whether a trusted CA signed it. If yes, the padlock appears. If no, the browser throws a warning. DigiNotar was one of those trusted signers, recognized by all major browsers including Chrome, Firefox, and Internet Explorer.
 
+#### How the Breach Unfolded
+
+In June 2011, an attacker compromised DigiNotar's internal systems. The attacker did not need to break TLS or defeat encryption. They went around all of it by going straight to the source: the CA itself. Once inside, they issued over 500 fraudulent certificates, including a wildcard certificate for `.google.com`. A wildcard certificate covers every subdomain of a domain, meaning the attacker could impersonate mail.google.com, accounts.google.com, or any other Google service.
+
+With a fraudulent but technically valid certificate issued by a trusted CA, the attacker could perform a MITM attack that browsers would not flag. The padlock appeared. The connection looked secure. The certificate chain checked out. But the server on the other end was not Google. The breach primarily targeted Iranian internet users, with hundreds of thousands of Gmail accounts exposed to traffic surveillance through this attack.
+
+#### The Fallout and What Changed
+
+When the breach was publicly disclosed in August 2011, browser vendors responded by revoking trust in DigiNotar entirely. Every certificate DigiNotar had ever issued became untrusted overnight. DigiNotar filed for bankruptcy within weeks.
+
+But the deeper problem the breach exposed was structural. There was no public, auditable record of what certificates any CA had issued. An attacker could compromise a CA, issue fraudulent certificates, and nobody would know until someone happened to notice something suspicious. This directly led to the creation of Certificate Transparency (CT), a system that requires every publicly trusted CA to log every certificate they issue to a public, append-only ledger. Browsers now require that certificates appear in a CT log before trusting them. If a CA issues a fraudulent certificate, it must be logged publicly, making it detectable.
+
+DigiNotar showed that the padlock is only as trustworthy as the CA that issued the certificate behind it. Break the CA, and you break the padlock without touching the encryption itself.
+
+SSL stripping tries to prevent the tunnel from forming. DigiNotar showed that even a perfectly formed tunnel can lead to the wrong destination if the authority that vouched for it cannot be trusted. The tunnel was safe. The certificate authority was not.
 
 
