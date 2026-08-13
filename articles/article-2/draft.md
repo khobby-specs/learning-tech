@@ -116,7 +116,6 @@ This was feasible because, during the time of its introduction, browsers could n
 The history of HTTPS is not just a story of encryption working; it is also a story of researchers, attackers, and even compromised authorities finding ways around it. SSL stripping, together with HSTS, is one of those stories. It brings to light the measures security researchers and engineers take to create a safe tunnel when attackers try to downgrade or prevent the tunnel from being established. But what happens when the tunnel is safely built, yet your web browser is tricked into trusting the wrong server?
 
 ### When Trust Breaks: The DigiNotar Incident
-DigiNotar 
 In 2011, this wasn't merely a theoretical possibility. A Certificate Authority trusted by major browsers was compromised, and fraudulent certificates were issued for major websites, including Google. The incident became known as the **DigiNotar breach**.
 #### what is DigiNotar
 
