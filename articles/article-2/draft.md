@@ -148,5 +148,8 @@ In a research paper titled [The Security Impact of HTTPS Interceptions](https://
 
 
 ### Cracks in the Architecture (Tunnel): When the HTTPS Breaks Itself
+From the beginning of the article, we've looked at attacks that do not break the tunnel itself. Aside from the question, **"Is HTTPS really safe?"** that led me to these findings, one question also remained prevalent throughout my research: **Has HTTPS (the tunnel) itself ever been broken?**
+Though there might not be a simple yes-or-no answer to this question, one thing remained clear through my findings: ***The tunnel is only as strong as the mechanisms behind it***. And this is exactly what the POODLE and BEAST attacks are about.
 
-
+#### What is the Beast attack?
+The BEAST (Browser Exploit Against SSL/TLS) is an attack targeting vulnerabilities in TLS 1.0 and older SSL protocols, discovered theoretically in 2002 and first exploited in 2011. This attack exploits the weakness in the way TLS 1.0 uses block ciphers and cipher block chaining (CBC), allowing attackers to decrypt data one byte at a time by guessing and testing encrypted blocks.
