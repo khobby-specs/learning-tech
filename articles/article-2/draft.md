@@ -169,7 +169,12 @@ What made POODLE particularly dangerous was not only the weakness in SSL 3.0, bu
 The lessons from BEAST and POODLE are not limited to the history of HTTPS. They reveal a problem that still matters today: having HTTPS enabled does not automatically mean that HTTPS has been configured securely. A website can display the padlock while still supporting deprecated protocols, using weak cryptographic configurations, or mishandling the data once it reaches the server.
 
 ## Leaving the Back Door Wide Open: Common Configuration Blunders
+Leaving the Back Door Wide Open: Common Configuration Blunders
 
+When talking about the tunnel, organizations like the IETF can try their best to make sure the tunnel is safe. This includes deprecating older versions of TLS and SSL, introducing stronger cryptographic protocols, and establishing standards for secure communication. But all of this can amount to nothing when the people responsible for deploying and maintaining these systems get it wrong.
+
+These key players include web developers, system administrators, and other people responsible for configuring web servers and applications. They can make practices that do not conform to modern security standards, affecting both the tunnel and the destination. These practices can leave the back door wide open. Some of these practices are:
+- **Running HTTPS but storing passwords in plaintext**. While HTTPS successfully encrypts the password as it travels from the user's browser to the server, the security completely breaks down once it arrives. Storing passwords in plaintext in a database, configuration file, or internal log is a severe security vulnerability. This is because once data reaches the server, it gets unencrypted. In this case, when an attacker breaches the database, they get clean usernames and passwords. This also causes credential stuffing, insider threats and compliance violations. 
 
 
 ## Beyond the Padlock: How to Audit the Journey and Ask the Right Questions
