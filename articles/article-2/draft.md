@@ -165,3 +165,11 @@ An attacker positioned between the browser and server could manipulate encrypted
 What made POODLE particularly dangerous was not only the weakness in SSL 3.0, but the fact that browsers and servers could fall back to SSL 3.0 when a connection using a newer version of TLS failed. An attacker could deliberately interfere with the connection and force this downgrade to the vulnerable protocol. The attacker did not need to break the encryption directly; they manipulated the connection until the browser and server used an older protocol with a known weakness.
 
 *POODLE, like BEAST, did not prove that encryption is useless. It showed that the security of the tunnel depends on the mechanisms used to build and maintain it. BEAST exploited a weakness in how CBC was used in TLS 1.0, while POODLE exploited a weakness in SSL 3.0's handling of CBC padding and the ability to fall back to that outdated protocol. The tunnel is only as strong as the mechanisms behind it*.
+
+The lessons from BEAST and POODLE are not limited to the history of HTTPS. They reveal a problem that still matters today: having HTTPS enabled does not automatically mean that HTTPS has been configured securely. A website can display the padlock while still supporting deprecated protocols, using weak cryptographic configurations, or mishandling the data once it reaches the server.
+
+## Leaving the Back Door Wide Open: Common Configuration Blunders
+
+
+
+## Beyond the Padlock: How to Audit the Journey and Ask the Right Questions
