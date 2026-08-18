@@ -209,3 +209,70 @@ Below is a table containing a list of SSL Labs result grade and what they mean.
 | **Certificate/identity failure** | The browser cannot properly establish trusted server identity | **Do not proceed through the warning** unless you independently understand and trust the environment                                  |
 
 These grades are very important and matter because they tell us why the website received those grades. 
+The difference between the padlock and this report is that the padlock tell us the **connection is secure**, but SSL Labs tells us **what makes this connection secure, and how well has it been configured?** 
+
+### What does a security practitioner check beyond HTTPS?
+
+A security practitioner does not stop after seeing `https://` in the address bar. They look beyond the existence of HTTPS and examine the mechanisms behind it.
+
+They ask:
+- Which TLS versions are supported?
+- Which cipher suites and cryptographic mechanisms are being used?
+- Is the certificate valid and does it cover the correct domain?
+- Is the certificate chain trusted?
+- Is HSTS enabled?
+- Are obsolete protocols and weak cryptographic mechanisms disabled?
+- How is the server establishing session keys?
+- Are security-related browser controls such as secure cookie attributes properly configured?
+- What happens to the user's data after it reaches the server?
+
+The last question takes us beyond TLS itself. HTTPS can successfully encrypt a password while it travels from the browser to the server, but it cannot prevent the application from storing that password in plaintext. It can protect the journey while SQL injection, XSS, broken access control, or a compromised server threatens the destination.
+
+This is why the presence of HTTPS should be treated as the **beginning of a security assessment, not the end of one**.
+
+### What does the padlock actually tell you?
+
+After everything we have uncovered, we can finally answer the question that started this journey: **What does the padlock actually mean?**
+
+The padlock means that your browser has successfully established a **TLS-protected connection** to the domain you are visiting and that the certificate presented by the server passed the browser's relevant trust and validation checks. The data travelling through that connection is encrypted, helping prevent someone who merely intercepts the traffic from reading or modifying it.
+
+But the padlock does **not** mean that the website itself is safe.
+
+It does not tell you that:
+
+* the website is legitimate rather than a phishing site;
+* the organization behind the website is trustworthy;
+* the application contains no vulnerabilities;
+* the server has not been compromised;
+* your data will be stored securely;
+* the website is free from SQL injection or XSS;
+* your connection is not being inspected by an authorized middlebox;
+* the website is using the strongest possible TLS configuration.
+
+This brings us back to the distinction that has followed us throughout this article:
+
+> **HTTPS can secure the journey without securing the destination.**
+
+A certificate can establish that the server controls the domain for which the certificate was issued. TLS can encrypt the communication between your browser and that server. But neither one can tell you what the server will do with your data after it arrives.
+
+### The One Question the Padlock Cannot Answer
+
+The padlock can tell you:
+
+> **"Is my connection to this domain protected by TLS?"**
+
+But it cannot answer the question that matters beyond the tunnel:
+
+> **"Can I trust the destination?"**
+
+That is the limitation we often overlook.
+
+A phishing website can have HTTPS. A vulnerable application can have HTTPS. A compromised server can have HTTPS. A website storing your password insecurely can have HTTPS.
+
+The padlock was never a guarantee that the destination was safe.
+
+**It was only ever a guarantee about the tunnel.**
+
+And that is why:
+
+> **The tunnel is safe, but the destination isn't.**
