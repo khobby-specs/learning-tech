@@ -184,6 +184,28 @@ While configuring an SSL/TLS certificate allows your server to handle secure tra
 * **Using HTTPS but with weak cipher suites still negotiable.**
 While having a valid SSL/TLS certificate establishes an encrypted connection, the security completely breaks down if the server agrees to use weak encryption algorithms. If your server is configured to negotiate outdated cipher suites—like those using 3DES, RC4, or weak Diffie-Hellman parameters—it opens the door to severe cryptographic exploits. In this case, an attacker can intercept the initial TLS handshake and force the server and browser to agree on the weakest mutually supported cipher. This enables advanced Man-in-the-Middle (MitM) attacks like SWEET32, allowing the attacker to decrypt sensitive traffic and session tokens in transit. This also means that despite seeing a green padlock or secure status in the browser, the underlying encryption is practically useless against modern computing power. Regardless of your certificate being valid, the connection is never truly secure if the lock can be easily picked. In this case, the illusion of security is maintained while the mathematical foundation is broken. **The tunnel was securely built, but the lock on the gate was rusted and weak.**
 
-
+We have seen that HTTPS can be weakened by outdated protocols, poor configurations, broken trust, and insecure practices at the destination. This brings us back to the symbol that started this journey: the padlock. If the padlock does not tell us everything about the security of a website, then what should we actually look for? How do we look beyond the symbol and examine the tunnel itself?
 
 ## Beyond the Padlock: How to Audit the Journey and Ask the Right Questions
+Throughout this article, we have seen that the padlock is only one small part of the security story. We have looked at how HTTPS establishes the tunnel, how certificates establish trust, how attackers can interfere with the journey, and how poor configurations can weaken protections that are already available. So, how do we know what is actually happening behind that padlock?
+
+**The answer is to look beyond the symbol**. A security practitioner does not simply ask whether a website uses HTTPS. They examine which TLS versions it supports, which cryptographic mechanisms it uses, whether its certificate is valid and properly trusted, whether HSTS is enabled, and whether the overall configuration follows modern security standards.
+
+The good news is that you do not need to be a cryptographer to perform some of these checks. Tools such as SSL Labs' SSL Server Test can expose many of the details hidden behind the simple "Connection is secure" message in your browser.
+
+### How to check the TLS configuration of any website using SSL Labs
+Go to [SSL Labs](https://www.ssllabs.com/ssltest/) and enter the domain name of the website you want to examine. For example:
+> `example.com`
+
+After starting the test, SSL Labs performs an extensive analysis of the server's TLS configuration and provides an overall grade.
+Below is a table containing a list of SSL Labs result grade and what they mean.
+
+| SSL Labs result                  | What it means                                                 | What you do as a visitor                                                                                                              |
+| -------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **A / A+**                       | Strong, modern TLS configuration                              | No TLS-related concern from the report                                                                                                |
+| **B**                            | Some configuration weaknesses or outdated settings            | Be aware; the site may still be legitimate and usable                                                                                 |
+| **C**                            | Significant weaknesses                                        | Exercise caution, especially before entering sensitive information                                                                    |
+| **D / E / F**                    | Serious TLS/configuration problems                            | Avoid entering passwords, payment information, or other sensitive data; for a site handling sensitive information, use an alternative |
+| **Certificate/identity failure** | The browser cannot properly establish trusted server identity | **Do not proceed through the warning** unless you independently understand and trust the environment                                  |
+
+These grades are very important and matter because they tell us why the website received those grades. 
