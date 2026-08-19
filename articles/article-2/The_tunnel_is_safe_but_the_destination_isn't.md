@@ -51,7 +51,7 @@ Over the years, TLS has continued to evolve. **TLS 1.0, 1.1**, and **1.2** gradu
 
 However, before any encrypted data is exchanged, the client and server must first establish trust and agree on how they will communicate securely. This process is known as the **TLS handshake**.
 #### What is TLS handshake?
-**TLS handshake** is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier TLS versions, TLS 1.3 typically establishes a secure connection in **One Round Trip Time (1-RTT)**, meaning the client sends a request, the server responds, and encrypted application data can begin almost immediately. This reduces connection latency while improving security.
+**TLS handshake** is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier TLS versions, TLS 1.3 typically establishes a secure connection in One Round Trip Time (1-RTT), meaning the client can send its initial handshake message and receive the server's response in a single network round trip before encrypted application data can begin. This reduces connection latency while improving security.
 
 #### How the TLS handshake occurs
 During a TLS 1.3 handshake, the client begins by sending a **ClientHello**, a message containing information about the cryptographic capabilities it supports:
@@ -71,15 +71,15 @@ Using their own private key and the other party's public key, both sides can ind
 
 That shared secret then enters the TLS 1.3 key schedule, which derives the symmetric traffic keys used to protect subsequent communication. TLS 1.3 uses an [Authenticated Encryption with Associated Data(AEAD) symmetric encryption](https://en.wikipedia.org/wiki/Authenticated_encryption#Authenticated_encryption_with_associated_data) cipher, such as AES-GCM or ChaCha20-Poly1305, to provide both confidentiality and integrity for the encrypted data.
 
-After sending the server hello, the server sends a server-to-client message that proves identity in one flight. The message contains:
+After ServerHello, the server sends additional handshake messages that authenticate itself to the client and establish the parameters needed to complete the handshake. These include:
 - Certificate: Sends the server's digital certificate to prove its identity. A digital certificate is an electronic file that proves the identity of a user, computer, or website. It is issued by a Certificate Authority(CA): a trusted group that signs the file to ensure its legitimacy
 - CertificateVerify: A digital signature proving the server owns the private key linked to that certificate.
-- Finished: A cryptographic check verifying that a third party did not alter the handshake messages.
+- Finished: A cryptographic verification that confirms the handshake messages exchanged so far have not been altered and that both sides possess the necessary handshake secrets.
 
 The client then responds with a client-to-server message, which is a final confirmation saying:
 - The client verifies the server’s certificate and signature.
-- The client generates the same shared secret key using the two key shares.
-- The client sends its own Finished message, encrypted with the new keys.
+- The client derives the same shared secret using its private key and the server's public key share.
+- The client sends its own Finished message, providing final cryptographic confirmation that it has successfully completed the handshake.
 
 After a successful TLS handshake and verification of the server's certificate by the browser, the browser can indicate that the connection is secure. 
 This is where the problem begins.
@@ -101,7 +101,7 @@ The cryptographic handshake ensures that your data is perfectly sealed while in 
 
 - **HTTPS does not protect data from attacks at its destination**. Hypertext **Transfer Protocol** Secure, as the name suggests, is a **transfer protocol**. It protects data while it is being transferred between the client and server, not what happens to that data after it reaches the server. Once the encrypted data reaches the server, TLS decrypts it so the application can process it. The data may then be stored in databases, files, logs, sessions, or other parts of the server's infrastructure. If the application or server is compromised, an attacker may gain access to that data. This is also why HTTPS does not prevent attacks such as **SQL injection** or **Cross-Site Scripting (XSS)**. SQL injection targets how an application processes database queries, while XSS targets how an application handles and renders untrusted input. Neither attack requires HTTPS itself to be broken. HTTPS can successfully secure the journey while the application at the destination remains vulnerable. **The tunnel is secure, but the destination isn't**.
 
-In short, HTTPS guarantees that nobody can look inside the pipe while your data is moving. But what happens when an attacker forces you out of the tunnel entirely, taps into it with permission, or cracks the very math keeping it shut?
+In short, HTTPS is designed to prevent unauthorized parties from reading or modifying your data while it is travelling through the tunnel. But what happens when an attacker forces you out of the tunnel entirely, taps into it with permission, or exploits a weakness in the very mechanisms keeping it secure?
 
 ## Sabotaging the Journey: How the Tunnel is Intercepted, Stripped, and Cracked
 Up to this point, we have assumed that a secure TLS connection successfully connects the user to the server. In reality, the journey between client and destination is rarely a straight, untouched path. Attackers, network administrators, and even outdated cryptographic standards can interfere with the connection. Sometimes the secure tunnel is secretly dismantled before it can even form; other times, it is monitored by a third party with permission; and occasionally, the very mathematical bricks used to build the tunnel crumble under modern analysis. To understand the illusion of web security, we must look at the specific ways this safe tunnel is manipulated, bypassed, and broken.
