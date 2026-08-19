@@ -41,22 +41,35 @@ URL: https://testfire.net
 
 The difference between HTTP and HTTPS is now visible. In the HTTP capture, the login credentials were exposed because data is transferred in plaintext. In the HTTPS capture, the same type of communication appears only as encrypted TLS application data, preventing anyone intercepting the traffic from reading the contents.
 
-The current version of the Transport Layer Security(TLS) running the web is version 1.3(v1.3). Initially, the Secure Sockets Layer(SSL) was the protocol powering web security. Created in 1994 by Netscape, SSL 1.0  was never released to the public due to the severe security and design flaws revealed by internal testing. SSL 2.0 was released to the public in 1995 and was succeeded by SSL 3.0 in 1996. SSL used weak Message Authentication Codes(MAC) and Algorithms like MD5, which could be exploited easily. Also, as the web grew, the industry needed an open vendor protocol to enhance web security rather than a sole proprietary Netscape product; hence, the Internet Engineering Task Force(IETF), an international open standard organization, introduced TLS to standardize internet encryption and fix critical cryptographic vulnerabilities inherent to Netscape's proprietary code.
+Today's web primarily uses **TLS 1.3**, the latest and most secure version of the protocol. However, web encryption did not begin with TLS. It began with its predecessor, the **Secure Sockets Layer (SSL)**.
 
-For TLS to work effectively, thus protecting data in transit, the client and server go through a process to establish trust and secure communication methods before encrypted data is transferred. This process is known as **TLS Handshake**
+Developed by Netscape in 1994, **SSL 1.0** was never released publicly because internal testing uncovered serious security and design flaws. **SSL 2.0**, released in 1995, became the first public version, but it was later found to contain multiple vulnerabilities, including weak cryptographic protections and susceptibility to several attacks. Netscape responded by releasing **SSL 3.0** in 1996, which significantly improved the protocol. Nevertheless, researchers continued to discover weaknesses as cryptographic research advanced and the web evolved.
 
-TLS handshake is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier versions of TLS, TLS 1.3 uses 1 Round Trip Time(1RTT) to establish a secure connection between the client and server. 
+Recognizing the need for a stronger, vendor-neutral security standard, the **Internet Engineering Task Force (IETF)** developed **Transport Layer Security (TLS)** as the successor to SSL. Although TLS was based on SSL 3.0, it introduced stronger cryptography, improved protocol design, and an open standard that could evolve through community review rather than relying on a single company's implementation.
+
+Over the years, TLS has continued to evolve. **TLS 1.0, 1.1**, and **1.2** gradually addressed newly discovered attacks and strengthened encryption. Today, **TLS 1.3** is the recommended standard, having removed obsolete algorithms, simplified the handshake process, and improved both security and performance.
+
+However, before any encrypted data is exchanged, the client and server must first establish trust and agree on how they will communicate securely. This process is known as the **TLS handshake**.
+#### What is TLS handshake?
+**TLS handshake** is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier TLS versions, TLS 1.3 typically establishes a secure connection in **One Round Trip Time (1-RTT)**, meaning the client sends a request, the server responds, and encrypted application data can begin almost immediately. This reduces connection latency while improving security.
 
 ### How the TLS handshake occurs
-During a TLS handshake, the client sends a **ClientHello**, which is a single message containing:
-- Supported versions: the client sends its supported protocol version
-- Cipher suites: a list of all the encryption algorithms
-- Key shares: the client shares its secret key using an Elliptic Curve Diffie-Hellman(ECDHE): a modern protocol that lets two people make a secret code over a public network. The secret code is never sent out on the network, but both the client and the sever ends up with the same secret. This protocol works together with the [Authenticated Encryption with Associated Data(AEAD) symmetric encryption](https://en.wikipedia.org/wiki/Authenticated_encryption#Authenticated_encryption_with_associated_data) like AES-GCM to generate keys. With the help of the discrete logarithm problem, the secret can never be accessed via an attacker sniffing packets.
+During a TLS 1.3 handshake, the client begins by sending a **ClientHello**, a message containing information about the cryptographic capabilities it supports:
+- **Supported versions**: The TLS protocol versions supported by the client, allowing the server to select a mutually supported version.
+- **Cipher suites**: The cryptographic suites the client supports for protecting the connection. In TLS 1.3, these specify the symmetric encryption and authentication algorithms, such as **AES-128-GCM**, **AES-256-GCM**, and **ChaCha20-Poly1305**.
+- **Key share**: The client sends its public key share for one or more supported key-exchange groups, commonly using **Elliptic Curve Diffie-Hellman Ephemeral (ECDHE)**. The corresponding private key never leaves the client.
 
-The server, after processing the client's request, responds with a **ServerHello**: a single message which contains:
-- Protocol version: Confirms TLS 1.3 protocol usage
-- Cipher suite: the specific encryption algorithm selected by the server from the list the client provided
-- Server key share: Sends its own half of the cryptographic key material.
+ECDHE allows the client and server to independently derive the same shared secret without transmitting that secret across the network. An eavesdropper can observe the public information exchanged during the process, but recovering the private values from that information would require solving the underlying **elliptic-curve discrete logarithm problem**, which is computationally infeasible with currently known classical methods.
+
+The server then responds with a **ServerHello**, containing:
+
+- Selected protocol version: The TLS version selected from those supported by the client, typically TLS 1.3.
+- Selected cipher suite: The cryptographic suite selected from the client's offered options.
+- Server key share: The server's public key share for the selected key-exchange group.
+
+Using their own private key and the other party's public key, both sides can independently arrive at the same shared secret. **The secret itself is never transmitted over the network**.
+
+That shared secret then enters the TLS 1.3 key schedule, which derives the symmetric traffic keys used to protect subsequent communication. TLS 1.3 uses an [Authenticated Encryption with Associated Data(AEAD) symmetric encryption](https://en.wikipedia.org/wiki/Authenticated_encryption#Authenticated_encryption_with_associated_data) cipher, such as AES-GCM or ChaCha20-Poly1305, to provide both confidentiality and integrity for the encrypted data.
 
 After sending the server hello, the server sends a server-to-client message that proves identity in one flight. The message contains:
 - Certificate: Sends the server's digital certificate to prove its identity. A digital certificate is an electronic file that proves the identity of a user, computer, or website. It is issued by a Certificate Authority(CA): a trusted group that signs the file to ensure its legitimacy
@@ -68,14 +81,25 @@ The client then responds with a client-to-server message, which is a final confi
 - The client generates the same shared secret key using the two key shares.
 - The client sends its own Finished message, encrypted with the new keys.
 
-After a successful TLS handshake, that is when the client displays the padlock. This is where all problems begin, because we instinctively associate safety with the padlock. The displayed padlock tells you that the server has been verified and also that your data in transit is protected, and nothing about the site, what it does, and others. All it screams is safety about the journey, not the destination. This is what I term as: ***The Tunnel is Safe, but The Destination Isn't***
+After a successful TLS handshake and verification of the server's certificate by the browser, the browser can indicate that the connection is secure. 
+This is where the problem begins.
+We instinctively associate the padlock with safety. But the padlock is not a declaration that the website is safe, legitimate, or trustworthy. It tells us something much narrower: the connection to the authenticated domain is protected by HTTPS.
+
+It tells us that the **journey is protected**.
+
+It says nothing about the **destination**.
+
+A website can have a valid TLS certificate, establish a perfectly secure encrypted connection, and still be designed to steal your password, deceive you, sell fraudulent products, distribute malware, or manipulate you into giving away sensitive information.
+
+That is the central idea of this article:
+
+> **The Tunnel Is Safe, But the Destination Isn't**.
 
 ### The Limits of the Walls: What the Tunnel Cannot Protect
 The cryptographic handshake ensures that your data is perfectly sealed while in transit. However, a secure pipe does not guarantee a safe destination. The tunnel only protects the journey; it cannot validate the intent or integrity of what lies at either end. 
-- HTTPS does not protect us from phishing and scams. Unlike the early and mid 2000s where HTTPS signaled more trust than it does now due to the cost of setup, verification process, and technical setup then. Today, a malicious site, like a phishing site or fake bank site, with the help of free automated Certificate Authorities(CAs) like Let's Encrypt and ZeroSSL, can gain a valid digital certificate for its malicious purposes at no cost, with just proof of domain control as the requirement for verification. This is termed domain validation. HTTPS doesn't guarantee who runs the site beyond the domain name. It only encrypts your data and proves the site controls that web address. That's why a report by [NOS](https://nos.nl/artikel/2234720-duizenden-sites-met-groen-slotje-onveilig), after an examination of 1,000s of blacklisted site found out that 4,300 of them had a valid certificate. Though we see the padlock or connection is secure, it says nothing about the destination. This is not because HTTPS is broken; rather, we trust the signals without understanding what it means. 
+- **HTTPS does not protect us from phishing and scams**. Unlike the early and mid 2000s where HTTPS signaled more trust than it does now due to the cost of setup, verification process, and technical setup then. Today, a malicious site, like a phishing site or fake bank site, with the help of free automated Certificate Authorities(CAs) like Let's Encrypt and ZeroSSL, can gain a valid digital certificate for its malicious purposes at no cost, with just proof of domain control as the requirement for verification. This is termed domain validation. HTTPS doesn't guarantee who runs the site beyond the domain name. It only encrypts your data and proves the site controls that web address. That's why a report by [NOS](https://nos.nl/artikel/2234720-duizenden-sites-met-groen-slotje-onveilig), after an examination of 1,000s of blacklisted sites, found out that 4,300 of them had a valid certificate. Though we see the padlock or connection is secure, it says nothing about the destination. This is not because HTTPS is broken; rather, we trust the signals without understanding what it means. 
 
-- Hypertext **Transfer Protocol** Secure, like the name says: a **transfer protocol**, is a protocol that protects data in transit, not data at its destination. As soon as data reaches the server, HTTPS no longer protects it. The data gets decrypted and stored somewhere in the server's database, logs, or files. When the server gets compromised or attacked, all your data in its database is accessible to the attacker. This is also why HTTPS does not prevent attacks such as SQL injection or Cross-Site Scripting (XSS). SQL injection targets how an application processes database queries, while XSS targets how an application handles and renders untrusted input. Neither attack requires HTTPS itself to be broken. HTTPS can successfully secure the journey while the application at the destination remains vulnerable. The tunnel is secure, but the destination isn't.
-
+- **HTTPS does not protect data from attacks at its destination**. Hypertext **Transfer Protocol** Secure, as the name suggests, is a **transfer protocol**. It protects data while it is being transferred between the client and server, not what happens to that data after it reaches the server. Once the encrypted data reaches the server, TLS decrypts it so the application can process it. The data may then be stored in databases, files, logs, sessions, or other parts of the server's infrastructure. If the application or server is compromised, an attacker may gain access to that data. This is also why HTTPS does not prevent attacks such as **SQL injection** or **Cross-Site Scripting (XSS)**. SQL injection targets how an application processes database queries, while XSS targets how an application handles and renders untrusted input. Neither attack requires HTTPS itself to be broken. HTTPS can successfully secure the journey while the application at the destination remains vulnerable. **The tunnel is secure, but the destination isn't**.
 In short, HTTPS guarantees that nobody can look inside the pipe while your data is moving. But what happens when an attacker forces you out of the tunnel entirely, taps into it with permission, or cracks the very math keeping it shut?
 
 ## Sabotaging the Journey: How the Tunnel is Intercepted, Stripped, and Cracked
