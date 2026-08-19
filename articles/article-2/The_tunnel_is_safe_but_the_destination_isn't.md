@@ -4,10 +4,19 @@
 
 ## The Illusion of Safety
 
-Connection is secure. A padlock. The **'S'** in HTTPS. For decades, these have been the signals we trust when browsing the web. 
-I trusted them too, but I never stopped to ask what was actually happening beneath that padlock. 
-One afternoon, staring at a padlock icon on my browser, a question hit me: IS HTTPS REALLY SAFE? 
-I went down the rabbit hole. What I found shocked me. The padlock is not a promise about where you are going. It is only a promise about how you get there. After weeks of research, one thing became clear: the tunnel is safe, but the destination isn't. To understand why, we need to start with the layer that runs this whole thing: **HTTP**.
+**Connection is secure. A padlock. The "S" in HTTPS. For decades, these have been signals we trust when browsing the web. I trusted them too, but I never stopped to ask what was actually happening beneath that padlock. One afternoon, staring at a padlock icon on my browser, a question hit me: IS HTTPS REALLY SAFE?**
+
+I went down the rabbit hole. What I found shocked me.
+
+It turns out I wasn't alone in misunderstanding what the padlock meant. When PhishLabs surveyed internet users, 80% of respondents believed the padlock indicated that a website was legitimate, safe, or secure. Google's own research found that 74% of participants said the icon meant that the website was secure, while more than half believed it meant they could safely enter their information. The CA Security Council found another side of the problem: only 3% of users said they would enter credit card information on a website without a padlock.
+
+These numbers reveal something important about how we interpret the padlock. We don't simply see it as a technical indicator of an encrypted connection. We often interpret it as a broader signal of safety and trust.
+
+But the padlock is not a promise about where you are going. **It is only a promise about how you get there**.
+
+After weeks of research, one thing became clear: the tunnel is safe, but the destination isn't.
+
+To understand why, we need to start with the layer that runs this whole thing: **HTTP**.
 
 ## The Open Road: Traveling in Broad Daylight with HTTP
 
