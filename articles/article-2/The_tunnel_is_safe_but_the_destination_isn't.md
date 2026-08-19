@@ -53,7 +53,7 @@ However, before any encrypted data is exchanged, the client and server must firs
 #### What is TLS handshake?
 **TLS handshake** is a communication process that initiates a secure connection between a client and a server. This handshake is also responsible for key creation. Unlike SSL and earlier TLS versions, TLS 1.3 typically establishes a secure connection in **One Round Trip Time (1-RTT)**, meaning the client sends a request, the server responds, and encrypted application data can begin almost immediately. This reduces connection latency while improving security.
 
-### How the TLS handshake occurs
+#### How the TLS handshake occurs
 During a TLS 1.3 handshake, the client begins by sending a **ClientHello**, a message containing information about the cryptographic capabilities it supports:
 - **Supported versions**: The TLS protocol versions supported by the client, allowing the server to select a mutually supported version.
 - **Cipher suites**: The cryptographic suites the client supports for protecting the connection. In TLS 1.3, these specify the symmetric encryption and authentication algorithms, such as **AES-128-GCM**, **AES-256-GCM**, and **ChaCha20-Poly1305**.
@@ -95,11 +95,12 @@ That is the central idea of this article:
 
 > **The Tunnel Is Safe, But the Destination Isn't**.
 
-### The Limits of the Walls: What the Tunnel Cannot Protect
+## The Limits of the Walls: What the Tunnel Cannot Protect
 The cryptographic handshake ensures that your data is perfectly sealed while in transit. However, a secure pipe does not guarantee a safe destination. The tunnel only protects the journey; it cannot validate the intent or integrity of what lies at either end. 
 - **HTTPS does not protect us from phishing and scams**. Unlike the early and mid 2000s where HTTPS signaled more trust than it does now due to the cost of setup, verification process, and technical setup then. Today, a malicious site, like a phishing site or fake bank site, with the help of free automated Certificate Authorities(CAs) like Let's Encrypt and ZeroSSL, can gain a valid digital certificate for its malicious purposes at no cost, with just proof of domain control as the requirement for verification. This is termed domain validation. HTTPS doesn't guarantee who runs the site beyond the domain name. It only encrypts your data and proves the site controls that web address. That's why a report by [NOS](https://nos.nl/artikel/2234720-duizenden-sites-met-groen-slotje-onveilig), after an examination of 1,000s of blacklisted sites, found out that 4,300 of them had a valid certificate. Though we see the padlock or connection is secure, it says nothing about the destination. This is not because HTTPS is broken; rather, we trust the signals without understanding what it means. 
 
 - **HTTPS does not protect data from attacks at its destination**. Hypertext **Transfer Protocol** Secure, as the name suggests, is a **transfer protocol**. It protects data while it is being transferred between the client and server, not what happens to that data after it reaches the server. Once the encrypted data reaches the server, TLS decrypts it so the application can process it. The data may then be stored in databases, files, logs, sessions, or other parts of the server's infrastructure. If the application or server is compromised, an attacker may gain access to that data. This is also why HTTPS does not prevent attacks such as **SQL injection** or **Cross-Site Scripting (XSS)**. SQL injection targets how an application processes database queries, while XSS targets how an application handles and renders untrusted input. Neither attack requires HTTPS itself to be broken. HTTPS can successfully secure the journey while the application at the destination remains vulnerable. **The tunnel is secure, but the destination isn't**.
+
 In short, HTTPS guarantees that nobody can look inside the pipe while your data is moving. But what happens when an attacker forces you out of the tunnel entirely, taps into it with permission, or cracks the very math keeping it shut?
 
 ## Sabotaging the Journey: How the Tunnel is Intercepted, Stripped, and Cracked
